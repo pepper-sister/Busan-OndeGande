@@ -6,8 +6,8 @@ function Home() {
     <div>
       <main className="main-content">
         <section className="hero-section">
-          <h1>한국을 탐험해보세요</h1>
-          <p>아름다운 한국의 문화와 자연을 만나보세요</p>
+          <h1>Busan's 온데간데</h1>
+          <p>갈 곳이 넘치는 부산, 간편하게 코스를 짜보세요!</p>
         </section>
         <section className="feature-section">
           <div className="feature-item">
@@ -27,7 +27,7 @@ function Home() {
           </div>
         </section>
       </main>
-      <h1>홈 페이지</h1>
+      <h1>현재 진행중인 축제</h1>
       <p>홈 페이지의 내용입니다.</p>
     </div>
   );

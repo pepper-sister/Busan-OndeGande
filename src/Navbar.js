@@ -10,7 +10,7 @@ function Navbar() {
         <img src={logo} alt="logo" />
       </div>
       <ul className="navbar-menu">
-      <li><Link to="/">홈</Link></li>
+        <li><Link to="/">홈</Link></li>
         <li><Link to="/destinations">이제 뭐하지?</Link></li>
         <li><Link to="/events">나만의 코스</Link></li>
         <li><Link to="/culture">맞춤형 코스</Link></li>
