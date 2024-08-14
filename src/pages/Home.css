@@ -1,22 +1,36 @@
-  .hero-section {
-  background-image: url('../logo.png');
+h1.current-festival {
+  font-size: 36px;
+  color: #333;
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.hero-section {
+  background-image: url('../img.jpg');
   background-size: cover;
   background-position: center;
   color: #f5f5f5;
   text-align: center;
   padding: 60px 20px;
-  margin-top: 50px;
-  margin-bottom: 40px;
+  margin: 50px auto 40px;
   border-radius: 8px;
+  width: 90%;
+  height: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
   .hero-section h1 {
-    font-size: 36px;
+    text-align: center;
+    font-size: 44px;
+    color: #333;
+    margin-top: 60px;
     margin-bottom: 10px;
   }
   
   .hero-section p {
-    font-size: 18px;
+    font-size: 25px;
+    color: #333;
   }
   
   .feature-section {
@@ -27,12 +41,14 @@
   }
   
   .feature-item {
-    background-color: #f5f5f5;
+    background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    padding: 20px;
-    width: 28%;
+    padding: 10px;
+    width: 23%;
+    height: 200px;
+    margin: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
@@ -58,3 +74,69 @@
     font-size: 16px;
     color: #666;
   }
+
+  .carousel-container {
+    width: 80%;
+    margin: 40px auto;
+  }
+  
+  .slick-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .feature-item2 {
+    background-color: #f5f5f5;
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 20px;
+    width: 70%;
+    height: 60vh;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .feature-item2 h2 {
+    font-size: 40px;
+    margin-top: 420px;
+    margin-bottom: -20px;
+    color: #333;
+  }
+  
+  .feature-item2 p {
+    font-size: 28px;
+    color: #666;
+  }
+  
+  .feature-item2 img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+
+  .feature-item2.one {
+    background-image: url('../img2.jpg');
+  }
+  
+  .feature-item2.two {
+    background-image: url('../img2.jpg');
+  }
+  
+  .feature-item2.thr {
+    background-image: url('../img2.jpg');
+  }
+  
+  .slick-prev:before,
+  .slick-next:before {
+    color: #333;
+  }
+  
