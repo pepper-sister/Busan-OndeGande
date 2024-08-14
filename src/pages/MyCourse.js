@@ -1,11 +1,12 @@
 import React from 'react';
 import './MyCourse.css';
+import CourseImage from '../img2.jpg';
 
 function MyCourse() {
   const courses = [
-    { img: 'https://via.placeholder.com/200', name: '코스 1', details: ['어디', '저기', '여기', '온데', '간데'] },
-    { img: 'https://via.placeholder.com/200', name: '코스 2', details: ['어디', '저기', '여기', '온데', '간데'] },
-    { img: 'https://via.placeholder.com/200', name: '코스 3', details: ['어디', '저기', '여기', '온데', '간데'] },
+    { img: CourseImage, name: '코스 1', details: ['어디', '저기', '여기', '온데', '간데'] },
+    { img: CourseImage, name: '코스 2', details: ['어디', '저기', '여기', '온데', '간데'] },
+    { img: CourseImage, name: '코스 3', details: ['어디', '저기', '여기', '온데', '간데'] },
   ];
 
   return (
