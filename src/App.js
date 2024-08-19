@@ -8,6 +8,7 @@ import Events from './pages/Events';
 import Culture from './pages/Culture';
 import TravelInfo from './pages/TravelInfo';
 import MyCourse from './pages/MyCourse';
+import RestaurantWindow from './RestaurantWindow';
 import './App.css';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
             <Route path="/culture" element={<Culture />} />
             <Route path="/travel-info" element={<TravelInfo />} />
             <Route path="/my-course" element={<MyCourse />} />
+            <Route path="/restaurants" element={<RestaurantWindow />} />
           </Routes>
         </main>
         <Footer />

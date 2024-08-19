@@ -17,6 +17,10 @@ function Home() {
     pauseOnHover: true,
   };
 
+  const openRestaurantWindow = () => {
+    window.open('/restaurants', '맛집 추천', 'width=800,height=600');
+  };
+
   return (
     <div>
       <main className="main-content">
@@ -24,8 +28,9 @@ function Home() {
           <h1>Busan's 온데간데</h1>
           <p>갈 곳이 넘치는 부산, 간편하게 코스를 짜보세요!</p>
         </section>
+
         <section className="feature-section">
-          <div className="feature-item">
+          <div className="feature-item" onClick={openRestaurantWindow}>
             <img src="image1.jpg" alt=""/>
             <h2>추천 맛집</h2>
             <p>부산의 추천 맛집을 확인해보세요.</p>
