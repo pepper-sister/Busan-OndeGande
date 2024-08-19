@@ -3,7 +3,7 @@ name: Deploy React to EC2 using S3 and CodeDeploy
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build-and-deploy:
