@@ -1,0 +1,10 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home
+hooks:
+  AfterInstall:
+    - location: scripts/restart_nginx.sh
+      timeout: 60
+      runas: root
