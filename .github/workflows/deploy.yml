@@ -46,4 +46,4 @@ jobs:
           --deployment-config-name CodeDeployDefault.OneAtATime \
           --description "Deploying from GitHub Actions" \
           --file-exists-behavior OVERWRITE \
-          --s3-location bucket=ondegande-s3-build,key=myapp.zip,bundleType=zip
+          --s3-location bucket=ondegande-s3-build,key=react-app.zip,bundleType=zip
