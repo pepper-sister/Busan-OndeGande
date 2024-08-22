@@ -21,6 +21,14 @@ function Home() {
     window.open('/restaurants', '맛집 추천', 'width=800,height=600');
   };
 
+  const openPlaceWindow = () => {
+    window.open('/place', '관광지 추천', 'width=800,height=600');
+  };
+
+  const openSleepWindow = () => {
+    window.open('/sleep', '숙소 추천', 'width=800,height=600');
+  };
+
   return (
     <div>
       <main className="main-content">
@@ -35,12 +43,12 @@ function Home() {
             <h2>추천 맛집</h2>
             <p>부산의 추천 맛집을 확인해보세요.</p>
           </div>
-          <div className="feature-item">
+          <div className="feature-item" onClick={openPlaceWindow}>
             <img src="image2.jpg" alt=""/>
             <h2>인기 관광지</h2>
             <p>부산의 인기있는 관광지를 확인해보세요.</p>
           </div>
-          <div className="feature-item">
+          <div className="feature-item" onClick={openSleepWindow}>
             <img src="image3.jpg" alt=""/>
             <h2>추천 숙소</h2>
             <p>부산의 다양한 숙소를 확인해보세요.</p>

@@ -1,0 +1,66 @@
+.place-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .place-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .place-info {
+    flex: 1;
+  }
+  
+  .restaurant-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .restaurant-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .restaurant-info {
+    flex: 1;
+  }
+
+  .sleep-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .sleep-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .sleep-info {
+    flex: 1;
+  }
+
+  .button-group {
+    margin-bottom: 20px;
+  }
+  
+  .button-group button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    border-radius: 50px;
+  }
+  
+  .button-group button.active {
+    background-color: #007bff;
+    color: white;
+  }
+  

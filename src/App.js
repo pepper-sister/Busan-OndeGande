@@ -9,6 +9,8 @@ import Culture from './pages/Culture';
 import TravelInfo from './pages/TravelInfo';
 import MyCourse from './pages/MyCourse';
 import RestaurantWindow from './RestaurantWindow';
+import PlaceWindow from './PlaceWindow';
+import SleepWindow from './SleepWindow';
 import './App.css';
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
             <Route path="/travel-info" element={<TravelInfo />} />
             <Route path="/my-course" element={<MyCourse />} />
             <Route path="/restaurants" element={<RestaurantWindow />} />
+            <Route path="/place" element={<PlaceWindow />} />
+            <Route path="/sleep" element={<SleepWindow />} />
           </Routes>
         </main>
         <Footer />
