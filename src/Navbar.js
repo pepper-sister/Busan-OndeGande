@@ -17,10 +17,10 @@ function Navbar() {
       {!isRestaurantPage && !isPlacePage && !isSleepPage && (
       <ul className="navbar-menu">
         <li><Link to="/">홈</Link></li>
-        <li><Link to="/destinations">이제 뭐하지?</Link></li>
-        <li><Link to="/events">나만의 코스</Link></li>
-        <li><Link to="/culture">맞춤형 코스</Link></li>
-        <li><Link to="/travel-info">명예의 코스</Link></li>
+        <li><Link to="/events">코스 짜보소</Link></li>
+        <li><Link to="/destinations">이제 뭐하노?</Link></li>
+        <li><Link to="/culture">이렇게 가보소</Link></li>
+        <li><Link to="/travel-info">유튜바 코스</Link></li>
         <li><Link to="/my-course">나의 코스</Link></li>
       </ul>
       )}
