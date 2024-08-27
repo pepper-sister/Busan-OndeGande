@@ -8,7 +8,7 @@ body {
 /* 제목 스타일 */
 h1 {
   font-size: 36px;
-  margin-top: 10px;
+  margin-top: 20px;
   text-align: center;
   color: #1e90ff;
 }
@@ -24,12 +24,13 @@ h1 {
 /* 컨테이너 스타일 */
 .destinations-container {
   text-align: center;
-  padding: 20px;
+  padding: 10px;
   max-width: 1200px;
   margin: 0 auto;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
 }
 
 /* 검색 컨테이너 스타일 */
@@ -164,6 +165,8 @@ h1 {
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .place {
