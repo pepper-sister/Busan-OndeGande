@@ -7,12 +7,12 @@ function Events() {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    // 카카오맵 API가 로드되었는지 확인합니다.
+
     if (window.kakao && window.kakao.maps) {
-      const container = document.getElementById('map'); // 지도를 표시할 div
+      const container = document.getElementById('map');
       const options = {
         center: new window.kakao.maps.LatLng(35.1796, 129.0756), // 지도의 초기 중심 좌표
-        level: 3, // 지도의 확대 레벨
+        level: 3,
       };
       const mapInstance = new window.kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴
       setMap(mapInstance);

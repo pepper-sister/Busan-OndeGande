@@ -12,11 +12,16 @@ function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <img src={logo} alt="logo" />
+        {isRestaurantPage || isPlacePage || isSleepPage ? (
+          <img src={logo} alt="logo" />
+        ) : (
+          <Link to="/">
+            <img src={logo} alt="logo" />
+          </Link>
+        )}
       </div>
       {!isRestaurantPage && !isPlacePage && !isSleepPage && (
       <ul className="navbar-menu">
-        <li><Link to="/">홈</Link></li>
         <li><Link to="/events">코스 짜보소</Link></li>
         <li><Link to="/destinations">이제 뭐하노?</Link></li>
         <li><Link to="/culture">이렇게 가보소</Link></li>

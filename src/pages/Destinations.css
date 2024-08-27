@@ -1,126 +1,196 @@
+/* 기본 스타일 */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* 제목 스타일 */
 h1 {
-    font-size: 35px;
-    margin-top: 5px;
-    text-align: left;
+  font-size: 36px;
+  margin-top: 10px;
+  text-align: center;
+  color: #1e90ff;
 }
 
+/* 설명 텍스트 스타일 */
 .destinations-container p {
-    font-size: 20px;
-    text-align: center;
-    margin-top: -10px;
+  font-size: 18px;
+  text-align: center;
+  color: #666;
+  margin-bottom: 20px;
 }
 
+/* 컨테이너 스타일 */
 .destinations-container {
-    text-align: center;
-    padding: 20px;
+  text-align: center;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-  
-  .search-container {
-    margin-bottom: 20px;
-  }
-  
-  .search-input {
-    width: 80%;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-  }
-  
-  .range-slider-container {
-    margin: 20px 0;
-  }
-  
-  .range-slider {
-    -webkit-appearance: none;
-    width: 80%;
-    height: 8px;
-    border-radius: 5px;
-    background: #ddd;
-    outline: none;
-    opacity: 0.7;
-    transition: opacity .2s;
-  }
-  
-  .range-slider:hover {
-    opacity: 1;
-  }
-  
-  .range-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: #1e90ff;
-    cursor: pointer;
-  }
-  
-  .range-slider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: #1e90ff;
-    cursor: pointer;
-  }
-  
-  .range-slider::-ms-thumb {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background: #1e90ff;
-    cursor: pointer;
-  }
-  
-  .filter-container {
-    margin: 20px 0;
-  }
-  
-  .filter-select {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-  }
-  
-  .results {
-    margin-top: 20px;
-  }
-  
-  .category-buttons {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    gap: 50px;
-  }
-  
-  .category-button {
-    background-color: #1e90ff;
-    border: none;
-    color: white;
-    padding: 15px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 2vh;
-    border-radius: 4px;
-    width: 20%;
-    height: auto;
-    margin: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .category-button:hover {
-    background-color: #4682b4;
-  }
-  
-  .category-content {
-    display: none;
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .category-content.active {
-    display: block;
-  }
+
+/* 검색 컨테이너 스타일 */
+.search-container {
+  margin-bottom: 20px;
+}
+
+/* 검색 입력 스타일 */
+.search-input {
+  width: 80%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 검색 버튼 스타일 */
+.search-button {
+  padding: 12px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #1e90ff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.search-button:hover {
+  background-color: #4682b4;
+}
+
+/* 슬라이더 스타일 */
+.range-slider-container {
+  margin: 20px 0;
+}
+
+.range-slider {
+  -webkit-appearance: none;
+  width: 80%;
+  height: 8px;
+  border-radius: 5px;
+  background: #ddd;
+  outline: none;
+  opacity: 0.7;
+  transition: opacity .2s;
+}
+
+.range-slider:hover {
+  opacity: 1;
+}
+
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #1e90ff;
+  cursor: pointer;
+}
+
+.range-slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #1e90ff;
+  cursor: pointer;
+}
+
+.range-slider::-ms-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #1e90ff;
+  cursor: pointer;
+}
+
+/* 카테고리 버튼 스타일 */
+.category-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.category-button {
+  background-color: #1e90ff;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.category-button.active, .category-button:hover {
+  background-color: #4682b4;
+}
+
+/* 검색 결과 스타일 */
+.search-results {
+  margin-top: 20px;
+}
+
+.results-list {
+  list-style: none;
+  padding: 0;
+}
+
+.results-list li {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 5px 0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.results-list li:hover {
+  background-color: #f0f8ff;
+}
+
+/* 장소 스타일 */
+.places {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.place {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  width: 300px;
+  padding: 10px;
+}
+
+.place img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-bottom: 1px solid #ddd;
+}
+
+.place h3 {
+  font-size: 18px;
+  margin: 10px 0;
+  color: #1e90ff;
+}
+
+.place p {
+  font-size: 14px;
+  color: #666;
+}
