@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './Events.css';
+import './MakingCourse.css';
 
 function Events() {
   const [map, setMap] = useState(null);

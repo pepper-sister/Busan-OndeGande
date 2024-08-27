@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Culture.css';
+import './GoThis.css';
 import regionImage from '../img.jpg';
 
 function Culture() {

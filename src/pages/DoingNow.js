@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Destinations.css';
+import './DoingNow.css';
 
 function Destinations() {
   const [distance, setDistance] = useState(1500);

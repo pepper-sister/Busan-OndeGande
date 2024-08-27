@@ -1,5 +1,5 @@
 import React from 'react';
-import './TravelInfo.css';
+import './YouTuber.css';
 import CourseImage from '../img.jpg';
 
 function TravelInfo() {

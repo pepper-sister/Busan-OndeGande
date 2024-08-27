@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import Home from './pages/Home';
-import Destinations from './pages/Destinations';
-import Events from './pages/Events';
-import Culture from './pages/Culture';
-import TravelInfo from './pages/TravelInfo';
+import DoingNow from './pages/DoingNow';
+import MakingCourse from './pages/MakingCourse';
+import GoThis from './pages/GoThis';
+import YouTuber from './pages/YouTuber';
 import MyCourse from './pages/MyCourse';
 import RestaurantWindow from './RestaurantWindow';
 import PlaceWindow from './PlaceWindow';
@@ -21,11 +21,11 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/destinations" element={<Destinations />} />
-            <Route path="/events" element={<Events />} />
-            <Route path="/culture" element={<Culture />} />
-            <Route path="/travel-info" element={<TravelInfo />} />
-            <Route path="/my-course" element={<MyCourse />} />
+            <Route path="/doingnow" element={<DoingNow />} />
+            <Route path="/makingcourse" element={<MakingCourse />} />
+            <Route path="/gothis" element={<GoThis />} />
+            <Route path="/youtuber" element={<YouTuber />} />
+            <Route path="/mycourse" element={<MyCourse />} />
             <Route path="/restaurants" element={<RestaurantWindow />} />
             <Route path="/place" element={<PlaceWindow />} />
             <Route path="/sleep" element={<SleepWindow />} />
