@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import './DoingNow.css';
 
@@ -10,11 +10,42 @@ function Destinations() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [places, setPlaces] = useState([]);
 
+  const getContentTypeId = (category) => {
+    switch (category) {
+      case 'food':
+        return '39'; // 음식점
+      case 'sightseeing':
+        return '12'; // 관광지
+      case 'accommodation':
+        return '32'; // 숙소
+      default:
+        return '12'; // 기본값: 관광지
+    }
+  };
+
+  const fetchPlaces = useCallback((lat, lng) => {
+    const serviceKey = 'MWNRJ13QkgZqSWWOLKWCgzBhPnc9Q6IYEOTWqIz8JtK1zv8NrNvBCZdBYtm5ll0OTw%2Bd%2FZUE1Sa70hJeTxY1Uw%3D%3D';
+    const url = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${serviceKey}&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=${lng}&mapY=${lat}&radius=${distance}&contentTypeId=${getContentTypeId(category)}`;
+
+    console.log('API 요청 URL:', url); // URL 확인용
+    axios.get(url)
+      .then(response => {
+        console.log('API 응답:', response.data); // 응답 데이터 확인용
+        const items = response.data.response.body.items.item || [];
+        // `firstimage`가 있는 항목만 필터링
+        const filteredItems = items.filter(item => item.firstimage);
+        setPlaces(filteredItems);
+      })
+      .catch(error => {
+        console.error('API 호출 중 오류 발생:', error);
+      });
+  }, [category, distance]);
+
   useEffect(() => {
     if (selectedLocation) {
       fetchPlaces(selectedLocation.lat, selectedLocation.lng);
     }
-  }, [selectedLocation, category, distance]);
+  }, [selectedLocation, fetchPlaces]);
 
   const handleLocationChange = (event) => {
     setLocation(event.target.value);
@@ -80,37 +111,6 @@ function Destinations() {
 
   const handleSelectLocation = (lat, lng) => {
     setSelectedLocation({ lat, lng });
-  };
-
-  const fetchPlaces = (lat, lng) => {
-    const serviceKey = 'MWNRJ13QkgZqSWWOLKWCgzBhPnc9Q6IYEOTWqIz8JtK1zv8NrNvBCZdBYtm5ll0OTw%2Bd%2FZUE1Sa70hJeTxY1Uw%3D%3D';
-    const url = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${serviceKey}&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=${lng}&mapY=${lat}&radius=${distance}&contentTypeId=${getContentTypeId(category)}`;
-
-    console.log('API 요청 URL:', url); // URL 확인용
-    axios.get(url)
-      .then(response => {
-        console.log('API 응답:', response.data); // 응답 데이터 확인용
-        const items = response.data.response.body.items.item || [];
-        // `firstimage`가 있는 항목만 필터링
-        const filteredItems = items.filter(item => item.firstimage);
-        setPlaces(filteredItems);
-      })
-      .catch(error => {
-        console.error('API 호출 중 오류 발생:', error);
-      });
-  };
-
-  const getContentTypeId = (category) => {
-    switch (category) {
-      case 'food':
-        return '39'; // 음식점
-      case 'sightseeing':
-        return '12'; // 관광지
-      case 'accommodation':
-        return '32'; // 숙소
-      default:
-        return '12'; // 기본값: 관광지
-    }
   };
 
   return (
