@@ -1,91 +1,189 @@
 .culture-container {
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .culture-container h1 {
-    font-size: 36px;
-    margin-bottom: 20px;
-  }
-  
-  .culture-container p {
-    font-size: 20px;
-    margin-bottom: 40px;
-  }
-  
-  .selection-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    margin-bottom: 40px;
-    flex-direction: column;
-  }
-  
-  .selection-section {
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction:column;
-    align-items: center;
-    gap: 10px;
-    width: 60vw;
-    height: auto;
-  }
+  padding: 20px;
+  text-align: center;
+}
 
-  .section-image {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 20px;
-  }
-  
-  .selection-section h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-  
-  .button-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-  }
-  
-  .selection-button {
-    background-color: #f5f5f5;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 10px 20px;
-    font-size: 2.5vh;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .selection-button:hover {
-    background-color: #e0e0e0;
-  }
-  
-  .selection-button.selected {
-    background-color: #1e90ff;
-    color: white;
-  }
-  
-  .submit-button {
-    background-color: #1e90ff;
-    border: none;
-    color: white;
-    padding: 15px 20px;
-    font-size: 18px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .submit-button:hover {
-    background-color: #4682b4;
-  }
-  
+.culture-container h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.culture-container p {
+  font-size: 20px;
+  margin-bottom: 40px;
+}
+
+.selection-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 40px;
+  flex-direction: column;
+}
+
+.selection-section {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 60vw;
+  height: auto;
+}
+
+.section-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.selection-section h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.selection-button {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 2.5vh;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.selection-button:hover {
+  background-color: #e0e0e0;
+}
+
+.selection-button.selected {
+  background-color: #1e90ff;
+  color: white;
+}
+
+.submit-button {
+  background-color: #1e90ff;
+  border: none;
+  color: white;
+  padding: 15px 20px;
+  font-size: 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #4682b4;
+}
+
+/* 결과를 담는 컨테이너 */
+.results-container {
+  margin-top: 30px; 
+}
+
+.result-item {
+  background-color: white; 
+  border: 4px solid #ddd; 
+  border-radius: 10px; 
+  padding: 20px; 
+  margin-bottom: 20px; 
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+  text-align: left; 
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+/* section-image 클래스 수정 */
+.section-image {
+  width: 80%; /* 원하는 너비로 조절 */
+  max-width: 600px; /* 최대 너비 설정 */
+  height: auto; /* 비율 유지 */
+  object-fit: cover; /* 이미지 비율을 유지하면서 잘림 방지 */
+  border-radius: 8px; /* 이미지 모서리 둥글게 */
+  margin-bottom: 20px; /* 이미지와 다른 요소 간의 간격 설정 */
+}
+
+/* 팝업 스타일 추가 */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: white;
+  border-radius: 10px;
+  max-width: 90vw; /* 이미지 폭에 맞춰서 팝업 폭을 조정 */
+  max-height: 80vh; /* 팝업 최대 높이 제한 */
+  overflow: hidden; /* 넘치는 내용 숨김 */
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-image-container {
+  flex: 0 1 auto;
+  overflow: hidden;
+  width: 100%; /* 팝업 폭에 맞춰서 이미지 폭을 100%로 설정 */
+}
+
+.popup-image {
+  width: 100%; /* 팝업 폭에 맞춰서 이미지 폭을 100%로 설정 */
+  height: auto;
+  display: block;
+}
+
+.popup-text {
+  overflow-y: auto; /* 내용이 많을 경우 스크롤 가능 */
+  padding: 20px;
+}
+
+/* 오류 메시지를 표시할 때 사용 */
+.error-message {
+  color: red; 
+}
+
+/* 결과가 없을 때 출력되는 메시지 스타일 */
+.no-results-message {
+  font-size: 18px;
+  color: #888;
+}
+
+/* 버튼 스타일 수정 */
+.image-button {
+  background-color: #1e90ff;
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.image-button:hover {
+  background-color: #4682b4;
+  transform: scale(1.05);
+}
+
+.image-button:focus {
+  outline: none; /* 버튼 포커스 시 기본 외곽선 제거 */
+}
