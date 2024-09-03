@@ -4,7 +4,7 @@ import './GoThis.css';
 // Busan 이미지 URL을 직접 사용합니다.
 const regionImage = 'https://www.busan.go.kr/resource/img/busan/sub/sub0284_img01.jpg';
 
-function Culture() {
+function GoThis() {
   const regions = [
     '전체', '강서구', '금정구', '기장군', '남구', '동구', '동래구', '부산진구', 
     '북구', '사상구', '사하구', '서구', '수영구', '연제구', '영도구', '중구','해운대구'
@@ -203,4 +203,4 @@ function Culture() {
   );
 }
 
-export default Culture;
+export default GoThis;

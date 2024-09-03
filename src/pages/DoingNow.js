@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import './DoingNow.css';
 
-function Destinations() {
+function DoingNow() {
   const [distance, setDistance] = useState(1500);
   const [category, setCategory] = useState('sightseeing');
   const [location, setLocation] = useState('');
@@ -201,4 +201,4 @@ function Destinations() {
   );
 }
 
-export default Destinations;
+export default DoingNow;

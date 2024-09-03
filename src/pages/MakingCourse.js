@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './MakingCourse.css';
 
-function Events() {
+function MakingCourse() {
   const [map, setMap] = useState(null);
   const [places, setPlaces] = useState([]);
   const [courses, setCourses] = useState([]);
@@ -108,4 +108,4 @@ function Events() {
   );
 }
 
-export default Events;
+export default MakingCourse;
