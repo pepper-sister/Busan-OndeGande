@@ -86,7 +86,7 @@ function MakingCourse() {
         </ul>
       </div>
 
-      <div id="map" className="map-container"></div>
+      <div id="map" className="map-container2"></div>
 
       <div className="sidebar-right">
         <h2>현재 코스</h2>

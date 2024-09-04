@@ -59,11 +59,12 @@
     z-index: 2;
   }
   
-  .map-container {
+  .map-container2 {
     flex-grow: 1;
     position: relative;
     width: 60%;
     height: 100%;
+    min-height: 800px;
     z-index: 1;
   }
   

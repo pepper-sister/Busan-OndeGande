@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import ReactPlayer from 'react-player';
 import YouTuMap from './YouTuMap';
+import YouTuWindow from './YouTuWindow';
 import './YouTuber.css';
 
 function YouTuber() {
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const [playingVideo, setPlayingVideo] = useState(null);
+  const [isWindowOpen, setIsWindowOpen] = useState(false);
 
   const courses = [
     {
@@ -160,20 +161,13 @@ function YouTuber() {
   ];
 
   const handleCourseClick = (index) => {
-    if (selectedCourse === index) {
-      setSelectedCourse(null);
-    } else {
-      setSelectedCourse(index);
-    }
+    setSelectedCourse(index);
+    setIsWindowOpen(true);
   };
 
-  const handleThumbnailClick = (index) => {
-    if (playingVideo === index) {
-      setPlayingVideo(null);
-    } else {
-      setPlayingVideo(index);
-      setSelectedCourse(index);
-    }
+  const closeWindow = () => {
+    setIsWindowOpen(false);
+    setSelectedCourse(null);
   };
 
   return (
@@ -190,46 +184,33 @@ function YouTuber() {
             className="feature-card"
             onClick={() => handleCourseClick(index)}
           >
-            {playingVideo === index ? (
-              <ReactPlayer url={course.link} width="100%" controls playing />
-            ) : (
-              <img
-                src={`https://img.youtube.com/vi/${course.link.split('v=')[1]}/0.jpg`}
-                alt={`${course.title} thumbnail`}
-                className="video-thumbnail"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleThumbnailClick(index);
-                }}
-              />
-            )}
+            <img
+              src={`https://img.youtube.com/vi/${course.link.split('v=')[1]}/0.jpg`}
+              alt={`${course.title} thumbnail`}
+              className="video-thumbnail"
+            />
             <h2>{course.youtuber}</h2>
             <h3>{course.title}</h3>
-
-            {selectedCourse === index && (
-              <div className="course-details">
-                {course.days.map((day, dayIndex) => (
-                  <div key={dayIndex} className="day-section">
-                    <h4>{day.day}</h4>
-                    <ul>
-                      {day.places.map((place, placeIndex) => (
-                        <li key={placeIndex}>
-                          {place.name} (위도: {place.latitude}, 경도: {place.longitude})
-                        </li>
-                      ))}
-                    </ul>
-                    <div
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <YouTuMap places={day.places} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
         ))}
       </section>
+
+      {selectedCourse !== null && (
+        <YouTuWindow isOpen={isWindowOpen} onClose={closeWindow}>
+          <ReactPlayer url={courses[selectedCourse].link} width="100%" controls playing />
+          {courses[selectedCourse].days.map((day, dayIndex) => (
+            <div key={dayIndex} className="day-section">
+              <h4>{day.day}</h4>
+              <ul>
+                {day.places.map((place, placeIndex) => (
+                  <li key={placeIndex}>{place.name}</li>
+                ))}
+              </ul>
+              <YouTuMap places={day.places} />
+            </div>
+          ))}
+        </YouTuWindow>
+      )}
     </div>
   );
 }
