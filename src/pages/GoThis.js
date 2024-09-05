@@ -175,7 +175,7 @@ function GoThis() {
                   className="image-button" 
                   onClick={() => handleImagePopup(result.mainImgNormal, result.itemCntnts)}
                 >
-                  이미지 보기
+                  보기
                 </button>
               )}
             </div>
