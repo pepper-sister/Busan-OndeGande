@@ -1,96 +1,168 @@
 .events-container {
-    display: flex;
-    height: 100vh;
-    position: relative;
-  }
-  
-  .sidebar-left, .sidebar-right {
-    width: 20%;
-    background-color: rgba(240, 240, 240, 0.9);
-    padding: 20px;
-    box-sizing: border-box;
-    overflow-y: auto;
-  }
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  height: 100vh; /* Ensure container takes up the full viewport height */
+}
 
-  .search-input {
-    width: calc(100% - 50px);
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
-  }
+.sidebar-left, .sidebar-right {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box; /* Ensure padding and borders are included in the width */
+  position: relative;
+  transition: transform 0.3s ease; /* Smooth transition when toggling */
+}
 
-  .add-button {
-    width: 40px;               
-    height: 40px;
-    margin-left: 10px;
-    margin-top: 10px;
-    border-radius: 50%;
-    background-color: #1e90ff;
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.3s; 
-  }
-  
-  .add-button:hover {
-    background-color: #4682b4;
-  }
-  
-  .sidebar-left {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 2;
-  }
-  
-  .sidebar-right {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 2;
-  }
-  
-  .map-container2 {
-    flex-grow: 1;
-    position: relative;
-    width: 60%;
-    height: 100%;
-    min-height: 800px;
-    z-index: 1;
-  }
-  
-  .delete-button {
-    background-color: #ff4d4d;
-  padding: 5px;
-  border-radius: 50%;
-  margin-left: 10px;
-  }
-  
-  .delete-button:hover {
-    background-color: #ff1a1a;
-  }
+.sidebar-left {
+  width: 300px; /* Expanded width */
+}
 
-  @media (max-width: 768px) {
-    .sidebar-left, .sidebar-right {
-      width: 30%;
-    }
-  
-    .map-container {
-      width: 100%;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .sidebar-left, .sidebar-right {
-      width: 40%;
-    }
-  }
+.sidebar-right {
+  width: 300px; /* Expanded width */
+}
+
+.sidebar-left.hidden, .sidebar-right.hidden {
+  transform: translateX(-100%); /* Hide off-screen to the left */
+  width: 0; /* Collapse width */
+}
+
+.sidebar-right.hidden {
+  transform: translateX(100%); /* Hide off-screen to the right */
+  width: 0; /* Collapse width */
+}
+
+.toggle-sidebar-button-left, .toggle-sidebar-button-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  z-index: 1; /* Ensure button is on top */
+}
+
+.toggle-sidebar-button-left {
+  right: -20px; /* Position it outside the sidebar */
+}
+
+.toggle-sidebar-button-right {
+  left: -20px; /* Position it outside the sidebar */
+}
+
+.map-container {
+  flex-grow: 1; /* Take up remaining space */
+  height: 100%; /* Full height */
+  transition: width 0.3s ease; /* Smooth transition when sidebar collapses */
+}
+
+.map-container.expanded {
+  width: 100%; /* Full width when both sidebars are collapsed */
+}
+
+.search-input {
+  width: calc(100% - 22px); /* Adjust width to fit inside sidebar */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.search-button, .add-button, .delete-button, .move-up-button, .move-down-button {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.search-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.add-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.move-up-button, .move-down-button {
+  background-color: #ffc107;
+  color: white;
+  margin: 0 5px;
+}
+
+.add-button:hover {
+  background-color: #218838;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+.move-up-button:hover, .move-down-button:hover {
+  background-color: #e0a800;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+.course-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.course-coordinates {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.move-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.course-coordinates a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.course-coordinates a:hover {
+  text-decoration: underline;
+}
+
+.share-links {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.share-link-button {
+  display: inline-block;
+  padding: 10px;
+  margin: 5px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.share-link-button:hover {
+  background-color: #0056b3;
+}
