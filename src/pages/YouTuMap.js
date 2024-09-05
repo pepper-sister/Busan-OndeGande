@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-const YouTuMap = ({ places }) => {
+const YouTuMap = ({ places, height = '400px' }) => {
   const mapContainer = useRef(null);
   const mapInstance = useRef(null);
 
@@ -86,7 +86,7 @@ const YouTuMap = ({ places }) => {
   };
 
   return (
-    <div ref={mapContainer} style={{ width: '100%', height: '500px' }}></div>
+    <div ref={mapContainer} style={{ width: '100%', height }}></div> // Use the passed height prop
   );
 };
 

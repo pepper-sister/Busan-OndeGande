@@ -1,31 +1,41 @@
-/* MakingCourse.css */
-
 .events-container {
   display: flex;
   flex-direction: row;
   padding: 20px;
   height: 100vh; /* Ensure container takes up the full viewport height */
+  position: relative;
 }
 
-.sidebar-left, .sidebar-right {
-  background-color: rgba(240, 240, 240, 0.5);
+.sidebar-left {
+  background-color: rgba(240, 240, 240, 0.8);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   box-sizing: border-box; /* Ensure padding and borders are included in the width */
-  position: relative;
+  position: absolute;
+  top: 0; /* Align with the top of the container */
+  bottom: 0; /* Extend to the bottom of the container */
   transition: transform 0.3s ease; /* Smooth transition when toggling */
-}
-
-.sidebar-left {
-  width: 300px; /* Expanded width */
+  width: 300px;
+  z-index: 2;
 }
 
 .sidebar-right {
-  width: 300px; /* Expanded width */
+  background-color: rgba(240, 240, 240, 0.8);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box; /* Ensure padding and borders are included in the width */
+  position: absolute;
+  top: 0; /* Align with the top of the container */
+  bottom: 0; /* Extend to the bottom of the container */
+  right: 0;
+  transition: transform 0.3s ease; /* Smooth transition when toggling */
+  width: 300px;
+  z-index: 2;
 }
 
-.sidebar-left.hidden, .sidebar-right.hidden {
+.sidebar-left.hidden {
   transform: translateX(-100%); /* Hide off-screen to the left */
   width: 0; /* Collapse width */
 }
@@ -56,17 +66,18 @@
   left: -20px; /* Position it outside the sidebar */
 }
 
-.map-container2 {
+.map-container {
   flex-grow: 1;
-  width: calc(100% - 600px); /* Adjust width based on sidebar sizes */
-  height: 100%;
+  width: 100%; /* Adjust width based on sidebar sizes */
+  height: auto;
   position: relative;
   z-index: 1; /* Ensure map container is behind sidebar */
-  transition: width 0.3s ease; /* Smooth transition when sidebar collapses */
+  transition: width 0.3s ease, height 0.3s ease; /* Smooth transition when sidebar collapses */
 }
 
 .map-container.expanded {
   width: 100%; /* Full width when both sidebars are collapsed */
+  height: auto; /* Ensure height remains 900px */
 }
 
 .search-input {
