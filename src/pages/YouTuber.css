@@ -30,15 +30,19 @@
 }
 
 .feature-card h2 {
-  margin: 10px;
-  font-size: 25px;
+  margin-top: 15px;
+  margin-left: 10px;
+  font-size: 24px;
   font-weight: bold;
 }
 
 .feature-card h3 {
-  margin: 10px;
-  font-size: 18px;
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 16px;
   font-weight: normal;
+  color: gray;
 }
 
 .video-thumbnail {
