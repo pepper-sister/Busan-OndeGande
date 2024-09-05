@@ -1,7 +1,7 @@
 .events-container {
   display: flex;
   flex-direction: row;
-  padding: 20px;
+  padding: 30px;
   height: 100vh; /* Ensure container takes up the full viewport height */
   position: relative;
 }
@@ -13,10 +13,10 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   box-sizing: border-box; /* Ensure padding and borders are included in the width */
   position: absolute;
-  top: 0; /* Align with the top of the container */
-  bottom: 0; /* Extend to the bottom of the container */
+  top: 30px; /* Align with the top of the container */
+  bottom: 30px; /* Extend to the bottom of the container */
   transition: transform 0.3s ease; /* Smooth transition when toggling */
-  width: 300px;
+  width: 25vw;
   z-index: 2;
 }
 
@@ -27,11 +27,11 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   box-sizing: border-box; /* Ensure padding and borders are included in the width */
   position: absolute;
-  top: 0; /* Align with the top of the container */
-  bottom: 0; /* Extend to the bottom of the container */
-  right: 0;
+  top: 30px; /* Align with the top of the container */
+  bottom: 30px; /* Extend to the bottom of the container */
+  right: 30px;
   transition: transform 0.3s ease; /* Smooth transition when toggling */
-  width: 300px;
+  width: 25vw;
   z-index: 2;
 }
 
@@ -70,6 +70,7 @@
   flex-grow: 1;
   width: 100%; /* Adjust width based on sidebar sizes */
   height: auto;
+  border-radius: 8px;
   position: relative;
   z-index: 1; /* Ensure map container is behind sidebar */
   transition: width 0.3s ease, height 0.3s ease; /* Smooth transition when sidebar collapses */
@@ -81,8 +82,8 @@
 }
 
 .search-input {
-  width: calc(100% - 22px); /* Adjust width to fit inside sidebar */
-  padding: 10px;
+  width: calc(100% - 90px); /* Adjust width to fit inside sidebar */
+  height: auto;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-bottom: 10px;

@@ -1,11 +1,9 @@
-/* 기본 스타일 */
 body {
   font-family: Arial, sans-serif;
   background-color: #f9f9f9;
   color: #333;
 }
 
-/* 제목 스타일 */
 h1 {
   font-size: 36px;
   margin-top: 20px;
@@ -13,7 +11,6 @@ h1 {
   color: #1e90ff;
 }
 
-/* 설명 텍스트 스타일 */
 .destinations-container p {
   font-size: 18px;
   text-align: center;
@@ -21,12 +18,11 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* 컨테이너 스타일 */
 .destinations-container {
   text-align: center;
   padding: 10px;
-  max-width: 1200px;
-  min-height: 700px;
+  width: 80vw;
+  height: auto;
   margin: 0 auto;
   background-color: #fff;
   border-radius: 8px;
@@ -34,12 +30,10 @@ h1 {
   margin-top: 30px;
 }
 
-/* 검색 컨테이너 스타일 */
 .search-container {
   margin-bottom: 20px;
 }
 
-/* 검색 입력 스타일 */
 .search-input {
   width: 80%;
   padding: 12px;
@@ -49,12 +43,11 @@ h1 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* 검색 버튼 스타일 */
 .search-button {
   padding: 12px 20px;
   font-size: 16px;
   color: white;
-  background-color: #1e90ff;
+  background-color: #28a745;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -66,7 +59,6 @@ h1 {
   background-color: #4682b4;
 }
 
-/* 슬라이더 스타일 */
 .range-slider-container {
   margin: 20px 0;
 }
@@ -113,7 +105,6 @@ h1 {
   cursor: pointer;
 }
 
-/* 카테고리 버튼 스타일 */
 .category-buttons {
   display: flex;
   justify-content: center;
@@ -137,7 +128,6 @@ h1 {
   background-color: #4682b4;
 }
 
-/* 검색 결과 스타일 */
 .search-results {
   margin-top: 20px;
 }
@@ -161,7 +151,6 @@ h1 {
   background-color: #f0f8ff;
 }
 
-/* 장소 스타일 */
 .places {
   display: flex;
   flex-wrap: wrap;
@@ -178,7 +167,8 @@ h1 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   text-align: center;
-  width: 300px;
+  width: 230px;
+  height: atuo;
   padding: 10px;
 }
 
@@ -192,7 +182,7 @@ h1 {
 .place h3 {
   font-size: 18px;
   margin: 10px 0;
-  color: #1e90ff;
+  color: #000000;
 }
 
 .place p {

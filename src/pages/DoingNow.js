@@ -146,7 +146,7 @@ function DoingNow() {
             ))}
           </ul>
         ) : (
-          <p>위치를 입력해주세요.</p>
+          <p></p>
         )}
       </div>
 

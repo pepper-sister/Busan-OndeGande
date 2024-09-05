@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import './GoThis.css';
-
-// Busan 이미지 URL을 직접 사용합니다.
-const regionImage = 'https://www.busan.go.kr/resource/img/busan/sub/sub0284_img01.jpg';
+import busanmap from '../busanmap.png';
 
 function GoThis() {
   const regions = [
@@ -127,7 +125,7 @@ function GoThis() {
       
       <div className="selection-container">
         <div className="selection-section">
-          <img src={regionImage} alt="지역 이미지" className="section-image" />
+          <img src={busanmap} alt="" className="section-image"/>
           <h2>지역 선택</h2>
           <div className="button-group">
             {regions.map(region => (
