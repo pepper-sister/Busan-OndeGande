@@ -54,7 +54,7 @@
   left: -20px; /* Position it outside the sidebar */
 }
 
-.map-container {
+.map-container2 {
   flex-grow: 1; /* Take up remaining space */
   height: 100%; /* Full height */
   transition: width 0.3s ease; /* Smooth transition when sidebar collapses */

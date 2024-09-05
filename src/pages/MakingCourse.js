@@ -146,7 +146,7 @@ function MakingCourse() {
         )}
       </div>
 
-      <div id="map" className={`map-container ${!sidebarLeftVisible && !sidebarRightVisible ? 'expanded' : ''}`}></div>
+      <div id="map" className={`map-container2 ${!sidebarLeftVisible && !sidebarRightVisible ? 'expanded' : ''}`}></div>
 
       <div className={`sidebar-right ${sidebarRightVisible ? 'visible' : 'hidden'}`}>
         <button className="toggle-sidebar-button-right" onClick={() => setSidebarRightVisible(!sidebarRightVisible)}>
