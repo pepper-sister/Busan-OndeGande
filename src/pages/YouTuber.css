@@ -29,6 +29,18 @@
   transform: scale(1.02);
 }
 
+.feature-card h2 {
+  margin: 10px;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.feature-card h3 {
+  margin: 10px;
+  font-size: 18px;
+  font-weight: normal;
+}
+
 .video-thumbnail {
   width: 100%;
   height: auto;

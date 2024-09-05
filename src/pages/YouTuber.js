@@ -13,13 +13,13 @@ function YouTuber() {
     fetch('http://ec2-43-200-29-96.ap-northeast-2.compute.amazonaws.com:8080/api/travel-courses/youtubers')
       .then((response) => response.json())
       .then((data) => {
-        console.log("Fetched data:", data);  // Log to check structure
+        console.log("Fetched data:", data);
         const fetchedCourses = data.body.data.map((course) => ({
           id: course.id,
           youtuber: course.creatorName,
           title: course.courseName,
           link: course.youtubeUrl,
-          days: [], // To be filled with details later
+          days: course.day,
         }));
         setCourses(fetchedCourses);
       })
@@ -39,9 +39,9 @@ function YouTuber() {
           ...selected,
           link: courseDetail.youtubeUrl,
           days: courseDetail.travelCourseDetailResponse.reduce((acc, detail) => {
-            const dayIndex = detail.day;
+            const dayIndex = detail.day - 1;
             if (!acc[dayIndex]) {
-              acc[dayIndex] = { day: `Day ${dayIndex + 1}`, places: [] };
+              acc[dayIndex] = { day: `Day ${detail.day}`, places: [] };
             }
             acc[dayIndex].places.push({
               name: detail.placeResponse.placeName,
