@@ -10,7 +10,7 @@ const YouTuMap = ({ places }) => {
     const { kakao } = window;
 
     if (mapInstance.current) {
-      mapInstance.current.destroy();
+      mapInstance.current.setMap(null);
     }
 
     const map = new kakao.maps.Map(mapContainer.current, {

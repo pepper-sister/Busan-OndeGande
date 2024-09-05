@@ -123,6 +123,11 @@ function DoingNow() {
           placeholder="위치를 입력하세요" 
           value={location}
           onChange={handleLocationChange}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              handleSearch();
+            }
+          }}
           className="search-input"
         />
         <button onClick={handleSearch} className="search-button">검색</button>

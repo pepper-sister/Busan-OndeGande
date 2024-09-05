@@ -1,3 +1,5 @@
+/* MakingCourse.css */
+
 .events-container {
   display: flex;
   flex-direction: row;
@@ -6,7 +8,7 @@
 }
 
 .sidebar-left, .sidebar-right {
-  background-color: #f0f0f0;
+  background-color: rgba(240, 240, 240, 0.5);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -43,7 +45,7 @@
   padding: 10px;
   cursor: pointer;
   border-radius: 4px;
-  z-index: 1; /* Ensure button is on top */
+  z-index: 3; /* Ensure button is on top */
 }
 
 .toggle-sidebar-button-left {
@@ -55,8 +57,11 @@
 }
 
 .map-container2 {
-  flex-grow: 1; /* Take up remaining space */
-  height: 100%; /* Full height */
+  flex-grow: 1;
+  width: calc(100% - 600px); /* Adjust width based on sidebar sizes */
+  height: 100%;
+  position: relative;
+  z-index: 1; /* Ensure map container is behind sidebar */
   transition: width 0.3s ease; /* Smooth transition when sidebar collapses */
 }
 

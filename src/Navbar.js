@@ -26,7 +26,6 @@ function Navbar() {
         <li><Link to="/doingnow">이제 뭐하노?</Link></li>
         <li><Link to="/gothis">이렇게 가보소</Link></li>
         <li><Link to="/youtuber">유튜바 코스</Link></li>
-        <li><Link to="/mycourse">나의 코스</Link></li>
       </ul>
       )}
     </nav>

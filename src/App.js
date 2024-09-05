@@ -7,7 +7,6 @@ import DoingNow from './pages/DoingNow';
 import MakingCourse from './pages/MakingCourse';
 import GoThis from './pages/GoThis';
 import YouTuber from './pages/YouTuber';
-import MyCourse from './pages/MyCourse';
 import RestaurantWindow from './RestaurantWindow';
 import PlaceWindow from './PlaceWindow';
 import SleepWindow from './SleepWindow';
@@ -25,7 +24,6 @@ function App() {
             <Route path="/makingcourse" element={<MakingCourse />} />
             <Route path="/gothis" element={<GoThis />} />
             <Route path="/youtuber" element={<YouTuber />} />
-            <Route path="/mycourse" element={<MyCourse />} />
             <Route path="/restaurants" element={<RestaurantWindow />} />
             <Route path="/place" element={<PlaceWindow />} />
             <Route path="/sleep" element={<SleepWindow />} />

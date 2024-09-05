@@ -130,6 +130,11 @@ function MakingCourse() {
               id="keyword"
               className="search-input"
               placeholder="장소 검색"
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  searchPlaces();
+                }
+              }}
             />
             <button className="search-button" onClick={searchPlaces}>
               검색
@@ -146,7 +151,7 @@ function MakingCourse() {
         )}
       </div>
 
-      <div id="map" className={`map-container2 ${!sidebarLeftVisible && !sidebarRightVisible ? 'expanded' : ''}`}></div>
+      <div id="map" className={`map-container ${!sidebarLeftVisible && !sidebarRightVisible ? 'expanded' : ''}`}></div>
 
       <div className={`sidebar-right ${sidebarRightVisible ? 'visible' : 'hidden'}`}>
         <button className="toggle-sidebar-button-right" onClick={() => setSidebarRightVisible(!sidebarRightVisible)}>
@@ -189,14 +194,8 @@ function MakingCourse() {
               <button onClick={copyToClipboard} className="share-link-button">
                 클립보드에 복사
               </button>
-              <a href={getShareLink().googleDocs} target="_blank" rel="noopener noreferrer" className="share-link-button">
-                구글 문서로 공유
-              </a>
               <a href={getShareLink().twitter} target="_blank" rel="noopener noreferrer" className="share-link-button">
                 트위터로 공유
-              </a>
-              <a href={getShareLink().facebook} target="_blank" rel="noopener noreferrer" className="share-link-button">
-                페이스북으로 공유
               </a>
             </div>
           </>
