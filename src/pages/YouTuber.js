@@ -10,7 +10,7 @@ function YouTuber() {
   const [isWindowOpen, setIsWindowOpen] = useState(false);
 
   useEffect(() => {
-    fetch('http://ec2-43-200-29-96.ap-northeast-2.compute.amazonaws.com:8080/api/travel-courses/youtubers')
+    fetch('https://www.ondegande.site/api/travel-courses/youtubers')
       .then((response) => response.json())
       .then((data) => {
         console.log("Fetched data:", data);
@@ -31,7 +31,7 @@ function YouTuber() {
 
   const handleCourseClick = (index) => {
     const selected = courses[index];
-    fetch(`http://ec2-43-200-29-96.ap-northeast-2.compute.amazonaws.com:8080/api/travel-courses/${selected.id}`)
+    fetch(`https://www.ondegande.site/api/travel-courses/${selected.id}`)
       .then((response) => response.json())
       .then((data) => {
         const courseDetail = data.body.data;
