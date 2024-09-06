@@ -149,7 +149,7 @@ function GoThis() {
         <div className="selection-section">
           <img src={busanmap} alt="" className="section-image"/>
           <h2>지역 선택</h2>
-          <div className="button-group">
+          <div className="button-group2">
             {regions.map(region => (
               <button
                 key={region}
@@ -165,7 +165,7 @@ function GoThis() {
         <div className="selection-section">
           <img src={busanmap} alt="" className="section-image"/>
           <h2>테마 선택</h2>
-          <div className="button-group">
+          <div className="button-group2">
             {themes.map(theme => (
               <button
                 key={theme}
