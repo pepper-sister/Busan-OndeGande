@@ -155,7 +155,7 @@ function MakingCourse() {
 
       <div className={`sidebar-right ${sidebarRightVisible ? 'visible' : 'hidden'}`}>
         <button className="toggle-sidebar-button-right" onClick={() => setSidebarRightVisible(!sidebarRightVisible)}>
-          {sidebarRightVisible ? '◄' : '►'}
+          {sidebarRightVisible ? '►' : '◄'}
         </button>
         {sidebarRightVisible && (
           <>

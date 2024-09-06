@@ -24,11 +24,32 @@ function GoThis() {
     '레저': ['282','431','468','490','861','980'],
     '맛': ['464','1145','1182','1326','1369','1400','1407','1774','1873'],
     '무장애': ['310','469'],
-    '문화': ['350','1195','353','374','378','381','382','394','1175','1189','1194'],
+    '문화': [
+    '350', '353', '374', '378', '381', '382', '394', '485', '491', '514', 
+    '780', '847', '853', '858', '1015', '1140', '1154', '1174', '1178', 
+    '1183', '1189', '1194', '1195', '1198', '1318', '1319', '1325', '1334', 
+    '1406', '1408', '1413', '1656', '1745', '1876'
+    ],
     '반려동물': ['466','845','1201','1678'],
-    '역사': ['303','309','408','417','513','787','856'],
-    '연예인': ['305','454','476','477','770','789','854','1190','1199','1358','1373','1414','1417','1682'],
-    '힐링': ['306','1876','1745','307','323','352','356','357','398','424','1190','1199','1358','1373','1414','1417','1682']
+    '역사': ['303', '309', '408', '417', '513', '787', '856'],
+    '연예인': [
+    '305', '454', '476', '477', '770', '789', '854', '860', '1190', '1199', 
+    '1358', '1373', '1414', '1417', '1682'
+    ],
+    '힐링': [
+    '58', '254', '283', '284', '306', '307', '323', '352', '356', '357', '398', 
+    '423', '424', '451', '452', '453', '465', '471', '472', '475', '484', '487', 
+    '488', '489', '507', '512', '515', '521', '761', '775', '776', '786', '791', 
+    '795', '798', '808', '809', '812', '831', '843', '846', '855', '857', '977', 
+    '981', '983', '998', '999', '1000', '1001', '1002', '1003', '1004', '1017', 
+    '1019', '1022', '1027', '1064', '1079', '1139', '1141', '1143', '1144', '1146', 
+    '1147', '1149', '1150', '1151', '1152', '1153', '1155', '1158', '1169', '1170', 
+    '1171', '1176', '1180', '1181', '1184', '1186', '1188', '1192', '1193', '1196', 
+    '1197', '1200', '1205', '1207', '1208', '1209', '1212', '1214', '1215', '1218', 
+    '1302', '1303', '1304', '1306', '1307', '1308', '1317', '1320', '1321', '1324', 
+    '1356', '1363', '1365', '1367', '1372', '1386', '1399', '1401', '1415', '1420', 
+    '1675', '1727', '1771', '1789', '1823'
+    ]
   };
 
   const [selectedRegions, setSelectedRegions] = useState([]);
@@ -93,8 +114,9 @@ function GoThis() {
       const hldyInfo = item.getElementsByTagName("HLDY_INFO")[0]?.textContent || '';
       const mainImgNormal = item.getElementsByTagName("MAIN_IMG_NORMAL")[0]?.textContent || '';
       const itemCntnts = item.getElementsByTagName("ITEMCNTNTS")[0]?.textContent || '';
-
-      return { ucSeq, mainTitle, gugunNm, trfcInfo, hldyInfo, mainImgNormal, itemCntnts };
+      const subTitle = item.getElementsByTagName("TITLE")[0]?.textContent || '';
+  
+      return { ucSeq, mainTitle, gugunNm, trfcInfo, hldyInfo, mainImgNormal, itemCntnts, subTitle };
     });
 
     const filteredResults = resultsArray.filter(result =>
@@ -121,7 +143,7 @@ function GoThis() {
 
   return (
     <div className="culture-container">
-      <h1>맞춤형 코스</h1>
+      <h1>이렇게 가보소(코스 추천)</h1>
       
       <div className="selection-container">
         <div className="selection-section">
@@ -141,6 +163,7 @@ function GoThis() {
         </div>
         
         <div className="selection-section">
+          <img src={busanmap} alt="" className="section-image"/>
           <h2>테마 선택</h2>
           <div className="button-group">
             {themes.map(theme => (
@@ -164,18 +187,29 @@ function GoThis() {
         {results.length > 0 && (
           results.map((result, index) => (
             <div key={index} className="result-item">
-              <h3 className="result-title">{result.mainTitle}</h3>
-              {result.trfcInfo && result.trfcInfo !== '정보 없음' && <p>교통 정보: {result.trfcInfo}</p>}
-              {result.hldyInfo && result.hldyInfo !== '정보 없음' && <p>휴일 정보: {result.hldyInfo}</p>}
-              {result.gugunNm && <p>구군: {result.gugunNm}</p>}
-              {result.mainImgNormal && (
-                <button 
-                  className="image-button" 
-                  onClick={() => handleImagePopup(result.mainImgNormal, result.itemCntnts)}
-                >
-                  보기
-                </button>
-              )}
+              <div className="result-content">
+                <div className="result-image">
+                  {result.mainImgNormal && (
+                    <img 
+                      src={result.mainImgNormal} 
+                      alt={result.mainTitle} 
+                      className="course-image" 
+                    />
+                  )}
+                </div>
+                <div className="result-details">
+                  <h3 className="result-title">{result.mainTitle}</h3>
+                  {result.subTitle !== '정보 없음' && (
+                    <p className="result-hldy-info">{result.subTitle}</p>
+                  )}
+                  <button 
+                    className="image-button" 
+                    onClick={() => handleImagePopup(result.mainImgNormal, result.itemCntnts)}
+                  >
+                    더보기
+                  </button>
+                </div>
+              </div>
             </div>
           ))
         )}
