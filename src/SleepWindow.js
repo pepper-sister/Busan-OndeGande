@@ -20,8 +20,10 @@ function SleepWindow() {
     setTheme(newTheme);
   };
 
-  const handleSleepClick = async (sleepName) => {
-    const response = await fetch(`https://dapi.kakao.com/v2/search/web?query=${encodeURIComponent(sleepName)}`, {
+  const handleSleepClick = async (placeName) => {
+    const query = `${'부산 숙소 '} ${placeName}`;
+
+    const response = await fetch(`https://dapi.kakao.com/v2/search/web?query=${encodeURIComponent(query)}`, {
       headers: {
         Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`,
       },

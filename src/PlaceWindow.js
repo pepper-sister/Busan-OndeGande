@@ -26,7 +26,9 @@ function PlaceWindow() {
   };
 
   const handlePlaceClick = async (placeName) => {
-    const response = await fetch(`https://dapi.kakao.com/v2/search/web?query=${encodeURIComponent(placeName)}`, {
+    const query = `${'부산 관광 '} ${placeName}`;
+
+    const response = await fetch(`https://dapi.kakao.com/v2/search/web?query=${encodeURIComponent(query)}`, {
       headers: {
         Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`,
       },

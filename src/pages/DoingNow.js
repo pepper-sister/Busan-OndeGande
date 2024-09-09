@@ -108,29 +108,20 @@ function DoingNow() {
   };
 
   const handlePlaceClick = async (placeName) => {
-    const query = `${category === 'food' ? '맛집 ' : category === 'sightseeing' ? '관광 ' : category === 'accommodation' ? '숙소 ' : category} ${placeName}`;
+    const query = `${category === 'food' ? '부산 맛집 ' : category === 'sightseeing' ? '부산 관광 ' : category === 'accommodation' ? '부산 숙소 ' : category} ${placeName}`;
   
-    try {
-      const response = await fetch(`https://dapi.kakao.com/v2/search/web?query=${encodeURIComponent(query)}`, {
-        headers: {
-          Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`,
-        },
-      });
-  
-      if (!response.ok) {
-        throw new Error('네트워크 응답이 올바르지 않습니다.');
-      }
-  
-      const data = await response.json();
-  
-      if (data.documents && data.documents.length > 0) {
-        const firstResultUrl = data.documents[0].url;
-        window.open(firstResultUrl, '_blank');
-      } else {
-        alert('검색 결과가 없습니다.');
-      }
-    } catch (error) {
-      console.error('검색 중 오류 발생:', error);
+    const response = await fetch(`https://dapi.kakao.com/v2/search/web?query=${encodeURIComponent(query)}`, {
+      headers: {
+        Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`,
+      },
+    });
+    const data = await response.json();
+
+    if (data.documents && data.documents.length > 0) {
+      const firstResultUrl = data.documents[0].url;
+      window.open(firstResultUrl, '_blank');
+    } else {
+      alert('검색 결과가 없습니다.');
     }
   };  
 

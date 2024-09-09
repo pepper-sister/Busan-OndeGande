@@ -21,8 +21,10 @@ function RestaurantWindow() {
     setTheme(newTheme);
   };
 
-  const handleRestaurantClick = async (restaurantName) => {
-    const response = await fetch(`https://dapi.kakao.com/v2/search/web?query=${encodeURIComponent(restaurantName)}`, {
+  const handleRestaurantClick = async (placeName) => {
+    const query = `${'부산 맛집 '} ${placeName}`;
+
+    const response = await fetch(`https://dapi.kakao.com/v2/search/web?query=${encodeURIComponent(query)}`, {
       headers: {
         Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`,
       },
