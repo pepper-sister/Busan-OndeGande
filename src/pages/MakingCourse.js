@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef  } from 'react';
 import './MakingCourse.css';
-
+ 
 function MakingCourse() {
   const [map, setMap] = useState(null);
   const [places, setPlaces] = useState([]);
   const [courses, setCourses] = useState([]);
   const [sidebarLeftVisible, setSidebarLeftVisible] = useState(true);
   const [sidebarRightVisible, setSidebarRightVisible] = useState(true);
-
+  /*Safari에서도 클립보드 구현을 위해 clipdoard.js구현*/
+  const clipboardBtnRef = useRef(null);
+  
   useEffect(() => {
     if (window.kakao && window.kakao.maps) {
       const container = document.getElementById('map');
@@ -21,6 +23,26 @@ function MakingCourse() {
       console.error('카카오 맵 API를 로드할 수 없습니다.');
     }
   }, []);
+
+  /*Safari 에서도 클립보드 구현을 위해 clipboard.js구현*/
+  useEffect(() => {
+    const ClipboardJS = require('clipboard');
+    const clipboard = new ClipboardJS(clipboardBtnRef.current);
+
+    clipboard.on('success', function (e) {
+      alert('텍스트가 클립보드에 복사되었습니다.');
+      e.clearSelection();
+    });
+
+    clipboard.on('error', function (e) {
+      alert('클립보드 복사에 실패했습니다.');
+    });
+
+    return () => {
+      clipboard.destroy();
+    };
+  }, []);
+
 
   const searchPlaces = () => {
     if (!window.kakao || !window.kakao.maps) return;
@@ -99,13 +121,6 @@ function MakingCourse() {
     )).join('\n');
   };
 
-  const copyToClipboard = () => {
-    const shareText = generateShareText();
-    navigator.clipboard.writeText(shareText)
-      .then(() => alert('텍스트가 클립보드에 복사되었습니다.'))
-      .catch(err => alert('클립보드 복사에 실패했습니다.'));
-  };
-
   const getShareLink = () => {
     const shareText = generateShareText();
     const encodedText = encodeURIComponent(shareText);
@@ -115,6 +130,110 @@ function MakingCourse() {
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedText}`
     };
   };
+  
+  return (
+    <div className="events-container">
+      <div className={`sidebar-left ${sidebarLeftVisible ? 'visible' : 'hidden'}`}>
+        <button className="toggle-sidebar-button-left" onClick={() => setSidebarLeftVisible(!sidebarLeftVisible)}>
+          {sidebarLeftVisible ? '◄' : '►'}
+        </button>
+        {sidebarLeftVisible && (
+          <>
+            <h2>장소 추가</h2>
+            <input
+              type="text"
+              id="keyword"
+              className="search-input"
+              placeholder="장소 검색"
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  searchPlaces();
+                }
+              }}
+            />
+            <button className="search-button" onClick={searchPlaces}>
+              검색
+            </button>
+            <ul>
+              {places.map((place, index) => (
+                <li key={index} className="place-item">
+                  {place.place_name}
+                  <button className="add-button" onClick={() => addCourse(place)}>+</button>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </div>
+
+      <div id="map" className={`map-container ${!sidebarLeftVisible && !sidebarRightVisible ? 'expanded' : ''}`}></div>
+
+      <div className={`sidebar-right ${sidebarRightVisible ? 'visible' : 'hidden'}`}>
+        <button className="toggle-sidebar-button-right" onClick={() => setSidebarRightVisible(!sidebarRightVisible)}>
+          {sidebarRightVisible ? '►' : '◄'}
+        </button>
+        {sidebarRightVisible && (
+          <>
+            <h2 className="course-header">현재 코스</h2>
+            <ul>
+              {courses.map((course, index) => (
+                <li key={index} className="course-item">
+                  <div className="course-header">
+                    <strong>{course.order}. {course.name}</strong>
+                    <button className="delete-button" onClick={() => deleteCourse(index)}>삭제</button>
+                  </div>
+                  <div className="course-coordinates">
+                    <p>위도: {course.lat}</p>
+                    <p>경도: {course.lng}</p>
+                    <div className="move-buttons">
+                      <button 
+                        className="move-up-button"
+                        onClick={() => moveUpCourse(index)}
+                        disabled={index === 0}
+                      >
+                        ▲
+                      </button>
+                      <button 
+                        className="move-down-button"
+                        onClick={() => moveDownCourse(index)}
+                        disabled={index === courses.length - 1}
+                      >
+                        ▼
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <div className="share-links">
+              <button 
+                ref={clipboardBtnRef} 
+                data-clipboard-text={generateShareText()} 
+                className="share-link-button"
+              >
+                클립보드에 복사
+              </button>
+              <a href={getShareLink().twitter} target="_blank" rel="noopener noreferrer" className="share-link-button">
+                트위터로 공유
+              </a>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default MakingCourse;
+/*
+  const copyToClipboard = () => {
+    const shareText = generateShareText();
+    navigator.clipboard.writeText(shareText)
+      .then(() => alert('텍스트가 클립보드에 복사되었습니다.'))
+      .catch(err => alert('클립보드 복사에 실패했습니다.'));
+  };
+
+  
 
   return (
     <div className="events-container">
@@ -205,4 +324,4 @@ function MakingCourse() {
   );
 }
 
-export default MakingCourse;
+export default MakingCourse;*/
