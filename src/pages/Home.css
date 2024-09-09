@@ -140,3 +140,24 @@ h1.current-festival {
     color: #333;
   }
   
+  @media (max-width: 768px) {
+    .feature-item {
+      margin: 20px auto;
+    }
+
+    .hero-section {
+      margin: 20px auto;
+      padding: 40px 10px;
+    }
+
+    h1.current-festival {
+      font-size: 28px;
+    }
+
+    .feature-item2 {
+      height: auto;
+      padding: 20px 10px;
+      margin: 0 auto;
+      justify-content: flex-start;
+    }
+  }
