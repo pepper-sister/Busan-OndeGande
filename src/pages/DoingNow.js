@@ -10,16 +10,18 @@ function DoingNow() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [places, setPlaces] = useState([]);
 
+  const KAKAO_REST_API_KEY = 'c322d88af8037ce0b6195841506667d7';
+
   const getContentTypeId = (category) => {
     switch (category) {
       case 'food':
-        return '39'; // 음식점
+        return '39';
       case 'sightseeing':
-        return '12'; // 관광지
+        return '12';
       case 'accommodation':
-        return '32'; // 숙소
+        return '32';
       default:
-        return '12'; // 기본값: 관광지
+        return '12';
     }
   };
 
@@ -27,12 +29,9 @@ function DoingNow() {
     const serviceKey = 'MWNRJ13QkgZqSWWOLKWCgzBhPnc9Q6IYEOTWqIz8JtK1zv8NrNvBCZdBYtm5ll0OTw%2Bd%2FZUE1Sa70hJeTxY1Uw%3D%3D';
     const url = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${serviceKey}&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=${lng}&mapY=${lat}&radius=${distance}&contentTypeId=${getContentTypeId(category)}`;
 
-    console.log('API 요청 URL:', url); // URL 확인용
     axios.get(url)
       .then(response => {
-        console.log('API 응답:', response.data); // 응답 데이터 확인용
         const items = response.data.response.body.items.item || [];
-        // `firstimage`가 있는 항목만 필터링
         const filteredItems = items.filter(item => item.firstimage);
         setPlaces(filteredItems);
       })
@@ -74,12 +73,8 @@ function DoingNow() {
     }
 
     geocoder.addressSearch(location, (result, status) => {
-      console.log('검색 결과:', result);
-      console.log('상태:', status);
-
       if (status === kakao.maps.services.Status.OK) {
         if (Array.isArray(result) && result.length > 0) {
-          // 결과에서 처음 5개 항목만 선택
           setSearchResults(result.slice(0, 5));
           const { y, x } = result[0];
           setSelectedLocation({ lat: y, lng: x });
@@ -101,7 +96,6 @@ function DoingNow() {
     const ps = new window.kakao.maps.services.Places();
     ps.keywordSearch(query, (data, status) => {
       if (status === window.kakao.maps.services.Status.OK) {
-        // 검색 결과를 처음 5개 항목으로 제한
         setSearchResults(data.slice(0, 5));
       } else {
         setSearchResults([]);
@@ -112,6 +106,33 @@ function DoingNow() {
   const handleSelectLocation = (lat, lng) => {
     setSelectedLocation({ lat, lng });
   };
+
+  const handlePlaceClick = async (placeName) => {
+    const query = `${category === 'food' ? '맛집 ' : category === 'sightseeing' ? '관광 ' : category === 'accommodation' ? '숙소 ' : category} ${placeName}`;
+  
+    try {
+      const response = await fetch(`https://dapi.kakao.com/v2/search/web?query=${encodeURIComponent(query)}`, {
+        headers: {
+          Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('네트워크 응답이 올바르지 않습니다.');
+      }
+  
+      const data = await response.json();
+  
+      if (data.documents && data.documents.length > 0) {
+        const firstResultUrl = data.documents[0].url;
+        window.open(firstResultUrl, '_blank');
+      } else {
+        alert('검색 결과가 없습니다.');
+      }
+    } catch (error) {
+      console.error('검색 중 오류 발생:', error);
+    }
+  };  
 
   return (
     <div className="destinations-container">
@@ -192,10 +213,18 @@ function DoingNow() {
               <img 
                 src={place.firstimage || 'default-image.jpg'} 
                 alt={place.title}
-                style={{ width: '200px', height: '150px', objectFit: 'cover' }}
+                className="place-image"
               />
-              <h3>{place.title}</h3>
-              <p>{place.addr1}</p>
+              <div className="place-details">
+                <div className="place-name">{place.title}</div>
+                <p className="place-address">{place.addr1}</p>
+                <button
+                  className="info-button2"
+                  onClick={() => handlePlaceClick(place.title)}
+                >
+                  알아보기
+                </button>
+              </div>
             </div>
           ))
         ) : (
