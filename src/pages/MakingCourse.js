@@ -1,15 +1,15 @@
-import React, { useEffect, useState, useRef  } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './MakingCourse.css';
- 
+
 function MakingCourse() {
   const [map, setMap] = useState(null);
   const [places, setPlaces] = useState([]);
-  const [courses, setCourses] = useState([]);
-  const [sidebarLeftVisible, setSidebarLeftVisible] = useState(true);
-  const [sidebarRightVisible, setSidebarRightVisible] = useState(true);
-  /*Safari에서도 클립보드 구현을 위해 clipdoard.js구현*/
+  const [days, setDays] = useState([{ title: '당일치기', courses: [] }]);
+  const [selectedDayIndex, setSelectedDayIndex] = useState(0);
+  const [sidebarLeftVisible, setSidebarLeftVisible] = useState(true); // 상태 추가
+  const [sidebarRightVisible, setSidebarRightVisible] = useState(true); // 상태 추가
   const clipboardBtnRef = useRef(null);
-  
+
   useEffect(() => {
     if (window.kakao && window.kakao.maps) {
       const container = document.getElementById('map');
@@ -24,7 +24,6 @@ function MakingCourse() {
     }
   }, []);
 
-  /*Safari 에서도 클립보드 구현을 위해 clipboard.js구현*/
   useEffect(() => {
     const ClipboardJS = require('clipboard');
     const clipboard = new ClipboardJS(clipboardBtnRef.current);
@@ -43,14 +42,13 @@ function MakingCourse() {
     };
   }, []);
 
-
   const searchPlaces = () => {
     if (!window.kakao || !window.kakao.maps) return;
 
     const ps = new window.kakao.maps.services.Places();
     const keyword = document.getElementById('keyword').value;
 
-    ps.keywordSearch(keyword, (data, status, pagination) => {
+    ps.keywordSearch(keyword, (data, status) => {
       if (status === window.kakao.maps.services.Status.OK) {
         setPlaces(data);
         displayMarkers(data);
@@ -79,46 +77,60 @@ function MakingCourse() {
   };
 
   const addCourse = (place) => {
-    const newCourse = {
+    const updatedDays = [...days];
+    updatedDays[selectedDayIndex].courses.push({
       name: place.place_name,
       lat: place.y,
       lng: place.x,
-      order: courses.length + 1
-    };
-    setCourses([...courses, newCourse]);
+      order: updatedDays[selectedDayIndex].courses.length + 1
+    });
+    setDays(updatedDays);
   };
 
-  const deleteCourse = (indexToRemove) => {
-    const updatedCourses = courses
+  const deleteCourse = (dayIndex, indexToRemove) => {
+    const updatedDays = [...days];
+    updatedDays[dayIndex].courses = updatedDays[dayIndex].courses
       .filter((_, index) => index !== indexToRemove)
       .map((course, index) => ({ ...course, order: index + 1 }));
-    setCourses(updatedCourses);
+    setDays(updatedDays);
   };
 
-  const moveUpCourse = (index) => {
+  const moveUpCourse = (dayIndex, index) => {
     if (index === 0) return;
-    const updatedCourses = [...courses];
+    const updatedDays = [...days];
+    const updatedCourses = [...updatedDays[dayIndex].courses];
     [updatedCourses[index], updatedCourses[index - 1]] = [updatedCourses[index - 1], updatedCourses[index]];
     updatedCourses.forEach((course, idx) => {
       course.order = idx + 1;
     });
-    setCourses(updatedCourses);
+    updatedDays[dayIndex].courses = updatedCourses;
+    setDays(updatedDays);
   };
 
-  const moveDownCourse = (index) => {
-    if (index === courses.length - 1) return;
-    const updatedCourses = [...courses];
+  const moveDownCourse = (dayIndex, index) => {
+    if (index === days[dayIndex].courses.length - 1) return;
+    const updatedDays = [...days];
+    const updatedCourses = [...updatedDays[dayIndex].courses];
     [updatedCourses[index], updatedCourses[index + 1]] = [updatedCourses[index + 1], updatedCourses[index]];
     updatedCourses.forEach((course, idx) => {
       course.order = idx + 1;
     });
-    setCourses(updatedCourses);
+    updatedDays[dayIndex].courses = updatedCourses;
+    setDays(updatedDays);
+  };
+
+  const addDay = () => {
+    const newDayIndex = days.length + 1;
+    setDays([...days, { title: `${newDayIndex}일차`, courses: [] }]);
+    setSelectedDayIndex(days.length); // 새로 추가된 일자를 선택
   };
 
   const generateShareText = () => {
-    return courses.map(course => (
-      `${course.order}. ${course.name}\n위도: ${course.lat}\n경도: ${course.lng}\n`
-    )).join('\n');
+    return days.map(day => 
+      `${day.title}\n${day.courses.map(course => (
+        `${course.order}. ${course.name}\n위도: ${course.lat}\n경도: ${course.lng}\n`
+      )).join('\n')}`
+    ).join('\n\n');
   };
 
   const getShareLink = () => {
@@ -130,7 +142,7 @@ function MakingCourse() {
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedText}`
     };
   };
-  
+
   return (
     <div className="events-container">
       <div className={`sidebar-left ${sidebarLeftVisible ? 'visible' : 'hidden'}`}>
@@ -174,37 +186,44 @@ function MakingCourse() {
         </button>
         {sidebarRightVisible && (
           <>
-            <h2 className="course-header">현재 코스</h2>
-            <ul>
-              {courses.map((course, index) => (
-                <li key={index} className="course-item">
-                  <div className="course-header">
-                    <strong>{course.order}. {course.name}</strong>
-                    <button className="delete-button" onClick={() => deleteCourse(index)}>삭제</button>
-                  </div>
-                  <div className="course-coordinates">
-                    <p>위도: {course.lat}</p>
-                    <p>경도: {course.lng}</p>
-                    <div className="move-buttons">
-                      <button 
-                        className="move-up-button"
-                        onClick={() => moveUpCourse(index)}
-                        disabled={index === 0}
-                      >
-                        ▲
-                      </button>
-                      <button 
-                        className="move-down-button"
-                        onClick={() => moveDownCourse(index)}
-                        disabled={index === courses.length - 1}
-                      >
-                        ▼
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <div className="day-selector">
+              <button onClick={addDay}>일자 추가하기</button>
+            </div>
+            {days.map((day, dayIndex) => (
+              <div key={dayIndex}>
+                <h2>{day.title}</h2>
+                <ul>
+                  {day.courses.map((course, index) => (
+                    <li key={index} className="course-item">
+                      <div className="course-header">
+                        <strong>{course.order}. {course.name}</strong>
+                        <button className="delete-button" onClick={() => deleteCourse(dayIndex, index)}>삭제</button>
+                      </div>
+                      <div className="course-coordinates">
+                        <p>위도: {course.lat}</p>
+                        <p>경도: {course.lng}</p>
+                        <div className="move-buttons">
+                          <button 
+                            className="move-up-button"
+                            onClick={() => moveUpCourse(dayIndex, index)}
+                            disabled={index === 0}
+                          >
+                            ▲
+                          </button>
+                          <button 
+                            className="move-down-button"
+                            onClick={() => moveDownCourse(dayIndex, index)}
+                            disabled={index === day.courses.length - 1}
+                          >
+                            ▼
+                          </button>
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
             <div className="share-links">
               <button 
                 ref={clipboardBtnRef} 
@@ -216,6 +235,7 @@ function MakingCourse() {
               <a href={getShareLink().twitter} target="_blank" rel="noopener noreferrer" className="share-link-button">
                 트위터로 공유
               </a>
+    
             </div>
           </>
         )}
@@ -225,103 +245,3 @@ function MakingCourse() {
 }
 
 export default MakingCourse;
-/*
-  const copyToClipboard = () => {
-    const shareText = generateShareText();
-    navigator.clipboard.writeText(shareText)
-      .then(() => alert('텍스트가 클립보드에 복사되었습니다.'))
-      .catch(err => alert('클립보드 복사에 실패했습니다.'));
-  };
-
-  
-
-  return (
-    <div className="events-container">
-      <div className={`sidebar-left ${sidebarLeftVisible ? 'visible' : 'hidden'}`}>
-        <button className="toggle-sidebar-button-left" onClick={() => setSidebarLeftVisible(!sidebarLeftVisible)}>
-          {sidebarLeftVisible ? '◄' : '►'}
-        </button>
-        {sidebarLeftVisible && (
-          <>
-            <h2>장소 추가</h2>
-            <input
-              type="text"
-              id="keyword"
-              className="search-input"
-              placeholder="장소 검색"
-              onKeyPress={(e) => {
-                if (e.key === 'Enter') {
-                  searchPlaces();
-                }
-              }}
-            />
-            <button className="search-button" onClick={searchPlaces}>
-              검색
-            </button>
-            <ul>
-              {places.map((place, index) => (
-                <li key={index} className="place-item">
-                  {place.place_name}
-                  <button className="add-button" onClick={() => addCourse(place)}>+</button>
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
-      </div>
-
-      <div id="map" className={`map-container ${!sidebarLeftVisible && !sidebarRightVisible ? 'expanded' : ''}`}></div>
-
-      <div className={`sidebar-right ${sidebarRightVisible ? 'visible' : 'hidden'}`}>
-        <button className="toggle-sidebar-button-right" onClick={() => setSidebarRightVisible(!sidebarRightVisible)}>
-          {sidebarRightVisible ? '►' : '◄'}
-        </button>
-        {sidebarRightVisible && (
-          <>
-            <h2 className="course-header">현재 코스</h2>
-            <ul>
-              {courses.map((course, index) => (
-                <li key={index} className="course-item">
-                  <div className="course-header">
-                    <strong>{course.order}. {course.name}</strong>
-                    <button className="delete-button" onClick={() => deleteCourse(index)}>삭제</button>
-                  </div>
-                  <div className="course-coordinates">
-                    <p>위도: {course.lat}</p>
-                    <p>경도: {course.lng}</p>
-                    <div className="move-buttons">
-                      <button 
-                        className="move-up-button"
-                        onClick={() => moveUpCourse(index)}
-                        disabled={index === 0}
-                      >
-                        ▲
-                      </button>
-                      <button 
-                        className="move-down-button"
-                        onClick={() => moveDownCourse(index)}
-                        disabled={index === courses.length - 1}
-                      >
-                        ▼
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <div className="share-links">
-              <button onClick={copyToClipboard} className="share-link-button">
-                클립보드에 복사
-              </button>
-              <a href={getShareLink().twitter} target="_blank" rel="noopener noreferrer" className="share-link-button">
-                트위터로 공유
-              </a>
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
-
-export default MakingCourse;*/
