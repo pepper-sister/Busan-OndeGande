@@ -7,7 +7,7 @@ function MakingCourse() {
   const [courses, setCourses] = useState([]);
   const [sidebarLeftVisible, setSidebarLeftVisible] = useState(true);
   const [sidebarRightVisible, setSidebarRightVisible] = useState(true);
-  /*Safari에서도 클립보드 구현을 위해 clipdoard.js구현*/
+  
   const clipboardBtnRef = useRef(null);
   
   useEffect(() => {
