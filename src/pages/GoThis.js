@@ -52,11 +52,13 @@ function GoThis() {
     ]
   };
 
+
   const [selectedRegions, setSelectedRegions] = useState([]);
   const [selectedThemes, setSelectedThemes] = useState([]);
   const [results, setResults] = useState([]);
   const [error, setError] = useState(null);
   const [popupImage, setPopupImage] = useState(null);
+  const [randomCourse, setRandomCourse] = useState(null);
 
   const handleRegionToggle = (region) => {
     if (region === '전체') {
@@ -125,12 +127,22 @@ function GoThis() {
     );
 
     setResults(filteredResults);
+    setRandomCourse(null); // Clear the random course when fetching new results
     setError(filteredResults.length === 0 ? '선택한 조건에 맞는 결과가 없습니다.' : null);
   };
 
   const handleSubmit = () => {
     setError(null);
     fetchResults();
+  };
+
+  const handleRandomCourse = () => {
+    if (results.length > 0) {
+      const randomIndex = Math.floor(Math.random() * results.length);
+      setRandomCourse(results[randomIndex]);
+    } else {
+      alert('먼저 코스를 확인해 주세요.');
+    }
   };
 
   const handleImagePopup = (imgUrl, textContent) => {
@@ -180,12 +192,13 @@ function GoThis() {
       </div>
       
       <button className="submit-button" onClick={handleSubmit}>코스 확인하기</button>
+      <button className="submit-button" onClick={handleRandomCourse}>랜덤코스 추출</button>
       
       <div className="results-container">
         {error && <p className="error-message">{error}</p>}
         {results.length === 0 && !error && <p className="no-results-message">결과가 없습니다.</p>}
-        {results.length > 0 && (
-          results.map((result, index) => (
+        {(results.length > 0 || randomCourse) && (
+          (randomCourse ? [randomCourse] : results).map((result, index) => (
             <div key={index} className="result-item">
               <div className="result-content">
                 <div className="result-image">
