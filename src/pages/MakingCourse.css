@@ -164,7 +164,7 @@ li {
 .course-coordinates a:hover {
   text-decoration: underline;
 }
-
+/*
 .share-links {
   margin-top: 20px;
   text-align: center;
@@ -182,4 +182,53 @@ li {
 
 .share-link-button:hover {
   background-color: #0056b3;
+}*/
+/* 공유 링크 버튼 스타일 */
+.share-links {
+  margin: 10px;
+}
+
+.share-link-button {
+  background: #007bff;
+  border: none;
+  padding: 10px 15px;
+  margin: 5px;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 14px;
+  display: inline-block;
+  transition: background 0.3s ease;
+}
+
+.share-link-button:hover {
+  background: #0056b3;
+}
+
+/* 추가된 스타일 */
+
+.day-selector {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.day-selector button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.day-selector button:hover {
+  background-color: #0056b3;
+}
+
+.day-selector select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
