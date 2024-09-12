@@ -4,10 +4,11 @@ function SleepWindow() {
   const [theme, setTheme] = useState('B02010100');
   const [sleep, setSleep] = useState([]);
 
-  const KAKAO_REST_API_KEY = 'c322d88af8037ce0b6195841506667d7';
+  const KAKAO_REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
+  const SERVICE_KEY = process.env.REACT_APP_SERVICE_KEY;
 
   const fetchData = async (cat3) => {
-    const response = await fetch(`https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=MWNRJ13QkgZqSWWOLKWCgzBhPnc9Q6IYEOTWqIz8JtK1zv8NrNvBCZdBYtm5ll0OTw%2Bd%2FZUE1Sa70hJeTxY1Uw%3D%3D&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=6&cat1=B02&cat2=B0201&cat3=${cat3}`);
+    const response = await fetch(`https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${SERVICE_KEY}&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=6&cat1=B02&cat2=B0201&cat3=${cat3}`);
     const data = await response.json();
     setSleep(data.response.body.items.item);
   };
@@ -32,7 +33,7 @@ function SleepWindow() {
     
     if (data.documents && data.documents.length > 0) {
       const firstResultUrl = data.documents[0].url;
-      window.open(firstResultUrl, '_blank'); // 새 탭에서 검색 결과로 이동
+      window.open(firstResultUrl, '_blank');
     } else {
       alert('검색 결과가 없습니다.');
     }

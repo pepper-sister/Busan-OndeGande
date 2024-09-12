@@ -86,7 +86,7 @@ const YouTuMap = ({ places, height = '400px' }) => {
   };
 
   return (
-    <div ref={mapContainer} style={{ width: '100%', height }}></div> // Use the passed height prop
+    <div ref={mapContainer} style={{ width: '100%', height }}></div>
   );
 };
 

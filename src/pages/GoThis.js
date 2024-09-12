@@ -60,6 +60,8 @@ function GoThis() {
   const [popupImage, setPopupImage] = useState(null);
   const [randomCourse, setRandomCourse] = useState(null);
 
+  const SERVICE_KEY = process.env.REACT_APP_S_SERVICE_KEY;
+
   const handleRegionToggle = (region) => {
     if (region === '전체') {
       setSelectedRegions(selectedRegions.length === regions.length - 1 ? [] : regions.slice(1));
@@ -91,8 +93,8 @@ function GoThis() {
     }
 
     const urls = [
-      'https://apis.data.go.kr/6260000/RecommendedService/getRecommendedKr?serviceKey=LpRShO6N0YOaDWlm39RI18TKXcngzr%2BlgRVyhCOqeXLa%2F6CvYPw29m7qRq3G7M4MAUyU%2Bcp54V%2BiSK6dg%2BRbYA%3D%3D&pageNo=1&numOfRows=106',
-      'https://apis.data.go.kr/6260000/RecommendedService/getRecommendedKr?serviceKey=LpRShO6N0YOaDWlm39RI18TKXcngzr%2BlgRVyhCOqeXLa%2F6CvYPw29m7qRq3G7M4MAUyU%2Bcp54V%2BiSK6dg%2BRbYA%3D%3D&pageNo=2&numOfRows=106'
+      'https://apis.data.go.kr/6260000/RecommendedService/getRecommendedKr?serviceKey=${SERVICE_KEY}&pageNo=1&numOfRows=106',
+      'https://apis.data.go.kr/6260000/RecommendedService/getRecommendedKr?serviceKey=${SERVICE_KEY}&pageNo=2&numOfRows=106'
     ];
 
     const fetchData = async (url) => {
@@ -127,7 +129,7 @@ function GoThis() {
     );
 
     setResults(filteredResults);
-    setRandomCourse(null); // Clear the random course when fetching new results
+    setRandomCourse(null);
     setError(filteredResults.length === 0 ? '선택한 조건에 맞는 결과가 없습니다.' : null);
   };
 

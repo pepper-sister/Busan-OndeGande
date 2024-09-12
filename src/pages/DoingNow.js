@@ -10,7 +10,8 @@ function DoingNow() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [places, setPlaces] = useState([]);
 
-  const KAKAO_REST_API_KEY = 'c322d88af8037ce0b6195841506667d7';
+  const KAKAO_REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
+  const SERVICE_KEY = process.env.REACT_APP_SERVICE_KEY;
 
   const getContentTypeId = (category) => {
     switch (category) {
@@ -26,8 +27,7 @@ function DoingNow() {
   };
 
   const fetchPlaces = useCallback((lat, lng) => {
-    const serviceKey = 'MWNRJ13QkgZqSWWOLKWCgzBhPnc9Q6IYEOTWqIz8JtK1zv8NrNvBCZdBYtm5ll0OTw%2Bd%2FZUE1Sa70hJeTxY1Uw%3D%3D';
-    const url = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${serviceKey}&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=${lng}&mapY=${lat}&radius=${distance}&contentTypeId=${getContentTypeId(category)}`;
+    const url = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${SERVICE_KEY}&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=${lng}&mapY=${lat}&radius=${distance}&contentTypeId=${getContentTypeId(category)}`;
 
     axios.get(url)
       .then(response => {
