@@ -149,7 +149,7 @@ function DoingNow() {
 
     if (data.documents && data.documents.length > 0) {
       const firstPlaceUrl = `https://map.kakao.com/link/search/${encodeURIComponent(placeName)}`;
-      window.open(firstPlaceUrl, '_blank');
+      window.open(firstPlaceUrl, '_blank', 'noopener,noreferrer');
     } else {
       alert('검색 결과가 없습니다.');
     }
