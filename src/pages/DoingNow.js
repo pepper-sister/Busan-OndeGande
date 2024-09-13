@@ -45,6 +45,37 @@ function DoingNow() {
     }
   }, [selectedLocation, category, distance, SERVICE_KEY]);
 
+  useEffect(() => {
+    const getCurrentLocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            setSelectedLocation({ lat: latitude, lng: longitude });
+          
+            if (window.kakao && window.kakao.maps) {
+              const geocoder = new window.kakao.maps.services.Geocoder();
+              geocoder.coord2Address(longitude, latitude, (result, status) => {
+                if (status === window.kakao.maps.services.Status.OK) {
+                  const address = result[0].address.address_name;
+                  setLocation(address);
+                }
+              });
+            }
+          },
+          
+          (error) => {
+            console.error('위치 정보를 가져오는 중 오류 발생:', error);
+          }
+        );
+      } else {
+        console.error('현재 위치 정보를 지원하지 않는 브라우저입니다.');
+      }
+    };
+
+    getCurrentLocation();
+  }, []);
+
   const handleLocationChange = (event) => {
     setLocation(event.target.value);
   };
