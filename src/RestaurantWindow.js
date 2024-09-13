@@ -8,15 +8,19 @@ function RestaurantWindow() {
   const KAKAO_REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
   const SERVICE_KEY = process.env.REACT_APP_SERVICE_KEY;
 
-  const fetchData = async (cat3) => {
-    const response = await fetch(`https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${SERVICE_KEY}&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=39&areaCode=6&cat1=A05&cat2=A0502&cat3=${cat3}`);
-    const data = await response.json();
-    setRestaurants(data.response.body.items.item);
-  };
-
   useEffect(() => {
+    const fetchData = async (cat3) => {
+      try {
+        const response = await fetch(`https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${SERVICE_KEY}&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=39&areaCode=6&cat1=A05&cat2=A0502&cat3=${cat3}`);
+        const data = await response.json();
+        setRestaurants(data.response.body.items.item);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
     fetchData(theme);
-  }, [theme]);
+  }, [theme, SERVICE_KEY]);
 
   const handleThemeChange = (newTheme) => {
     setTheme(newTheme);

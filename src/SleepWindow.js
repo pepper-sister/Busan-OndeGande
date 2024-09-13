@@ -7,15 +7,15 @@ function SleepWindow() {
   const KAKAO_REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
   const SERVICE_KEY = process.env.REACT_APP_SERVICE_KEY;
 
-  const fetchData = async (cat3) => {
-    const response = await fetch(`https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${SERVICE_KEY}&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=6&cat1=B02&cat2=B0201&cat3=${cat3}`);
-    const data = await response.json();
-    setSleep(data.response.body.items.item);
-  };
-
   useEffect(() => {
+    const fetchData = async (cat3) => {
+      const response = await fetch(`https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${SERVICE_KEY}&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=6&cat1=B02&cat2=B0201&cat3=${cat3}`);
+      const data = await response.json();
+      setSleep(data.response.body.items.item);
+    };
+
     fetchData(theme);
-  }, [theme]);
+  }, [theme, SERVICE_KEY]);
 
   const handleThemeChange = (newTheme) => {
     setTheme(newTheme);

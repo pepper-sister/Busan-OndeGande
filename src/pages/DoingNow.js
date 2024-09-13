@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './DoingNow.css';
 
@@ -26,25 +26,24 @@ function DoingNow() {
     }
   };
 
-  const fetchPlaces = useCallback((lat, lng) => {
-    const url = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${SERVICE_KEY}&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=${lng}&mapY=${lat}&radius=${distance}&contentTypeId=${getContentTypeId(category)}`;
+  useEffect(() => {
+    const fetchPlaces = async (lat, lng) => {
+      const url = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${SERVICE_KEY}&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=${lng}&mapY=${lat}&radius=${distance}&contentTypeId=${getContentTypeId(category)}`;
 
-    axios.get(url)
-      .then(response => {
+      try {
+        const response = await axios.get(url);
         const items = response.data.response.body.items.item || [];
         const filteredItems = items.filter(item => item.firstimage);
         setPlaces(filteredItems);
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('API 호출 중 오류 발생:', error);
-      });
-  }, [category, distance]);
+      }
+    };
 
-  useEffect(() => {
     if (selectedLocation) {
       fetchPlaces(selectedLocation.lat, selectedLocation.lng);
     }
-  }, [selectedLocation, fetchPlaces]);
+  }, [selectedLocation, category, distance, SERVICE_KEY]);
 
   const handleLocationChange = (event) => {
     setLocation(event.target.value);
