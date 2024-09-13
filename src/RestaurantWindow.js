@@ -27,7 +27,7 @@ function RestaurantWindow() {
   };
 
   const handleRestaurantClick = async (placeName) => {
-    const query = `${'부산 맛집 '} ${placeName}`;
+    const query = `${placeName}`;
 
     const response = await fetch(`https://dapi.kakao.com/v2/search/web?query=${encodeURIComponent(query)}`, {
       headers: {
@@ -37,8 +37,8 @@ function RestaurantWindow() {
     const data = await response.json();
     
     if (data.documents && data.documents.length > 0) {
-      const firstResultUrl = data.documents[0].url;
-      window.open(firstResultUrl, '_blank');
+      const firstPlaceUrl = `https://map.kakao.com/link/search/${encodeURIComponent(placeName)}`;
+      window.open(firstPlaceUrl, '_blank');
     } else {
       alert('검색 결과가 없습니다.');
     }
