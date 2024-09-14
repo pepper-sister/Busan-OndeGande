@@ -16,7 +16,7 @@ h1.current-festival {
   margin: 50px auto 40px;
   border-radius: 8px;
   width: 80%;
-  height: 300px;
+  height: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
@@ -31,6 +31,7 @@ h1.current-festival {
   .hero-section p {
     font-size: 25px;
     color: #333;
+    margin-bottom: 50px;
   }
   
   .feature-section {
@@ -47,8 +48,8 @@ h1.current-festival {
     text-align: center;
     padding: 10px;
     width: 23%;
-    height: 200px;
-    margin: 20px;
+    height: auto;
+    margin: 10px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
@@ -73,10 +74,11 @@ h1.current-festival {
   .feature-item p {
     font-size: 16px;
     color: #666;
+    margin-bottom: 50px;
   }
 
   .carousel-container {
-    width: 80%;
+    width: 60vw;
     margin: 40px auto;
   }
   
@@ -87,52 +89,40 @@ h1.current-festival {
   }
   
   .feature-item2 {
-    background-color: #f5f5f5;
     background-size: cover;
     background-position: center;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 25px;
     text-align: center;
-    padding: 20px;
     width: 70%;
-    height: 60vh;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     position: relative;
+    overflow: hidden;
+    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.1);
   }
 
-  .feature-item2 h2 {
-    font-size: 40px;
-    margin-top: 420px;
-    margin-bottom: -20px;
-    color: #333;
-  }
-  
-  .feature-item2 p {
-    font-size: 28px;
-    color: #666;
-  }
-  
   .feature-item2 img {
     width: 100%;
     height: auto;
-    border-radius: 8px;
-    margin-bottom: 15px;
+    margin-bottom: 0;
+    border-radius: 25px 25px 0 0;
+    transition: transform 0.3s ease;
   }
 
-  .feature-item2.one {
-    background-image: url('../img2.jpg');
+  .feature-item2 h2 {
+    font-size: 28px;
+    margin-top: 15px;
+    color: #333;
+    padding: 10px;
   }
   
-  .feature-item2.two {
-    background-image: url('../img2.jpg');
-  }
-  
-  .feature-item2.thr {
-    background-image: url('../img2.jpg');
+  .feature-item2 p {
+    font-size: 18px;
+    color: #666;
+    padding: 5px;
   }
   
   .slick-prev:before,
@@ -141,8 +131,17 @@ h1.current-festival {
   }
   
   @media (max-width: 768px) {
+    .hero-section h1 {
+      font-size: 30px;
+    }
+    
+    .hero-section p {
+      font-size: 20px;
+    }
+
     .feature-item {
-      margin: 20px auto;
+      padding: 5px;
+      margin: 0px;
     }
 
     .hero-section {
@@ -154,10 +153,12 @@ h1.current-festival {
       font-size: 28px;
     }
 
-    .feature-item2 {
-      height: auto;
-      padding: 20px 10px;
-      margin: 0 auto;
-      justify-content: flex-start;
+    .feature-item2 h2 {
+      font-size: 15px;
+      margin-top: 5px;
+    }
+    
+    .feature-item2 p {
+      font-size: 10px;
     }
   }

@@ -9,46 +9,46 @@ import './Home.css';
 const API_URL = 'https://apis.data.go.kr/6260000/FestivalService/getFestivalKr';
 const API_KEY = process.env.REACT_APP_SERVICE_KEY;
 
-const TODAY = moment('2024-10-01');
-
-function parseDate(dateStr) {
-  let startDate = null;
-  let endDate = null;
-
-  if (dateStr.includes('~')) {
-    const [start, end] = dateStr.split('~').map(date => date.trim());
-    startDate = moment(start, ['YYYY. M. D.(ddd)', 'YYYY. M. D.(ddd)', 'YYYY. M. D.', 'YYYY. M. D']);
-    endDate = moment(end, ['YYYY. M. D.(ddd)', 'YYYY. M. D.(ddd)', 'YYYY. M. D.', 'YYYY. M. D']);
-  } else if (dateStr.includes('예정')) {
-    return { startDate: null, endDate: null };
-  } else {
-    startDate = moment(dateStr, ['YYYY. M. D.(ddd)', 'YYYY. M. D.(ddd)', 'YYYY. M. D.', 'YYYY. M. D']);
-    endDate = startDate;
-  }
-
-  return { startDate, endDate };
-}
-
-function isFestivalOngoing(dateRange) {
-  const { startDate, endDate } = parseDate(dateRange);
-
-  if (!startDate && !endDate) {
-    return TODAY.month() === moment().month();
-  }
-
-  return TODAY.isBetween(startDate, endDate, null, '[]');
-}
+const ucSeqByMonth = {
+  1: [],
+  2: [502],
+  3: [497, 499],
+  4: [403, 441, 1432],
+  5: [329, 330, 403, 404, 405, 442, 523, 1432],
+  6: [329, 406, 807, 1062],
+  7: [71, 1897, 1961],
+  8: [1698, 1699, 1807, 1961],
+  9: [1699, 1961],
+  10: [331, 407, 411, 414, 470, 500, 524, 1694],
+  11: [395],
+  12: [440, 449, 503]
+};
 
 function Home() {
   const [ongoingFestivals, setOngoingFestivals] = useState([]);
 
   useEffect(() => {
+    const currentMonth = moment().month() + 1;
+    
     async function fetchFestivals() {
       try {
         const response = await axios.get(`${API_URL}?serviceKey=${API_KEY}&pageNo=1&numOfRows=38&resultType=json`);
-        const festivals = response.data.response.body.items.item;
-        const currentFestivals = festivals.filter(festival => isFestivalOngoing(festival.USAGE_DAY_WEEK_AND_TIME));
-        setOngoingFestivals(currentFestivals);
+        
+        console.log('API response:', response.data);
+        
+        const festivals = response.data?.getFestivalKr?.item;
+        
+        if (!festivals) {
+          console.error('No festival data found in the API response');
+          return;
+        }
+
+        const currentUcSeq = ucSeqByMonth[currentMonth].map(String);
+        const filteredFestivals = festivals.filter(festival => 
+          currentUcSeq.includes(String(festival.UC_SEQ))
+        );
+        
+        setOngoingFestivals(filteredFestivals);
       } catch (error) {
         console.error('Error fetching festival data:', error);
       }
@@ -108,12 +108,13 @@ function Home() {
         </section>
       </main>
 
-      <h1 className="current-festival">현재 진행중인 부산의 축제</h1>
+      <h1 className="current-festival">{moment().month() + 1}월의 부산 축제</h1>
       <div className="carousel-container">
         <Slider {...settings}>
           {ongoingFestivals.map((festival, index) => (
             <div key={index} className="feature-item2">
-              <h2>{festival.FESTIVAL_NM}</h2>
+              {festival.MAIN_IMG_NORMAL && <img src={festival.MAIN_IMG_NORMAL} alt={festival.FESTIVAL_NM} />}
+              <h2>{festival.PLACE}</h2>
               <p>{festival.USAGE_DAY_WEEK_AND_TIME}</p>
             </div>
           ))}
