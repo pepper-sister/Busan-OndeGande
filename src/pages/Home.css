@@ -34,44 +34,37 @@ h1.current-festival {
     margin-bottom: 50px;
   }
   
-  .feature-section {
-   display: flex;
-   justify-content: space-around;
-   gap: 10px;
-   flex-wrap: wrap;
+  .feature-section3 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Adjust this value if needed */
+    justify-content: center;
   }
   
-  .feature-item {
+  .feature-item3 {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     padding: 10px;
-    width: 23%;
+    width: calc(25% - 10px);
     height: auto;
     margin: 10px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
-  .feature-item:hover {
+  .feature-item3:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   }
   
-  .feature-item img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 15px;
-  }
-  
-  .feature-item h2 {
+  .feature-item3 h2 {
     font-size: 24px;
     margin-bottom: 10px;
     color: #333;
   }
   
-  .feature-item p {
+  .feature-item3 p {
     font-size: 16px;
     color: #666;
     margin-bottom: 50px;
@@ -101,7 +94,7 @@ h1.current-festival {
     align-items: center;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0px 1px rgba(0, 0, 0, 0.1);
   }
 
   .feature-item2 img {
@@ -120,6 +113,7 @@ h1.current-festival {
   }
   
   .feature-item2 p {
+    width: 100%;
     font-size: 18px;
     color: #666;
     padding: 5px;
@@ -131,6 +125,12 @@ h1.current-festival {
   }
   
   @media (max-width: 768px) {
+    .hero-section {
+      margin: 20px auto;
+      padding: 40px 10px;
+      height: 200px;
+    }
+
     .hero-section h1 {
       font-size: 30px;
     }
@@ -139,14 +139,18 @@ h1.current-festival {
       font-size: 20px;
     }
 
-    .feature-item {
-      padding: 5px;
-      margin: 0px;
+    .feature-item3 {
+      padding: 7px;
+      margin: 3px;
+      height: 100px;
     }
 
-    .hero-section {
-      margin: 20px auto;
-      padding: 40px 10px;
+    .feature-item3 h2 {
+      font-size: 15px;
+    }
+    
+    .feature-item3 p {
+      font-size: 11px;
     }
 
     h1.current-festival {

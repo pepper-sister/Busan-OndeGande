@@ -81,6 +81,10 @@ function Home() {
     window.open('/sleep', '숙소 추천', 'width=800,height=600');
   };
 
+  const cleanTitle = (title) => {
+    return title.replace(/\(.*?\)/, '').trim();
+  };
+
   return (
     <div>
       <main className="main-content">
@@ -89,19 +93,16 @@ function Home() {
           <p>갈 곳이 넘치는 부산, 간편하게 코스를 짜보세요!</p>
         </section>
 
-        <section className="feature-section">
-          <div className="feature-item" onClick={openRestaurantWindow}>
-            <img src="image1.jpg" alt=""/>
+        <section className="feature-section3">
+          <div className="feature-item3" onClick={openRestaurantWindow}>
             <h2>추천 맛집</h2>
             <p>부산의 추천 맛집을 확인해보세요.</p>
           </div>
-          <div className="feature-item" onClick={openPlaceWindow}>
-            <img src="image2.jpg" alt=""/>
+          <div className="feature-item3" onClick={openPlaceWindow}>
             <h2>인기 관광지</h2>
             <p>부산의 인기있는 관광지를 확인해보세요.</p>
           </div>
-          <div className="feature-item" onClick={openSleepWindow}>
-            <img src="image3.jpg" alt=""/>
+          <div className="feature-item3" onClick={openSleepWindow}>
             <h2>추천 숙소</h2>
             <p>부산의 다양한 숙소를 확인해보세요.</p>
           </div>
@@ -114,7 +115,7 @@ function Home() {
           {ongoingFestivals.map((festival, index) => (
             <div key={index} className="feature-item2">
               {festival.MAIN_IMG_NORMAL && <img src={festival.MAIN_IMG_NORMAL} alt={festival.FESTIVAL_NM} />}
-              <h2>{festival.PLACE}</h2>
+              <h2>{cleanTitle(festival.MAIN_TITLE)}</h2>
               <p>{festival.USAGE_DAY_WEEK_AND_TIME}</p>
             </div>
           ))}
