@@ -233,8 +233,8 @@ function DoingNow() {
           places.map((place) => (
             <div key={place.contentid} className="place">
               <img 
-                src={place.firstimage || 'default-image.jpg'} 
-                alt={place.title}
+                src={place.firstimage} 
+                alt=''
                 className="place-image"
               />
               <div className="place-details">
