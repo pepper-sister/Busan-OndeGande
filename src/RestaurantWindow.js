@@ -5,7 +5,6 @@ function RestaurantWindow() {
   const [theme, setTheme] = useState('A05020100');
   const [restaurants, setRestaurants] = useState([]);
 
-  const KAKAO_REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
   const SERVICE_KEY = process.env.REACT_APP_SERVICE_KEY;
 
   useEffect(() => {
@@ -27,21 +26,7 @@ function RestaurantWindow() {
   };
 
   const handleRestaurantClick = async (placeName) => {
-    const query = `${placeName}`;
-
-    const response = await fetch(`https://dapi.kakao.com/v2/search/web?query=${encodeURIComponent(query)}`, {
-      headers: {
-        Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`,
-      },
-    });
-    const data = await response.json();
-    
-    if (data.documents && data.documents.length > 0) {
-      const firstPlaceUrl = `https://map.kakao.com/link/search/${encodeURIComponent(placeName)}`;
-      window.open(firstPlaceUrl, '_blank');
-    } else {
-      alert('검색 결과가 없습니다.');
-    }
+    window.open(`https://map.kakao.com/link/search/${placeName}`, '_blank');
   };
 
   return (
