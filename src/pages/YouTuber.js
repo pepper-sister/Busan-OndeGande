@@ -39,7 +39,7 @@ function YouTuber() {
         }
       });
       setCourses(sortedCourses);
-    }, [courses, sortOrder]);
+    }, [sortOrder]);
 
   const handleSortChange = () => {
     setSortOrder((prevOrder) => (prevOrder === 'ASC' ? 'DESC' : 'ASC'));
