@@ -150,7 +150,8 @@ function DoingNow() {
   
     if (data.documents && data.documents.length > 0) {
       const firstPlaceUrl = `https://map.kakao.com/link/search/${encodedQuery}`;
-      window.open(firstPlaceUrl, '_blank', 'noopener,noreferrer');
+      const windowreference = window.open(firstPlaceUrl, '_blank');
+      windowreference;
     } else {
       alert('검색 결과가 없습니다.');
     }
