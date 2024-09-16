@@ -10,7 +10,6 @@ function DoingNow() {
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [places, setPlaces] = useState([]);
 
-  //const KAKAO_REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
   const SERVICE_KEY = process.env.REACT_APP_SERVICE_KEY;
 
   const getContentTypeId = (category) => {
@@ -140,7 +139,7 @@ function DoingNow() {
   };
 
   const handlePlaceClick = async (placeName) => {
-    window.open('https://www.naver.com/', '_blank');
+    window.open(`https://map.kakao.com/link/search/${placeName}`, '_blank');
   };
 
   return (
