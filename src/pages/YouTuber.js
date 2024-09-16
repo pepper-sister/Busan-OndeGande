@@ -30,7 +30,7 @@ function YouTuber() {
       });
     }, []);
 
-    useEffect(() => {
+    const handleSortChange = () => {
       const sortedCourses = [...courses].sort((a, b) => {
         if (sortOrder === 'ASC') {
           return a.reviews - b.reviews;
@@ -38,12 +38,9 @@ function YouTuber() {
           return b.reviews - a.reviews;
         }
       });
+      setSortOrder((prevOrder) => (prevOrder === 'ASC' ? 'DESC' : 'ASC'));
       setCourses(sortedCourses);
-    }, [sortOrder]);
-
-  const handleSortChange = () => {
-    setSortOrder((prevOrder) => (prevOrder === 'ASC' ? 'DESC' : 'ASC'));
-  };
+    };
 
   const handleCourseClick = (index) => {
     const selected = courses[index];

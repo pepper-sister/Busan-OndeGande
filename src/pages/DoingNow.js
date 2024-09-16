@@ -52,8 +52,6 @@ function DoingNow() {
     }
   }, [selectedLocation, category, distance, SERVICE_KEY]);
 
-  console.log(places);
-
   useEffect(() => {
     const getCurrentLocation = () => {
       if (navigator.geolocation) {
