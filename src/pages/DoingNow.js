@@ -32,7 +32,15 @@ function DoingNow() {
       try {
         const response = await axios.get(url);
         const items = response.data.response.body.items.item || [];
-        const filteredItems = items.filter(item => item.firstimage);
+        const filteredItems = items
+        .filter(item => item.firstimage)
+        .map(item => {
+          return {
+            ...item,
+            firstimage: item.firstimage.replace(/^http:/, 'https:')
+          };
+        });
+        
         setPlaces(filteredItems);
       } catch (error) {
         console.error('API 호출 중 오류 발생:', error);
