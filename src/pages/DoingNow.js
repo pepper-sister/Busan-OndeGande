@@ -45,6 +45,8 @@ function DoingNow() {
     }
   }, [selectedLocation, category, distance, SERVICE_KEY]);
 
+  console.log(places);
+
   useEffect(() => {
     const getCurrentLocation = () => {
       if (navigator.geolocation) {
@@ -138,23 +140,7 @@ function DoingNow() {
   };
 
   const handlePlaceClick = async (placeName) => {
-    const query = `${placeName}`;
-    const encodedQuery = encodeURIComponent(query);
-  
-    const response = await fetch(`https://dapi.kakao.com/v2/search/web?query=${encodedQuery}`, {
-      headers: {
-        Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`,
-      },
-    });
-    const data = await response.json();
-  
-    if (data.documents && data.documents.length > 0) {
-      const firstPlaceUrl = `https://map.kakao.com/link/search/${encodedQuery}`;
-      const windowreference = window.open(firstPlaceUrl, '_blank');
-      windowreference;
-    } else {
-      alert('검색 결과가 없습니다.');
-    }
+    window.open('https://www.naver.com/', '_blank');
   };
 
   return (
