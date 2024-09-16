@@ -8,6 +8,7 @@ function YouTuber() {
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [isWindowOpen, setIsWindowOpen] = useState(false);
+  const [sortOrder, setSortOrder] = useState('DESC');
 
   useEffect(() => {
     fetch('https://www.ondegande.site/api/travel-courses/youtubers')
@@ -19,15 +20,30 @@ function YouTuber() {
           youtuber: course.creatorName,
           title: course.courseName,
           link: course.youtubeUrl,
-          days: course.day,
+          days: course.days,
+          reviews: course.viewCount,
         }));
         setCourses(fetchedCourses);
       })
       .catch((error) => {
         console.error('Error fetching courses:', error);
       });
-  }, []);
-  
+    }, []);
+
+    useEffect(() => {
+      const sortedCourses = [...courses].sort((a, b) => {
+        if (sortOrder === 'ASC') {
+          return a.reviews - b.reviews;
+        } else {
+          return b.reviews - a.reviews;
+        }
+      });
+      setCourses(sortedCourses);
+    }, [sortOrder, courses]);
+
+  const handleSortChange = () => {
+    setSortOrder((prevOrder) => (prevOrder === 'ASC' ? 'DESC' : 'ASC'));
+  };
 
   const handleCourseClick = (index) => {
     const selected = courses[index];
@@ -69,6 +85,9 @@ function YouTuber() {
       <section className="hero-section">
         <h1>부산 여행 코스 모음</h1>
         <p>유명 유튜버들이 추천하는 부산 여행 코스를 확인해보세요.</p>
+        <button onClick={handleSortChange}>
+          {sortOrder === 'ASC' ? '조회수 내림차순' : '조회수 오름차순'}
+        </button>
       </section>
 
       <section className="feature-section">
@@ -85,6 +104,7 @@ function YouTuber() {
             />
             <h2>{course.youtuber}</h2>
             <h3>{course.title}</h3>
+            <p>{course.reviews} reviews</p>
           </div>
         ))}
       </section>
