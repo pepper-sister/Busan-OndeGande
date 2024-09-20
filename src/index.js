@@ -13,8 +13,8 @@ const loadKakaoSdk = () => {
   script.onload = () => {
     // 카카오톡 SDK 초기화
     if (window.Kakao) {
-      window.Kakao.init('c089c8172def97eb00c07217cae17495'); // 사용하려는 앱의 JavaScript 키 입력
-      //window.Kakao.init('32409dc8712c4b31d8017f4ad5dc076a'); // 사용하려는 앱의 JavaScript 키 입력
+      //window.Kakao.init('c089c8172def97eb00c07217cae17495'); // 사용하려는 앱의 JavaScript 키 입력
+      window.Kakao.init('32409dc8712c4b31d8017f4ad5dc076a'); // 사용하려는 앱의 JavaScript 키 입력
     } else {
       console.error('Kakao SDK가 로드되지 않았습니다.');
     }
