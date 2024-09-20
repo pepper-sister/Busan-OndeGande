@@ -138,7 +138,7 @@
   }
 
   .suggest-item h2 {
-    font-size: 16px;
+    font-size: 4vw;
   }
 
   .festival-section h1 {
@@ -154,4 +154,4 @@
   .festival-item p {
     font-size: 10px;
   }
-}  
+}
