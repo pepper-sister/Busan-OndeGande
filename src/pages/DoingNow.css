@@ -172,6 +172,12 @@
   margin-bottom: 20px;
 }
 
+.places p {
+  text-align: center;
+  font-size: 20px;
+  color: gray;
+}
+
 .place {
   background-color: #fff;
   border: 1px solid #ddd;
@@ -264,6 +270,10 @@
     padding: 5px 10px;
     font-size: 13px;
     margin: 0 5px 0 5px;
+  }
+
+  .places p {
+    font-size: 18px;
   }
 
   .place {

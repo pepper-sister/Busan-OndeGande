@@ -247,7 +247,7 @@ function DoingNow() {
                   </div>
                 ))
               ) : (
-                <p>정보가 없습니다.</p>
+                <p>위치를 입력해주세요.</p>
               )}
             </div>
           </section>
