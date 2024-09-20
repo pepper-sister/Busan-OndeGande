@@ -133,7 +133,7 @@ function DoingNow() {
     const ps = new window.kakao.maps.services.Places();
     ps.keywordSearch(query, (data, status) => {
       if (status === window.kakao.maps.services.Status.OK) {
-        setSearchResults(data.slice(0, 10));
+        setSearchResults(data.slice(0, 5));
       } else {
         setSearchResults([]);
       }

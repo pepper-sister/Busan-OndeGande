@@ -39,7 +39,7 @@
 }
 
 .surroundingsearch-input {
-  width: 45%;
+  width: 50%;
   padding: 12px auto;
   font-size: 16px;
   border-radius: 8px;
@@ -227,23 +227,25 @@
 }
 
 @media (max-width: 768px) {
+  .surrounding {
+    flex-direction: column;
+    margin-top: 2px;
+  }
+
   .locationsetting-section {
-    width: 38%;
-    min-height: 500px;
-    margin: 50px 0 40px auto;
+    width: 80%;
+    min-height: 100px;
+    margin: 50px auto 0;
   }
 
   .surroundingsearch-input {
-    width: 52%;
-    padding: 12px auto;
+    width: 70%;
     font-size: 12px;
-    margin: 0px 8px 0px 5px;
   }
   
   .surroundingsearch-button {
     padding: 10px 10px;
     font-size: 12px;
-    margin-right: 5px;
   }
 
   .results-list li {
@@ -253,9 +255,9 @@
   }
 
   .surrounding-section {
-    width: 57%;
-    min-height: 500px;
-    margin: 50px auto 40px 0;
+    width: 80%;
+    min-height: 400px;
+    margin: 0px auto 40px;
   }
 
   .category-button {
@@ -265,10 +267,10 @@
   }
 
   .place {
-    width: 150px;
+    width: 120px;
     min-width: 100px;
-    padding: 8px;
-    margin: 0px 0px 0px 0px;
+    padding: 6px;
+    margin: 0;
   }
 
   .place img {
