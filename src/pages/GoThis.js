@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './GoThis.css';
-import busanmap from '../busanmap.png';
 
 function GoThis() {
   const regions = [
@@ -82,12 +81,13 @@ function GoThis() {
   };
 
   const fetchResults = async () => {
-    if (selectedThemes.length === 0) {
-      alert('테마를 선택하세요.');
-      return;
-    }
     if (selectedRegions.length === 0) {
       alert('지역을 선택하세요.');
+      return;
+    }
+
+    if (selectedThemes.length === 0) {
+      alert('테마를 선택하세요.');
       return;
     }
 
@@ -142,7 +142,7 @@ function GoThis() {
       const randomIndex = Math.floor(Math.random() * results.length);
       setRandomCourse(results[randomIndex]);
     } else {
-      alert('먼저 코스를 확인해 주세요.');
+      alert('먼저 코스를 확인해주세요.');
     }
   };
 
@@ -154,50 +154,59 @@ function GoThis() {
     setPopupImage(null);
   };
 
+  const cleanTitle = (title) => {
+    return title.replace(/\(.*?\)/, '').trim();
+  };
+
   return (
-    <div className="culture-container">
-      <h1>이렇게 가보소(코스 추천)</h1>
-      
-      <div className="selection-container">
-        <div className="selection-section">
-          <img src={busanmap} alt="" className="section-image"/>
-          <h2>지역 선택</h2>
-          <div className="button-group2">
-            {regions.map(region => (
-              <button
-                key={region}
-                className={`selection-button ${selectedRegions.includes(region) ? 'selected' : ''}`}
-                onClick={() => handleRegionToggle(region)}
-              >
-                {region}
-              </button>
-            ))}
-          </div>
-        </div>
-        
-        <div className="selection-section">
-          <img src={busanmap} alt="" className="section-image"/>
-          <h2>테마 선택</h2>
-          <div className="button-group2">
-            {themes.map(theme => (
-              <button
-                key={theme}
-                className={`selection-button ${selectedThemes.includes(theme) ? 'selected' : ''}`}
-                onClick={() => handleThemeToggle(theme)}
-              >
-                {theme}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-      
-      <button className="submit-button" onClick={handleSubmit}>코스 확인하기</button>
-      <button className="submit-button" onClick={handleRandomCourse}>랜덤코스 추출</button>
-      
-      <div className="results-container">
+    <div>
+      <main>
+        <section className="GTup-section">
+          <section className="busanmap-section">
+          </section>
+
+          <section className="maptheme-section">
+            <section className="mapselect-section">
+              <h2>지역</h2>
+              <div className="GTbutton-group">
+                {regions.map(region => (
+                  <button
+                    key={region}
+                    className={`selection-button ${selectedRegions.includes(region) ? 'selected' : ''}`}
+                    onClick={() => handleRegionToggle(region)}
+                  >
+                    {region}
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            <section className="themeselect-section">
+              <h2>테마</h2>
+              <div className="GTbutton-group">
+                {themes.map(theme => (
+                  <button
+                    key={theme}
+                    className={`selection-button ${selectedThemes.includes(theme) ? 'selected' : ''}`}
+                    onClick={() => handleThemeToggle(theme)}
+                  >
+                    {theme}
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            <div className="submit-button-container">
+              <button className="submit-button" onClick={handleSubmit}>코스 보기</button>
+              <button className="submit-button" onClick={handleRandomCourse}>랜덤 코스</button>
+            </div>
+          </section>
+        </section>
+
+        <section className="mapthemecourse-section">
+        <div className="results-container">
         {error && <p className="error-message">{error}</p>}
-        {results.length === 0 && !error && <p className="no-results-message">결과가 없습니다.</p>}
+        {results.length === 0 && !error && <p className="no-results-message">원하는 지역 및 테마를 선택하세요.</p>}
         {(results.length > 0 || randomCourse) && (
           (randomCourse ? [randomCourse] : results).map((result, index) => (
             <div key={index} className="result-item">
@@ -212,15 +221,17 @@ function GoThis() {
                   )}
                 </div>
                 <div className="result-details">
-                  <h3 className="result-title">{result.mainTitle}</h3>
+                  <h3 className="result-title">{cleanTitle(result.mainTitle)}</h3>
                   {result.subTitle !== '정보 없음' && (
-                    <p className="result-hldy-info">{result.subTitle}</p>
+                    <>
+                      <p className="result-hldy-info">{result.subTitle}</p>
+                    </>
                   )}
                   <button 
-                    className="image-button" 
+                    className="course-button" 
                     onClick={() => handleImagePopup(result.mainImgNormal, result.itemCntnts)}
                   >
-                    더보기
+                    자세히
                   </button>
                 </div>
               </div>
@@ -245,6 +256,8 @@ function GoThis() {
           </div>
         </div>
       )}
+        </section>
+      </main>
     </div>
   );
 }
