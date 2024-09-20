@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef  } from 'react';
 import ReactPlayer from 'react-player';
 import YouTuMap from './YouTuMap';
 import YouTuWindow from './YouTuWindow';
@@ -9,6 +9,9 @@ function YouTuber() {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [isWindowOpen, setIsWindowOpen] = useState(false);
   const [sortOrder, setSortOrder] = useState('DESC');
+  //추가
+  //const [randomCourse, setRandomCourse] = useState(null);
+  const randomButtonRef = useRef(null);
 
   useEffect(() => {
     fetch('https://www.ondegande.site/api/travel-courses/youtubers')
@@ -42,6 +45,8 @@ function YouTuber() {
       setCourses(sortedCourses);
     };
 
+
+
   const handleCourseClick = (index) => {
     const selected = courses[index];
     fetch(`https://www.ondegande.site/api/travel-courses/${selected.id}`)
@@ -72,10 +77,57 @@ function YouTuber() {
       });
   };
 
+  //랜덤 기능 추가
+  // 랜덤 추천 버튼 클릭 시 호출되는 함수입니다.
+  const handleRandomRecommend = () => {
+    fetch('https://www.ondegande.site/api/travel-courses/youtubers/random')
+      .then((response) => response.json())
+      .then((data) => {
+        const course = data.body.data;
+        const updatedCourse = {
+          id: course.id,
+          youtuber: course.creatorName,
+          title: course.courseName,
+          link: course.youtubeUrl,
+          days: course.travelCourseDetailResponse.reduce((acc, detail) => {
+            const dayIndex = detail.day - 1;
+            if (!acc[dayIndex]) {
+              acc[dayIndex] = { day: `Day ${detail.day}`, places: [] };
+            }
+            acc[dayIndex].places.push({
+              name: detail.placeResponse.placeName,
+              latitude: detail.placeResponse.latitude,
+              longitude: detail.placeResponse.longitude,
+            });
+            return acc;
+          }, []),
+        };
+        setSelectedCourse(updatedCourse);
+        setIsWindowOpen(true);
+      })
+      .catch((error) => {
+        console.error('Error fetching random course:', error);
+      });
+  };
+  //여기까지
+
   const closeWindow = () => {
     setIsWindowOpen(false);
     setSelectedCourse(null);
+    //setRandomCourse(null); //초기화에 랜덤 코스 추가
+
   };
+
+  // Handle click outside to close the window
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (randomButtonRef.current && !randomButtonRef.current.contains(event.target)) {
+        closeWindow();
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);//ㅇㄱ;낒;
 
   return (
     <div>
@@ -85,6 +137,12 @@ function YouTuber() {
         <button onClick={handleSortChange}>
           {sortOrder === 'ASC' ? '조회수 내림차순' : '조회수 오름차순'}
         </button>
+        
+        <button onClick={handleRandomRecommend}>
+          랜덤 추천
+        </button>
+
+
       </section>
 
       <section className="feature-section">
