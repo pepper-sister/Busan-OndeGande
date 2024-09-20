@@ -11,11 +11,11 @@
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box; /* Ensure padding and borders are included in the width */
+  box-sizing: border-box;
   position: absolute;
-  top: 30px; /* Align with the top of the container */
-  bottom: 30px; /* Extend to the bottom of the container */
-  transition: transform 0.3s ease; /* Smooth transition when toggling */
+  top: 30px;
+  bottom: 30px;
+  transition: transform 0.3s ease;
   width: 25vw;
   z-index: 2;
 }
@@ -25,16 +25,17 @@
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box; /* Ensure padding and borders are included in the width */
+  box-sizing: border-box;
   position: absolute;
-  top: 30px; /* Align with the top of the container */
-  bottom: 30px; /* Extend to the bottom of the container */
+  top: 30px;
+  bottom: 30px;
   right: 30px;
-  transition: transform 0.3s ease; /* Smooth transition when toggling */
+  transition: transform 0.3s ease;
   width: 25vw;
   z-index: 2;
 }
 
+/* 사이드 바 숨기기 기능 추가*/
 .sidebar-left.hidden {
   transform: translateX(-100%); /* Hide off-screen to the left */
   width: 0; /* Collapse width */
@@ -65,24 +66,25 @@
 .toggle-sidebar-button-right {
   left: -20px; /* Position it outside the sidebar */
 }
+/*여기까지 사이드바 숨기기 기능*/
 
 .map-container {
   flex-grow: 1;
-  width: 100%; /* Adjust width based on sidebar sizes */
+  width: 100%;
   height: auto;
   border-radius: 8px;
   position: relative;
-  z-index: 1; /* Ensure map container is behind sidebar */
-  transition: width 0.3s ease, height 0.3s ease; /* Smooth transition when sidebar collapses */
+  z-index: 1;
+  transition: width 0.3s ease, height 0.3s ease;
 }
 
 .map-container.expanded {
-  width: 100%; /* Full width when both sidebars are collapsed */
-  height: auto; /* Ensure height remains 900px */
+  width: 100%;
+  height: auto;
 }
 
 .search-input {
-  width: calc(100% - 90px); /* Adjust width to fit inside sidebar */
+  width: calc(100% - 90px);
   height: auto;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -97,12 +99,7 @@
   margin: 5px;
 }
 
-.search-button {
-  background-color: #28a745;
-  color: white;
-}
-
-.add-button {
+.search-button, .add-button {
   background-color: #28a745;
   color: white;
 }
@@ -110,12 +107,6 @@
 .delete-button {
   background-color: #dc3545;
   color: white;
-}
-
-.move-up-button, .move-down-button {
-  background-color: #ffc107;
-  color: white;
-  margin: 0 5px;
 }
 
 .add-button:hover {
@@ -126,10 +117,6 @@
   background-color: #c82333;
 }
 
-.move-up-button:hover, .move-down-button:hover {
-  background-color: #e0a800;
-}
-
 ul {
   list-style-type: none;
   padding: 0;
@@ -138,6 +125,7 @@ ul {
 li {
   margin-bottom: 10px;
 }
+
 
 .course-header {
   display: flex;
@@ -164,26 +152,7 @@ li {
 .course-coordinates a:hover {
   text-decoration: underline;
 }
-/*
-.share-links {
-  margin-top: 20px;
-  text-align: center;
-}
 
-.share-link-button {
-  display: inline-block;
-  padding: 10px;
-  margin: 5px;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  border-radius: 4px;
-}
-
-.share-link-button:hover {
-  background-color: #0056b3;
-}*/
-/* 공유 링크 버튼 스타일 */
 .share-links {
   margin: 10px;
 }
@@ -205,30 +174,53 @@ li {
   background: #0056b3;
 }
 
-/* 추가된 스타일 */
+/* 추가된 드래그 앤 드롭 스타일 */
 
-.day-selector {
+.day-container {
   margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-}
-
-.day-selector button {
-  background-color: #007bff;
-  color: white;
-  border: none;
+  background-color: #f9f9f9;
   padding: 10px;
-  cursor: pointer;
-  border-radius: 4px;
-  margin-right: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.day-selector button:hover {
-  background-color: #0056b3;
-}
-
-.day-selector select {
+.course-item {
   padding: 10px;
-  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  background-color: white;
+  border: 1px solid #ddd;
   border-radius: 4px;
+  cursor: grab;
+  transition: background-color 0.2s ease;
+}
+
+.course-item:hover {
+  background-color: #ececec;
+}
+
+.course-item:active {
+  background-color: #f1f1f1;
+  cursor: grabbing;
+}
+
+.course-item.dragging {
+  background-color: #d1e7ff; /* 드래그 중인 아이템 강조 색상 */
+}
+
+.course-item.dragging-over {
+  border: 2px dashed #007bff; /* 드롭 가능한 위치에 있을 때 강조 */
+}
+
+/* Day 타이틀 스타일 */
+.day-container h2 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Day 간 드래그 시 구분 강조 */
+.day-container.dragging-over {
+  background-color: #e6f7ff; /* Day로 드래그될 때 배경색 강조 */
+  border: 2px dashed #007bff;
 }
