@@ -14,22 +14,49 @@ function YouTuMap({ places, mapId }) {
 
     const bounds = new kakao.maps.LatLngBounds();
     const linePath = [];
+    const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
 
-    const infowindow = new kakao.maps.InfoWindow({
-      zIndex: 1,
-    });
+    let activeMarker = null;
 
     places.forEach((place, index) => {
       const markerPosition = new kakao.maps.LatLng(place.latitude, place.longitude);
+
+      const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png';
+      const imageSize = new kakao.maps.Size(36, 37);
+      const imgOptions = {
+        spriteSize: new kakao.maps.Size(36, 691),
+        spriteOrigin: new kakao.maps.Point(0, (index * 46) + 10),
+        offset: new kakao.maps.Point(13, 37),
+      };
+
+      const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions);
       const marker = new kakao.maps.Marker({
         position: markerPosition,
-        map: map,
-        title: `${index + 1}. ${place.name}`,
+        image: markerImage,
+      });
+
+      marker.setMap(map);
+
+      kakao.maps.event.addListener(marker, 'mouseover', () => {
+        if (activeMarker !== marker) {
+          infowindow.setContent(`<div style="padding:5px;">${place.name}</div>`);
+          infowindow.open(map, marker);
+        }
+      });
+
+      kakao.maps.event.addListener(marker, 'mouseout', () => {
+        if (activeMarker !== marker) {
+          infowindow.close();
+        }
       });
 
       kakao.maps.event.addListener(marker, 'click', () => {
+        if (activeMarker && activeMarker !== marker) {
+          infowindow.close();
+        }
         infowindow.setContent(`<div style="padding:5px;">${place.name}</div>`);
         infowindow.open(map, marker);
+        activeMarker = marker;
       });
 
       linePath.push(markerPosition);
@@ -45,8 +72,14 @@ function YouTuMap({ places, mapId }) {
     });
 
     polyline.setMap(map);
-
     map.setBounds(bounds);
+
+    kakao.maps.event.addListener(map, 'click', () => {
+      if (activeMarker) {
+        infowindow.open(map, activeMarker);
+      }
+    });
+
   }, [places, mapId]);
 
   return <div id={mapId} style={{ width: '100%', height: '30vh' }}></div>;
