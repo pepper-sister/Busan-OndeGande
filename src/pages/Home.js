@@ -86,7 +86,6 @@ function Home() {
   };
 
   return (
-    
     <div>
       <main>
         <section className="mainimg-section">

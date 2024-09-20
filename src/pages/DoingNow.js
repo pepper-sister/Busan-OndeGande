@@ -23,7 +23,38 @@ function DoingNow() {
       default:
         return '12';
     }
+  }
+
+  const getCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setSelectedLocation({ lat: latitude, lng: longitude });
+        
+          if (window.kakao && window.kakao.maps) {
+            const geocoder = new window.kakao.maps.services.Geocoder();
+            geocoder.coord2Address(longitude, latitude, (result, status) => {
+              if (status === window.kakao.maps.services.Status.OK) {
+                const address = result[0].address.address_name;
+                setLocation(address);
+              }
+            });
+          }
+        },
+        
+        (error) => {
+          console.error('위치 정보를 가져오는 중 오류 발생:', error);
+        }
+      );
+    } else {
+      console.error('현재 위치 정보를 지원하지 않는 브라우저입니다.');
+    }
   };
+  
+  useEffect(() => {
+    getCurrentLocation();
+  }, []);
 
   useEffect(() => {
     const fetchPlaces = async (lat, lng) => {
@@ -51,37 +82,6 @@ function DoingNow() {
       fetchPlaces(selectedLocation.lat, selectedLocation.lng);
     }
   }, [selectedLocation, category, distance, SERVICE_KEY]);
-
-  useEffect(() => {
-    const getCurrentLocation = () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            setSelectedLocation({ lat: latitude, lng: longitude });
-          
-            if (window.kakao && window.kakao.maps) {
-              const geocoder = new window.kakao.maps.services.Geocoder();
-              geocoder.coord2Address(longitude, latitude, (result, status) => {
-                if (status === window.kakao.maps.services.Status.OK) {
-                  const address = result[0].address.address_name;
-                  setLocation(address);
-                }
-              });
-            }
-          },
-          
-          (error) => {
-            console.error('위치 정보를 가져오는 중 오류 발생:', error);
-          }
-        );
-      } else {
-        console.error('현재 위치 정보를 지원하지 않는 브라우저입니다.');
-      }
-    };
-
-    getCurrentLocation();
-  }, []);
 
   const handleLocationChange = (event) => {
     setLocation(event.target.value);
@@ -133,15 +133,16 @@ function DoingNow() {
     const ps = new window.kakao.maps.services.Places();
     ps.keywordSearch(query, (data, status) => {
       if (status === window.kakao.maps.services.Status.OK) {
-        setSearchResults(data.slice(0, 5));
+        setSearchResults(data.slice(0, 10));
       } else {
         setSearchResults([]);
       }
     });
   };
 
-  const handleSelectLocation = (lat, lng) => {
+  const handleSelectLocation = (lat, lng, address) => {
     setSelectedLocation({ lat, lng });
+    setLocation(address);
   };
 
   const handlePlaceClick = async (placeName) => {
@@ -149,102 +150,109 @@ function DoingNow() {
   };
 
   return (
-    <div className="destinations-container">
-      <h1>이제 뭐하노?</h1>
-      
-      <div className="search-container">
-        <input 
-          type="text" 
-          placeholder="위치를 입력하세요" 
-          value={location}
-          onChange={handleLocationChange}
-          onKeyPress={(e) => {
-            if (e.key === 'Enter') {
-              handleSearch();
-            }
-          }}
-          className="search-input"
-        />
-        <button onClick={handleSearch} className="search-button">검색</button>
-      </div>
-
-      <div className="search-results">
-        {searchResults.length > 0 ? (
-          <ul className="results-list">
-            {searchResults.map((result, index) => (
-              <li 
-                key={index}
-                onClick={() => handleSelectLocation(result.y, result.x)}
-              >
-                {result.place_name || result.address_name} ({result.address_name || '주소 없음'})
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p></p>
-        )}
-      </div>
-
-      <div className="range-slider-container">
-        <label htmlFor="distance">반경: {distance}m</label>
-        <input 
-          id="distance" 
-          type="range" 
-          min="500" 
-          max="2500" 
-          step="100" 
-          value={distance} 
-          onChange={handleDistanceChange}
-          className="range-slider"
-        />
-      </div>
-
-      <div className="category-buttons">
-        <button 
-          className={`category-button ${category === 'sightseeing' ? 'active' : ''}`} 
-          onClick={() => handleCategoryClick('sightseeing')}
-        >
-          관광지
-        </button>
-        <button 
-          className={`category-button ${category === 'food' ? 'active' : ''}`} 
-          onClick={() => handleCategoryClick('food')}
-        >
-          맛집
-        </button>
-        <button 
-          className={`category-button ${category === 'accommodation' ? 'active' : ''}`} 
-          onClick={() => handleCategoryClick('accommodation')}
-        >
-          숙소
-        </button>
-      </div>
-
-      <div className="places">
-        {places.length > 0 ? (
-          places.map((place) => (
-            <div key={place.contentid} className="place">
-              <img 
-                src={place.firstimage} 
-                alt=''
-                className="place-image"
+    <div>
+      <main>
+        <section className="surrounding">
+          <section className="locationsetting-section">
+            <button onClick={getCurrentLocation} className="location-button">내 위치</button>
+            <div className="surroundingsearch-container">
+              <input 
+                type="text" 
+                placeholder="위치를 입력하세요" 
+                value={location}
+                onChange={handleLocationChange}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSearch();
+                  }
+                }}
+                className="surroundingsearch-input"
               />
-              <div className="place-details">
-                <div className="place-name">{place.title}</div>
-                <p className="place-address">{place.addr1}</p>
-                <button
-                  className="info-button2"
-                  onClick={() => handlePlaceClick(place.title)}
-                >
-                  알아보기
-                </button>
-              </div>
+              <button onClick={handleSearch} className="surroundingsearch-button">검색</button>
             </div>
-          ))
-        ) : (
-          <p>정보가 없습니다.</p>
-        )}
-      </div>
+  
+            <div className="surroundingsearch-results">
+              {searchResults.length > 0 ? (
+                <ul className="results-list">
+                  {searchResults.map((result, index) => (
+                    <li 
+                    key={index}
+                    onClick={() => handleSelectLocation(result.y, result.x, result.place_name)}
+                  >
+                    {result.place_name || result.address_name} ({result.address_name || '주소 없음'})
+                  </li>                  
+                  ))}
+                </ul>
+              ) : (
+                <p></p>
+              )}
+            </div>
+          </section>
+
+          <section className="surrounding-section">
+            <div className="range-slider-container">
+              <label htmlFor="distance">{distance}m</label>
+              <input 
+                id="distance" 
+                type="range" 
+                min="500" 
+                max="2500" 
+                step="100" 
+                value={distance} 
+                onChange={handleDistanceChange}
+                className="range-slider"
+              />
+            </div>
+
+            <div className="category-buttons">
+              <button 
+                className={`category-button ${category === 'sightseeing' ? 'active' : ''}`} 
+                onClick={() => handleCategoryClick('sightseeing')}
+              >
+                관광지
+              </button>
+              <button 
+                className={`category-button ${category === 'food' ? 'active' : ''}`} 
+                onClick={() => handleCategoryClick('food')}
+              >
+                맛집
+              </button>
+              <button 
+                className={`category-button ${category === 'accommodation' ? 'active' : ''}`} 
+                onClick={() => handleCategoryClick('accommodation')}
+              >
+                숙소
+              </button>
+            </div>
+
+            <div className="places">
+              {places.length > 0 ? (
+                places.map((place) => (
+                  <div key={place.contentid} className="place">
+                    <img 
+                      src={place.firstimage} 
+                      alt=''
+                      className="place-image"
+                    />
+                    <div className="place-details">
+                      <div className="place-name">{place.title}</div>
+                      <p className="place-address">{place.addr1}</p>
+                      <button
+                        className="info-button2"
+                        onClick={() => handlePlaceClick(place.title)}
+                      >
+                        더보기
+                      </button>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p>정보가 없습니다.</p>
+              )}
+            </div>
+          </section>
+        </section>
+      </main>
     </div>
   );
 }
