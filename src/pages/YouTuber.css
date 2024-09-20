@@ -1,13 +1,52 @@
-.hero-section {
-  text-align: center;
-  padding: 20px;
+.YouTu-section {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  min-height: 700px;
+  margin: 70px auto 40px;
 }
 
-.feature-section {
+.YouTuCourse-section {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: white;
+  width: 65%;
+}
+
+.button-container2 {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-right: 10px;
+  justify-content: flex-end;
+}
+
+.button-container2 button{
+  background-color: #4373D0;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+.button-container2 button:hover {
+  background-color: #375eac;
+}
+
+.YTC-section {
+  background-color: white;
+  flex: 1;
+}
+
+.feature-card-container {
+  display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
-  gap: 20px;
   justify-content: center;
+  margin-top: 20px;
 }
 
 .feature-card {
@@ -15,11 +54,10 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  width: 350px;
+  width: 30%;
   height: auto;
   margin: 10px auto;
-  margin-left: 10px;
-  margin-right: 10px;
+  padding-bottom: 25px;
   cursor: pointer;
   transition: transform 0.2s;
   position: relative;
@@ -32,15 +70,24 @@
 .feature-card h2 {
   margin-top: 15px;
   margin-left: 10px;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: bold;
 }
 
 .feature-card h3 {
-  margin-top: 20px;
   margin-left: 10px;
   margin-right: 10px;
-  font-size: 16px;
+  font-size: 12px;
+  font-weight: normal;
+  color: rgb(0, 0, 0);
+}
+
+.feature-card p {
+  position: absolute;
+  bottom: 0;
+  right: 15px;
+  text-align: right;
+  font-size: 12px;
   font-weight: normal;
   color: gray;
 }
@@ -51,29 +98,24 @@
   display: block;
 }
 
-.player-wrapper {
-  position: relative;
-  padding-top: 56.25%;
+.CourseCheck-section {
+  padding: 10px;
+  width: 35%;
+  background-color: #f7f7f7;
 }
 
-.player-wrapper .react-player {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.course-details {
-  padding: 15px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  position: relative;
+.CourseCheck-section p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  color: #888;
 }
 
 .day-section {
   border: 1px solid #ddd;
   border-radius: 8px;
-  margin-bottom: 15px;
+  margin: 10px auto;
   padding: 10px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -86,7 +128,8 @@
 }
 
 .day-section h4 {
-  margin: 0;
+  margin-top: 5px;
+  margin-bottom: 15px;
   font-size: 1.4em;
   color: #333;
 }
@@ -103,10 +146,54 @@
   color: #555;
 }
 
-.day-section li::before {
-  content: "•";
-  color: #007bff;
-  display: inline-block;
-  width: 1em;
-  margin-left: -1em;
+@media (max-width: 768px) {
+  .YouTu-section {
+    width: 95%;
+    margin: 40px auto;
+  }
+
+  .YouTuCourse-section {
+    width: 45%;
+  }
+  
+  .button-container2 {
+    gap: 5px;
+    margin-right: 5px;
+  }
+  
+  .button-container2 button{
+    padding: 2px 7px;
+    font-size: 12px;
+  }
+
+  .feature-card {
+    width: 100%;
+    margin: 5px auto;
+    padding-bottom: 20px;
+  }
+  
+  .feature-card h2 {
+    margin-top: 15px;
+    margin-left: 10px;
+    font-size: 15px;
+  }
+  
+  .feature-card h3 {
+    margin-left: 8px;
+    margin-right: 8px;
+    font-size: 11px;
+  }
+
+  .CourseCheck-section {
+    padding: 5px;
+    width: 55%;
+  }
+
+  .day-section h4 {
+    font-size: 1.2em;
+  }
+  
+  .day-section li {
+    font-size: 0.9em;
+  }
 }

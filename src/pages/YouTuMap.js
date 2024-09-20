@@ -1,93 +1,55 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 
-const YouTuMap = ({ places, height = '400px' }) => {
-  const mapContainer = useRef(null);
-  const mapInstance = useRef(null);
+const { kakao } = window;
 
+function YouTuMap({ places, mapId }) {
   useEffect(() => {
-    if (!window.kakao || !mapContainer.current) return;
+    const mapContainer = document.getElementById(mapId);
+    const mapOption = {
+      center: new kakao.maps.LatLng(places[0].latitude, places[0].longitude),
+      level: 5,
+    };
 
-    const { kakao } = window;
-
-    if (mapInstance.current) {
-      mapInstance.current.setMap(null);
-    }
-
-    const map = new kakao.maps.Map(mapContainer.current, {
-      center: new kakao.maps.LatLng(places[0]?.latitude || 37.5665, places[0]?.longitude || 126.978),
-      level: 7,
-    });
-
-    mapInstance.current = map;
-
-    const markers = [];
-    const path = [];
-
-    places.forEach((place, index) => {
-      const markerImage = createMarkerImage(index + 1);
-      const marker = new kakao.maps.Marker({
-        position: new kakao.maps.LatLng(place.latitude, place.longitude),
-        image: markerImage,
-      });
-
-      marker.setMap(map);
-      markers.push(marker);
-      path.push(new kakao.maps.LatLng(place.latitude, place.longitude));
-    });
-
-    if (path.length > 1) {
-      const polyline = new kakao.maps.Polyline({
-        path: path,
-        strokeWeight: 4,
-        strokeColor: '#FF6F61',
-        strokeOpacity: 0.7,
-        strokeStyle: 'solid',
-      });
-      polyline.setMap(map);
-    }
+    const map = new kakao.maps.Map(mapContainer, mapOption);
 
     const bounds = new kakao.maps.LatLngBounds();
-    places.forEach(place => {
-      bounds.extend(new kakao.maps.LatLng(place.latitude, place.longitude));
+    const linePath = [];
+
+    const infowindow = new kakao.maps.InfoWindow({
+      zIndex: 1,
     });
+
+    places.forEach((place, index) => {
+      const markerPosition = new kakao.maps.LatLng(place.latitude, place.longitude);
+      const marker = new kakao.maps.Marker({
+        position: markerPosition,
+        map: map,
+        title: `${index + 1}. ${place.name}`,
+      });
+
+      kakao.maps.event.addListener(marker, 'click', () => {
+        infowindow.setContent(`<div style="padding:5px;">${place.name}</div>`);
+        infowindow.open(map, marker);
+      });
+
+      linePath.push(markerPosition);
+      bounds.extend(markerPosition);
+    });
+
+    const polyline = new kakao.maps.Polyline({
+      path: linePath,
+      strokeWeight: 5,
+      strokeColor: '#4373D0',
+      strokeOpacity: 0.8,
+      strokeStyle: 'solid',
+    });
+
+    polyline.setMap(map);
+
     map.setBounds(bounds);
+  }, [places, mapId]);
 
-    return () => {
-      markers.forEach(marker => marker.setMap(null));
-      mapInstance.current = null;
-    };
-  }, [places]);
-
-  const createMarkerImage = (number) => {
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-    const size = 50;
-    const radius = size / 2.8;
-    canvas.width = size;
-    canvas.height = size;
-
-    context.beginPath();
-    context.arc(radius, radius, radius - 5, 0, 2 * Math.PI);
-    context.fillStyle = '#FF6F61';
-    context.fill();
-    context.strokeStyle = '#FFFFFF';
-    context.lineWidth = 3;
-    context.stroke();
-    context.closePath();
-
-    context.font = 'bold 16px Arial';
-    context.fillStyle = '#FFFFFF';
-    context.textAlign = 'center';
-    context.textBaseline = 'middle';
-    context.fillText(number, radius, radius);
-
-    const image = new window.kakao.maps.MarkerImage(canvas.toDataURL(), new window.kakao.maps.Size(size, size));
-    return image;
-  };
-
-  return (
-    <div ref={mapContainer} style={{ width: '100%', height }}></div>
-  );
-};
+  return <div id={mapId} style={{ width: '100%', height: '30vh' }}></div>;
+}
 
 export default YouTuMap;
