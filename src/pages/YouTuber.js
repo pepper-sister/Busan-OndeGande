@@ -116,60 +116,64 @@ function YouTuber() {
   }, []);
 
   return (
-    <section className="YouTu-section">
-      <section className="YouTuCourse-section">
-        <div className="button-container2">
-          <button onClick={handleSortChange}>
-            {sortOrder === 'ASC' ? '조회수 ▲' : '조회수 ▼'}
-          </button>
-          <button onClick={handleRandomRecommend}>랜덤 코스</button>
-        </div>
+    <div>
+      <main>
+        <section className="YouTu-section">
+          <section className="YouTuCourse-section">
+            <div className="button-container2">
+              <button onClick={handleSortChange}>
+                {sortOrder === 'ASC' ? '조회수 ▲' : '조회수 ▼'}
+              </button>
+              <button onClick={handleRandomRecommend}>랜덤 코스</button>
+            </div>
 
-        <section className="YTC-section">
-          <div className="feature-card-container">
-            {courses.map((course, index) => (
-              <div
-                key={index}
-                className="feature-card"
-                onClick={() => handleCourseClick(index)}
-              >
-                <img
-                  src={`https://img.youtube.com/vi/${course.link.split('v=')[1]}/0.jpg`}
-                  alt={`${course.title} thumbnail`}
-                  className="video-thumbnail"
-                />
-                <h2>{course.youtuber}</h2>
-                <h3>{course.title}</h3>
-                <p>{course.reviews} reviews</p>
+            <section className="YTC-section">
+              <div className="feature-card-container">
+                {courses.map((course, index) => (
+                  <div
+                    key={index}
+                    className="feature-card"
+                    onClick={() => handleCourseClick(index)}
+                  >
+                    <img
+                      src={`https://img.youtube.com/vi/${course.link.split('v=')[1]}/0.jpg`}
+                      alt={`${course.title} thumbnail`}
+                      className="video-thumbnail"
+                    />
+                    <h2>{course.youtuber}</h2>
+                    <h3>{course.title}</h3>
+                    <p>{course.reviews} reviews</p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </section>
+          </section>
+
+          <section className="CourseCheck-section">
+            {selectedCourse ? (
+              <>
+                <ReactPlayer url={selectedCourse.link} width="100%" controls playing />
+                {selectedCourse.days.map((day, dayIndex) => (
+                  <div key={dayIndex} className="day-section">
+                    <h4>{day.day}</h4>
+                    <ul>
+                      {day.places.map((place, placeIndex) => (
+                        <li key={placeIndex}>
+                          {placeIndex + 1}. {place.name}
+                        </li>
+                      ))}
+                    </ul>
+                    <YouTuMap places={day.places} mapId={`map-${dayIndex}`} />
+                  </div>
+                ))}
+              </>
+            ) : (
+              <p>코스를 확인해보세요.</p>
+            )}
+          </section>
         </section>
-      </section>
-
-      <section className="CourseCheck-section">
-        {selectedCourse ? (
-          <>
-            <ReactPlayer url={selectedCourse.link} width="100%" controls playing />
-            {selectedCourse.days.map((day, dayIndex) => (
-              <div key={dayIndex} className="day-section">
-                <h4>{day.day}</h4>
-                <ul>
-                  {day.places.map((place, placeIndex) => (
-                    <li key={placeIndex}>
-                      {placeIndex + 1}. {place.name}
-                    </li>
-                  ))}
-                </ul>
-                <YouTuMap places={day.places} mapId={`map-${dayIndex}`} />
-              </div>
-            ))}
-          </>
-        ) : (
-          <p>코스를 확인해보세요.</p>
-        )}
-      </section>
-    </section>
+      </main>
+    </div>
   );
 }
 
