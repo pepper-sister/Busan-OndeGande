@@ -22,11 +22,19 @@ function Navbar() {
       </div>
       {!isRestaurantPage && !isPlacePage && !isSleepPage && (
       <ul className="navbar-menu">
-        <li><Link to="/makingcourse">코스 짜보이소</Link></li>
-        <li><Link to="/doingnow">인자 머하노?</Link></li>
-        <li><Link to="/gothis">이래 가보이소</Link></li>
-        <li><Link to="/youtuber">유튜바 코스</Link></li>
-      </ul>
+        <li className={location.pathname === '/makingcourse' ? 'active' : ''}>
+          <Link to="/makingcourse">코스 짜보이소</Link>
+        </li>
+        <li className={location.pathname === '/doingnow' ? 'active' : ''}>
+          <Link to="/doingnow">인자 머하노?</Link>
+        </li>
+        <li className={location.pathname === '/gothis' ? 'active' : ''}>
+          <Link to="/gothis">이래 가보이소</Link>
+        </li>
+        <li className={location.pathname === '/youtuber' ? 'active' : ''}>
+          <Link to="/youtuber">유튜바 코스</Link>
+        </li>
+      </ul>    
       )}
     </nav>
   );

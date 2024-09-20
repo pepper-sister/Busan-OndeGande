@@ -32,10 +32,15 @@
 }
 
 .navbar-menu li a:hover {
-  color: #000000;
+  color: #4373D0;
   font-weight: 700;
 }
-  
+
+.navbar-menu li.active a {
+  color: #4373D0;
+  font-weight: 700;
+}
+
 @media (max-width: 768px) {
   .navbar {
     height: 40px;
