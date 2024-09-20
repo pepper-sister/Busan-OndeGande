@@ -31,7 +31,6 @@ function PlaceWindow() {
 
   return (
     <div>
-      <h1>인기 관광지</h1>
       <div className="button-group">
         <button onClick={() => handleThemeChange('A0101')} className={theme === 'A0101' ? 'active' : ''}>
           #자연
@@ -65,7 +64,7 @@ function PlaceWindow() {
                     onClick={() => handlePlaceClick(item.title)}
                     style={{ marginLeft: '10px' }}
                   >
-                    알아보기
+                    더보기
                   </button>
                 </h2>
                 <p>{item.addr1}</p>

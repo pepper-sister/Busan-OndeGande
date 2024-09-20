@@ -26,7 +26,6 @@ function SleepWindow() {
 
   return (
     <div>
-      <h1>추천 숙소</h1>
       <div className="button-group">
         <button onClick={() => handleThemeChange('B02010100')} className={theme === 'B02010100' ? 'active' : ''}>
           #호텔
@@ -63,7 +62,7 @@ function SleepWindow() {
                     onClick={() => handleSleepClick(item.title)}
                     style={{ marginLeft: '10px' }}
                   >
-                    알아보기
+                    더보기
                   </button>
                 </h2>
                 <p>{item.addr1}</p>

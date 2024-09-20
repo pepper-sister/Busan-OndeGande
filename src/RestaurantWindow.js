@@ -31,7 +31,6 @@ function RestaurantWindow() {
 
   return (
     <div>
-      <h1>추천 맛집</h1>
       <div className="button-group">
         <button onClick={() => handleThemeChange('A05020100')} className={theme === 'A05020100' ? 'active' : ''}>
           #한식
@@ -68,7 +67,7 @@ function RestaurantWindow() {
                     onClick={() => handleRestaurantClick(item.title)}
                     style={{ marginLeft: '10px' }}
                   >
-                    알아보기
+                    더보기
                   </button>
                 </h2>
                 <p>{item.addr1}</p>

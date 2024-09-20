@@ -1,90 +1,120 @@
 .place-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .place-item {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
-  .info-button {
-    position: absolute;
-    right: 60px;
-    top: 90px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 5px 10px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .info-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .place-info {
-    flex: 1;
-  }
-  
-  .restaurant-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .restaurant-item {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  .restaurant-info {
-    flex: 1;
-  }
+.place-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 
-  .sleep-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .sleep-item {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  .sleep-info {
-    flex: 1;
-  }
+.place-info {
+  flex: 1;
+}
 
+.restaurant-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.restaurant-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.restaurant-info {
+  flex: 1;
+}
+
+.sleep-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sleep-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.sleep-info {
+  flex: 1;
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+  margin: 70px auto 40px;
+  position: relative;
+}
+
+.button-group button {
+  margin-right: 10px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  border-radius: 50px;
+}
+
+.button-group button.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.info-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.info-button:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
   .button-group {
-    margin-bottom: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
+    margin: 40px auto 40px;
+  }
+}
+
+@media (max-width: 500px) {
+  .place-info h2 {
+    font-size: 5vw;
   }
   
-  .button-group button {
-    margin-right: 10px;
-    padding: 10px 20px;
-    border: none;
-    background-color: #f0f0f0;
-    cursor: pointer;
-    border-radius: 50px;
+  .place-info p {
+    font-size: 3vw;
+  }
+
+  .restaurant-info h2 {
+    font-size: 5vw;
   }
   
-  .button-group button.active {
-    background-color: #007bff;
-    color: white;
+  .restaurant-info p {
+    font-size: 3vw;
   }
+
+  .sleep-info h2 {
+    font-size: 5vw;
+  }
+  
+  .sleep-info p {
+    font-size: 3vw;
+  }
+}

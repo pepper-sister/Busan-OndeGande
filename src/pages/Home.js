@@ -86,41 +86,45 @@ function Home() {
   };
 
   return (
+    
     <div>
-      <main className="main-content">
-        <section className="hero-section">
-          <h1>Busan's 온데간데</h1>
-          <p>갈 곳이 넘치는 부산, 간편하게 코스를 짜보세요!</p>
+      <main>
+        <section className="mainimg-section">
         </section>
 
-        <section className="feature-section3">
-          <div className="feature-item3" onClick={openRestaurantWindow}>
+        <section className="suggestion-section">
+          <div className="suggest-item" onClick={openRestaurantWindow}>
             <h2>추천 맛집</h2>
-            <p>부산의 추천 맛집을 확인해보세요.</p>
+            <div className="icon restaurant"></div>
           </div>
-          <div className="feature-item3" onClick={openPlaceWindow}>
+
+          <div className="suggest-item" onClick={openPlaceWindow}>
             <h2>인기 관광지</h2>
-            <p>부산의 인기있는 관광지를 확인해보세요.</p>
+            <div className="icon tourist"></div>
           </div>
-          <div className="feature-item3" onClick={openSleepWindow}>
+
+          <div className="suggest-item" onClick={openSleepWindow}>
             <h2>추천 숙소</h2>
-            <p>부산의 다양한 숙소를 확인해보세요.</p>
+            <div className="icon accommodation"></div>
           </div>
+        </section>
+
+
+        <section className="festival-section">
+        <h1>{moment().month() + 1}월의 부산 축제</h1>
+        <div className="festival-container">
+          <Slider {...settings}>
+            {ongoingFestivals.map((festival, index) => (
+              <div key={index} className="festival-item">
+                {festival.MAIN_IMG_NORMAL && <img src={festival.MAIN_IMG_NORMAL} alt={festival.FESTIVAL_NM} />}
+                <h2>{cleanTitle(festival.MAIN_TITLE)}</h2>
+                <p>{festival.USAGE_DAY_WEEK_AND_TIME}</p>
+              </div>
+            ))}
+          </Slider>
+        </div>
         </section>
       </main>
-
-      <h1 className="current-festival">{moment().month() + 1}월의 부산 축제</h1>
-      <div className="carousel-container">
-        <Slider {...settings}>
-          {ongoingFestivals.map((festival, index) => (
-            <div key={index} className="feature-item2">
-              {festival.MAIN_IMG_NORMAL && <img src={festival.MAIN_IMG_NORMAL} alt={festival.FESTIVAL_NM} />}
-              <h2>{cleanTitle(festival.MAIN_TITLE)}</h2>
-              <p>{festival.USAGE_DAY_WEEK_AND_TIME}</p>
-            </div>
-          ))}
-        </Slider>
-      </div>
     </div>
   );
 }
