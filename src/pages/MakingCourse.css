@@ -1,234 +1,282 @@
-.events-container {
+.MC-section {
+  display: flex;
+  flex-direction: column;
+  width: 85%;
+  margin: 90px auto 40px;
+}
+
+.MCup-section {
   display: flex;
   flex-direction: row;
-  padding: 30px;
-  height: 100vh; /* Ensure container takes up the full viewport height */
-  position: relative;
 }
 
-.sidebar-left {
-  background-color: rgba(240, 240, 240, 0.8);
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box; /* Ensure padding and borders are included in the width */
-  position: absolute;
-  top: 30px; /* Align with the top of the container */
-  bottom: 30px; /* Extend to the bottom of the container */
-  transition: transform 0.3s ease; /* Smooth transition when toggling */
-  width: 25vw;
-  z-index: 2;
-}
-
-.sidebar-right {
-  background-color: rgba(240, 240, 240, 0.8);
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box; /* Ensure padding and borders are included in the width */
-  position: absolute;
-  top: 30px; /* Align with the top of the container */
-  bottom: 30px; /* Extend to the bottom of the container */
-  right: 30px;
-  transition: transform 0.3s ease; /* Smooth transition when toggling */
-  width: 25vw;
-  z-index: 2;
-}
-
-.sidebar-left.hidden {
-  transform: translateX(-100%); /* Hide off-screen to the left */
-  width: 0; /* Collapse width */
-}
-
-.sidebar-right.hidden {
-  transform: translateX(100%); /* Hide off-screen to the right */
-  width: 0; /* Collapse width */
-}
-
-.toggle-sidebar-button-left, .toggle-sidebar-button-right {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 4px;
-  z-index: 3; /* Ensure button is on top */
-}
-
-.toggle-sidebar-button-left {
-  right: -20px; /* Position it outside the sidebar */
-}
-
-.toggle-sidebar-button-right {
-  left: -20px; /* Position it outside the sidebar */
+.MCmap-section {
+  width: 65%;
 }
 
 .map-container {
-  flex-grow: 1;
-  width: 100%; /* Adjust width based on sidebar sizes */
-  height: auto;
-  border-radius: 8px;
+  width: 100%;
+  height: 80vh;
   position: relative;
-  z-index: 1; /* Ensure map container is behind sidebar */
-  transition: width 0.3s ease, height 0.3s ease; /* Smooth transition when sidebar collapses */
 }
 
-.map-container.expanded {
-  width: 100%; /* Full width when both sidebars are collapsed */
-  height: auto; /* Ensure height remains 900px */
+.MCplace-section {
+  background-color: #f7f7f7;
+  width: 35%;
+  height: 80vh;
 }
 
-.search-input {
-  width: calc(100% - 90px); /* Adjust width to fit inside sidebar */
-  height: auto;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 10px;
-}
-
-.search-button, .add-button, .delete-button, .move-up-button, .move-down-button {
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin: 5px;
-}
-
-.search-button {
-  background-color: #28a745;
-  color: white;
-}
-
-.add-button {
-  background-color: #28a745;
-  color: white;
-}
-
-.delete-button {
-  background-color: #dc3545;
-  color: white;
-}
-
-.move-up-button, .move-down-button {
-  background-color: #ffc107;
-  color: white;
-  margin: 0 5px;
-}
-
-.add-button:hover {
-  background-color: #218838;
-}
-
-.delete-button:hover {
-  background-color: #c82333;
-}
-
-.move-up-button:hover, .move-down-button:hover {
-  background-color: #e0a800;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  margin-bottom: 10px;
-}
-
-.course-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.course-coordinates {
-  font-size: 14px;
+.MCsearch-container {
+  margin-bottom: 20px;
   margin-top: 10px;
 }
 
-.move-buttons {
+.MCsearch-container h2 {
+  font-size: 25px;
+  font-weight: 500;
+  margin: 0 10px 25px;
+}
+
+.search-input {
+  width: 45%;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin: 0px 8px 0px 15px;
+}
+
+.search-button {
+  padding: 8px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #4373D0;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 5px;
+}
+
+.search-button:hover {
+  background-color: #375eac;
+}
+
+.MCpla-section {
   display: flex;
   justify-content: space-between;
-  margin-top: 5px;
-}
-
-.course-coordinates a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.course-coordinates a:hover {
-  text-decoration: underline;
-}
-/*
-.share-links {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.share-link-button {
-  display: inline-block;
-  padding: 10px;
-  margin: 5px;
-  background-color: #007bff;
-  color: white;
-  text-decoration: none;
-  border-radius: 4px;
-}
-
-.share-link-button:hover {
-  background-color: #0056b3;
-}*/
-/* 공유 링크 버튼 스타일 */
-.share-links {
-  margin: 10px;
-}
-
-.share-link-button {
-  background: #007bff;
-  border: none;
-  padding: 10px 15px;
-  margin: 5px;
-  color: white;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 14px;
-  display: inline-block;
-  transition: background 0.3s ease;
-}
-
-.share-link-button:hover {
-  background: #0056b3;
-}
-
-/* 추가된 스타일 */
-
-.day-selector {
-  margin-bottom: 20px;
-  display: flex;
   align-items: center;
 }
 
-.day-selector button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px;
+.place-item2 {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  margin: 5px;
+}
+
+.place-item2 li {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 6px 6px;
+  margin: 0px 0px 0px 12px;
   cursor: pointer;
-  border-radius: 4px;
+  transition: background-color 0.3s;
+  max-width: 19vw;
+}
+
+.place-item2 li:hover {
+  background-color: rgba(215, 223, 241, 0.395)
+}
+
+.add-button {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
   margin-right: 10px;
+  color: #fff;
+  background-color: #4373D0;
+  border: none;
 }
 
-.day-selector button:hover {
-  background-color: #0056b3;
+.add-button:hover {
+  background-color: #375eac;
 }
 
-.day-selector select {
+.MCbutton-group {
+  background-color: white;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  gap: 13px;
+  padding: 20px;
+}
+
+.MCbutton-group button {
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 5px 10px;
+}
+
+.day-button {
+  background-color: #4373D0;
+  border-radius: 40px;
+  color: white;
+}
+
+.day-button:hover {
+  background-color: #3a61b0;
+}
+
+.clipboard-button {
+  background-color: #51CA71;
+  border-radius: 10px;
+  color: black;
+}
+
+.clipboard-button:hover {
+  background-color: #41a45b;
+}
+
+.kakao-button {
+  background-color: #ecd94a;
+  border-radius: 10px;
+  color: black;
+}
+
+.kakao-button:hover {
+  background-color: #c1b13c;
+}
+
+.MCday-section {
+  background-color: white;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  flex: 1;
+}
+
+.day-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.day-container {
+  background-color: #f3f3f3;
+  padding: 8px;
+  margin: 10px;
+  width: 22vw;
+  min-height: 20vw;
+  box-shadow: 0 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.day-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delete-day-button {
+  width: 25px;
+  height: 25px;
+  border: none;
+  margin-left: auto;
+  border-radius: 50%;
+  background-color: #DB5555;
+  color: white;
+  cursor: pointer;
+}
+
+.course-item {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 5px;
+  background-color: white;
+  border-radius: 5px;
+  font-size: 20px;
+}
+
+.delete-place-button {
+  width: 20px;
+  height: 20px;
+  border: none;
+  margin-left: auto;
+  background-color: #DB5555;
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .MC-section {
+    width: 90%;
+    margin: 50px auto 40px;
+  }
+
+  .map-container {
+    height: 60vh;
+  }
+  
+  .MCplace-section {
+    height: 60vh;
+  }
+
+  .MCsearch-container {
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+
+  .MCsearch-container h2 {
+    font-size: 18px;
+    margin: 0 10px 15px;
+  }
+  
+  .search-input {
+    width: 33%;
+    padding: 8px;
+    font-size: 12px;
+    margin: 0px 8px 0px 8px;
+  }
+  
+  .search-button {
+    padding: 6px;
+    font-size: 12px;
+  }
+  
+  .place-item2 li {
+    padding: 4px 4px;
+    font-size: 10px;
+  }
+
+  .add-button {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+  }
+
+  .MCbutton-group {
+    gap: 10px;
+    margin-top: 15px;
+    padding: 5px;
+  }
+
+  .MCbutton-group button {
+    font-size: 12px;
+    padding: 4px 7px;
+  }
+  
+  .day-container {
+    width: 32vw;
+    min-height: 40vw;
+  }
+  
+  .course-item {
+    font-size: 18px;
+  }
 }

@@ -1,21 +1,31 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef  } from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './MakingCourse.css';
 
 function MakingCourse() {
   const [map, setMap] = useState(null);
   const [places, setPlaces] = useState([]);
-  const [days, setDays] = useState([{ title: '당일치기', courses: [] }]);
+  const [days, setDays] = useState([]);
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
-  const [sidebarLeftVisible, setSidebarLeftVisible] = useState(true); // 상태 추가
-  const [sidebarRightVisible, setSidebarRightVisible] = useState(true); // 상태 추가
   const clipboardBtnRef = useRef(null);
+
+  const addDay = () => {
+    if (days.length >= 10) {
+      alert("일자는 최대 10개까지 추가할 수 있습니다.");
+      return;
+    }
+    const newDayIndex = days.length + 1;
+    const updatedDays = [...days, { title: `Day ${newDayIndex}`, courses: [] }];
+    setDays(updatedDays);
+    setSelectedDayIndex(updatedDays.length - 1);
+  };
 
   useEffect(() => {
     if (window.kakao && window.kakao.maps) {
       const container = document.getElementById('map');
       const options = {
         center: new window.kakao.maps.LatLng(35.1796, 129.0756),
-        level: 3,
+        level: 8,
       };
       const mapInstance = new window.kakao.maps.Map(container, options);
       setMap(mapInstance);
@@ -42,6 +52,21 @@ function MakingCourse() {
     };
   }, []);
 
+  useEffect(() => {
+    if (window.Kakao) {
+      if (!window.Kakao.isInitialized()) {
+        try {
+          window.Kakao.init(process.env.REACT_APP_KAKAO_JAVASCRIPT_KEY);
+        } catch (error) {
+          console.error('Kakao SDK 초기화 오류:', error);
+        }
+      }
+    } else {
+      console.error('Kakao 객체를 찾을 수 없습니다.');
+    }
+  }, []);
+  
+
   const searchPlaces = () => {
     if (!window.kakao || !window.kakao.maps) return;
 
@@ -50,8 +75,8 @@ function MakingCourse() {
 
     ps.keywordSearch(keyword, (data, status) => {
       if (status === window.kakao.maps.services.Status.OK) {
-        setPlaces(data);
-        displayMarkers(data);
+        setPlaces(data.slice(0, 6));
+        displayMarkers(data.slice(0, 6));
       } else {
         alert('검색 결과가 없습니다.');
       }
@@ -77,11 +102,19 @@ function MakingCourse() {
   };
 
   const addCourse = (place) => {
+    if (days.length === 0) {
+      alert("일자를 먼저 추가하세요.");
+      return;
+    }
+
     const updatedDays = [...days];
     updatedDays[selectedDayIndex].courses.push({
       name: place.place_name,
       lat: place.y,
       lng: place.x,
+      region2: place.region_2depth_name,
+      region3: place.region_3depth_name,
+      region3h: place.region_3depth_h_name,
       order: updatedDays[selectedDayIndex].courses.length + 1
     });
     setDays(updatedDays);
@@ -95,34 +128,62 @@ function MakingCourse() {
     setDays(updatedDays);
   };
 
-  const moveUpCourse = (dayIndex, index) => {
-    if (index === 0) return;
-    const updatedDays = [...days];
-    const updatedCourses = [...updatedDays[dayIndex].courses];
-    [updatedCourses[index], updatedCourses[index - 1]] = [updatedCourses[index - 1], updatedCourses[index]];
-    updatedCourses.forEach((course, idx) => {
-      course.order = idx + 1;
-    });
-    updatedDays[dayIndex].courses = updatedCourses;
+  const deleteDay = (dayIndex) => {
+    const updatedDays = [...days].filter((_, index) => index !== dayIndex);
+    setDays(updatedDays);
+    if (selectedDayIndex >= updatedDays.length) {
+      setSelectedDayIndex(updatedDays.length - 1);
+    }
+    updateDayTitles(updatedDays);
+  };
+
+  const updateDayTitles = (daysArray) => {
+    const updatedDays = daysArray.map((day, index) => ({
+      ...day,
+      title: `Day ${index + 1}`
+    }));
     setDays(updatedDays);
   };
 
-  const moveDownCourse = (dayIndex, index) => {
-    if (index === days[dayIndex].courses.length - 1) return;
+  const onDragEnd = (result) => {
+    const { source, destination } = result;
+  
+    if (!destination) return;
+  
     const updatedDays = [...days];
-    const updatedCourses = [...updatedDays[dayIndex].courses];
-    [updatedCourses[index], updatedCourses[index + 1]] = [updatedCourses[index + 1], updatedCourses[index]];
-    updatedCourses.forEach((course, idx) => {
-      course.order = idx + 1;
-    });
-    updatedDays[dayIndex].courses = updatedCourses;
-    setDays(updatedDays);
-  };
-
-  const addDay = () => {
-    const newDayIndex = days.length + 1;
-    setDays([...days, { title: `${newDayIndex}일차`, courses: [] }]);
-    setSelectedDayIndex(days.length); // 새로 추가된 일자를 선택
+    const sourceDayIndex = Number(source.droppableId);
+    const destinationDayIndex = Number(destination.droppableId);
+  
+    if (sourceDayIndex === destinationDayIndex) {
+      const day = updatedDays[sourceDayIndex];
+      const [movedCourse] = day.courses.splice(source.index, 1);
+      day.courses.splice(destination.index, 0, movedCourse);
+      
+      day.courses = day.courses.map((course, index) => ({
+        ...course,
+        order: index + 1
+      }));
+  
+      setDays(updatedDays);
+    } else {
+      const sourceDay = updatedDays[sourceDayIndex];
+      const destinationDay = updatedDays[destinationDayIndex];
+  
+      const [movedCourse] = sourceDay.courses.splice(source.index, 1);
+      destinationDay.courses.splice(destination.index, 0, movedCourse);
+      
+      sourceDay.courses = sourceDay.courses.map((course, index) => ({
+        ...course,
+        order: index + 1
+      }));
+      destinationDay.courses = destinationDay.courses.map((course, index) => ({
+        ...course,
+        order: index + 1
+      }));
+  
+      setDays(updatedDays);
+    }
+    updateDayTitles(updatedDays);
   };
 
   const generateShareText = () => {
@@ -134,112 +195,109 @@ function MakingCourse() {
   };
 
   const getShareLink = () => {
-    const shareText = generateShareText();
-    const encodedText = encodeURIComponent(shareText);
-    return {
-      googleDocs: `https://docs.google.com/document/create?usp=sharing&title=여행 코스&body=${encodedText}`,
-      twitter: `https://twitter.com/intent/tweet?text=${encodedText}`,
-      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedText}`
-    };
+    if (!window.Kakao) {
+      console.error('Kakao 객체를 찾을 수 없습니다.');
+      return;
+    }
+  
+    window.Kakao.Share.sendDefault({
+      objectType: 'text',
+      text: generateShareText(),
+      link: {
+        mobileWebUrl: 'https://www.ondegande.site',
+        webUrl: 'https://www.ondegande.site',
+      },
+    });
   };
 
   return (
-    <div className="events-container">
-      <div className={`sidebar-left ${sidebarLeftVisible ? 'visible' : 'hidden'}`}>
-        <button className="toggle-sidebar-button-left" onClick={() => setSidebarLeftVisible(!sidebarLeftVisible)}>
-          {sidebarLeftVisible ? '◄' : '►'}
-        </button>
-        {sidebarLeftVisible && (
-          <>
-            <h2>장소 추가</h2>
-            <input
-              type="text"
-              id="keyword"
-              className="search-input"
-              placeholder="장소 검색"
-              onKeyPress={(e) => {
-                if (e.key === 'Enter') {
-                  searchPlaces();
-                }
-              }}
-            />
-            <button className="search-button" onClick={searchPlaces}>
-              검색
-            </button>
-            <ul>
-              {places.map((place, index) => (
-                <li key={index} className="place-item">
-                  {place.place_name}
-                  <button className="add-button" onClick={() => addCourse(place)}>+</button>
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
-      </div>
+    <div>
+      <main>
+        <section className="MC-section">
+          <section className="MCup-section">
+            <section className="MCmap-section">
+              <div id="map" className="map-container"></div>
+            </section>
 
-      <div id="map" className={`map-container ${!sidebarLeftVisible && !sidebarRightVisible ? 'expanded' : ''}`}></div>
-
-      <div className={`sidebar-right ${sidebarRightVisible ? 'visible' : 'hidden'}`}>
-        <button className="toggle-sidebar-button-right" onClick={() => setSidebarRightVisible(!sidebarRightVisible)}>
-          {sidebarRightVisible ? '►' : '◄'}
-        </button>
-        {sidebarRightVisible && (
-          <>
-            <div className="day-selector">
-              <button onClick={addDay}>일자 추가하기</button>
-            </div>
-            {days.map((day, dayIndex) => (
-              <div key={dayIndex}>
-                <h2>{day.title}</h2>
-                <ul>
-                  {day.courses.map((course, index) => (
-                    <li key={index} className="course-item">
-                      <div className="course-header">
-                        <strong>{course.order}. {course.name}</strong>
-                        <button className="delete-button" onClick={() => deleteCourse(dayIndex, index)}>삭제</button>
-                      </div>
-                      <div className="course-coordinates">
-                        <p>위도: {course.lat}</p>
-                        <p>경도: {course.lng}</p>
-                        <div className="move-buttons">
-                          <button 
-                            className="move-up-button"
-                            onClick={() => moveUpCourse(dayIndex, index)}
-                            disabled={index === 0}
-                          >
-                            ▲
-                          </button>
-                          <button 
-                            className="move-down-button"
-                            onClick={() => moveDownCourse(dayIndex, index)}
-                            disabled={index === day.courses.length - 1}
-                          >
-                            ▼
-                          </button>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+            <section className="MCplace-section">
+              <div className="MCsearch-container">
+                <h2>장소 추가</h2>
+                <input
+                  type="text"
+                  id="keyword"
+                  className="search-input"
+                  placeholder="장소를 입력하세요."
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      searchPlaces();
+                    }
+                  }}
+                />
+                <button className="search-button" onClick={searchPlaces}>
+                검색
+                </button>
               </div>
-            ))}
-            <div className="share-links">
-              <button 
-                ref={clipboardBtnRef} 
-                data-clipboard-text={generateShareText()} 
-                className="share-link-button"
-              >
-                클립보드에 복사
-              </button>
-              <a href={getShareLink().twitter} target="_blank" rel="noopener noreferrer" className="share-link-button">
-                트위터로 공유
-              </a>
-    
-            </div>
-          </>
-        )}
-      </div>
+              {places.map((place, index) => (
+                <div className="MCpla-section">
+                  <ul className="place-item2">
+                    <li>{place.place_name}</li>
+                  </ul>
+                  <button className="add-button" onClick={() => addCourse(place)}>+</button>
+                </div>
+              ))}
+            </section>
+          </section>
+
+          <section className="MCbutton-group">
+            <button className="day-button" onClick={addDay}>Day +</button>
+            <button className="clipboard-button" ref={clipboardBtnRef} data-clipboard-text={generateShareText()}>클립보드에 복사</button>
+            <button className="kakao-button" onClick={getShareLink}>카카오톡으로 공유</button>
+          </section>
+
+          <section className="MCday-section">
+            <DragDropContext onDragEnd={onDragEnd}>
+              <div className="day-wrapper">
+                {days.map((day, dayIndex) => (
+                  <Droppable key={dayIndex} droppableId={`${dayIndex}`}>
+                    {(provided) => (
+                      <div
+                        className="day-container"
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                      >
+                        <div className="day-header">
+                          <h3>{day.title}</h3>
+                          <button className="delete-day-button" onClick={() => deleteDay(dayIndex)}>ㅡ</button>
+                        </div>
+                        {day.courses.map((course, courseIndex) => (
+                          <Draggable
+                            key={course.order}
+                            draggableId={`${dayIndex}-${course.order}-${course.name}`}
+                            index={courseIndex}
+                          >                        
+                            {(provided) => (
+                              <div
+                                className="course-item"
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                              >
+                                {course.order}. {course.name} {course.region2} {course.region3} {course.region3h}
+                                <button className="delete-place-button" onClick={() => deleteCourse(dayIndex, courseIndex)}>-</button>
+                              </div>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                ))}
+              </div>
+            </DragDropContext>
+          </section>
+        </section>
+      </main>
     </div>
   );
 }
