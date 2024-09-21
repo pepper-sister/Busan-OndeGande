@@ -21,6 +21,7 @@ function MakingCourse() {
   };
 
   useEffect(() => {
+    // 카카오 맵을 로드하여 맵을 초기화하는 부분
     if (window.kakao && window.kakao.maps) {
       const container = document.getElementById('map');
       const options = {
@@ -33,6 +34,27 @@ function MakingCourse() {
       console.error('카카오 맵 API를 로드할 수 없습니다.');
     }
   }, []);
+
+  //새로운 addDay 함수 였던 것.
+  /*
+  const addDay = () => {
+    // 새로운 Day를 추가하는 함수
+    // days 배열의 길이에 따라 Day 1, Day 2 등의 타이틀을 자동으로 지정
+    const newDayIndex = days.length + 1;
+    const updatedDays = [...days, { title: `Day ${newDayIndex}`, courses: [] }];
+    setDays(updatedDays);
+    setSelectedDayIndex(updatedDays.length - 1); // 새로 추가된 Day를 선택된 Day로 설정
+  };
+*/
+    //기존 addDay함수
+    /*
+    const addDay = () => {
+    const newDayIndex = days.length + 1;
+    const updatedDays = [...days, { title: `Day ${newDayIndex}`, courses: [] }];
+    setDays(updatedDays);
+    setSelectedDayIndex(updatedDays.length - 1);
+  };
+  */
 
   useEffect(() => {
     const ClipboardJS = require('clipboard');
@@ -192,6 +214,15 @@ function MakingCourse() {
         `${course.order}. ${course.name}\n위도: ${course.lat}\n경도: ${course.lng}\n`
       )).join('\n')}`
     ).join('\n\n');
+
+    /*
+    //카카오맵 api 분석후 다시 수정할예쩡
+    return days.map(day => 
+      `${day.title}\n${day.courses.map(course => (
+        `${course.order}. ${course.name} ${course.region2} ${course.region3} ${course.region3h}\n위도: ${course.lat}\n경도: ${course.lng}\n`
+      )).join('\n')}` 
+    ).join('\n\n');
+    */
   };
 
   const getShareLink = () => {
