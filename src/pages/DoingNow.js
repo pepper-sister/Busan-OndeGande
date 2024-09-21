@@ -158,7 +158,7 @@ function DoingNow() {
             <div className="surroundingsearch-container">
               <input 
                 type="text" 
-                placeholder="위치를 입력하세요" 
+                placeholder="위치를 입력하세요." 
                 value={location}
                 onChange={handleLocationChange}
                 onKeyPress={(e) => {

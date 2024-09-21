@@ -7,7 +7,7 @@ function YouTuMap({ places, mapId }) {
     const mapContainer = document.getElementById(mapId);
     const mapOption = {
       center: new kakao.maps.LatLng(places[0].latitude, places[0].longitude),
-      level: 5,
+      level: 3,
     };
 
     const map = new kakao.maps.Map(mapContainer, mapOption);
