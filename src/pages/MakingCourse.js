@@ -13,6 +13,8 @@ function MakingCourse() {
   const [markers, setMarkers] = useState([]); // 마커들을 저장할 상태
   const [selectedMarker, setSelectedMarker] = useState(null); // 선택된 마커 상태
 
+  //2024.09.22 ver 4 리스트에 효과 넣기, 
+  const [activeButtonIndex, setActiveButtonIndex] = useState(null); // 활성화된 버튼 인덱스
 
    // addDay가 "일자 추가"버튼을 눌러야만 생성이 되고,Max일정이 10개로 설정한 코드 ver 4
   const addDay = () => {
@@ -74,7 +76,7 @@ function MakingCourse() {
 
   //마커 효과 ( 검색 => 장소명 클릭 시 나오는 효과) 2024.09.22
   // 마커를 클릭할 때 마커 색을 빨간색으로 변경하고 지도 중심을 업데이트하는 함수
-  const changeMarkerAndCenter = (marker, place) => {
+  const changeMarkerAndCenter = (marker, place, index) => {
     if (!map) return;
 
     // 이전에 선택된 마커의 색을 원래대로 돌립니다.
@@ -107,6 +109,7 @@ function MakingCourse() {
     marker.setZIndex(10); // 선택된 마커의 z-index를 높여서 위에 위치하도록 설정
     
     setSelectedMarker(marker);
+    setActiveButtonIndex(index); // 2024.09.22 ver4: 활성화된 버튼 인덱스 설정
 
     // 지도 중심을 클릭한 장소로 이동시킵니다.
     const newCenter = new window.kakao.maps.LatLng(place.y, place.x);
@@ -136,7 +139,7 @@ function MakingCourse() {
       
       // <<이 부분 추가>> 마커 클릭 이벤트 추가
       window.kakao.maps.event.addListener(marker, 'click', () => {
-        changeMarkerAndCenter(marker, place);
+        changeMarkerAndCenter(marker, place, index); // index 추가 2024.09.22 ver 4
       });
 
       bounds.extend(markerPosition);
@@ -147,11 +150,12 @@ function MakingCourse() {
   };
 
   // 장소 리스트를 클릭할 때 마커 색상을 바꾸고 중심을 이동하는 함수
-  const handlePlaceClick = (place) => {
+  //2024.09.22 index 추가
+  const handlePlaceClick = (place, index) => {
     const markerIndex = places.findIndex(p => p.place_name === place.place_name);
     if (markerIndex >= 0) {
       const marker = markers[markerIndex];
-      changeMarkerAndCenter(marker, place);
+      changeMarkerAndCenter(marker, place, index); // 2024.09.22 ver 4 : 인덱스 추가
     }
   };
 
@@ -379,7 +383,9 @@ function MakingCourse() {
                 
                   {places.map((place, index) => (
                     <div className="MCpla-section" key={index}>
-                      <ul className="place-item2" onClick={() => handlePlaceClick(place)}>
+                      <ul className="place-item2" 
+                      onClick={() => handlePlaceClick(place)}
+                      style={{ backgroundColor: activeButtonIndex === index ? 'gray' : 'white' }} >
                         <li>
                           <div className="place-name" style={{ fontWeight: 'bold', fontSize: '18px' }}>
                             {place.place_name}
@@ -394,7 +400,8 @@ function MakingCourse() {
                           </div>
                         </li>
                       </ul>
-                      <button className="add-button" onClick={() => addCourse(place)}>+</button>
+                      <button className="add-button" 
+                      onClick={() => addCourse(place)}>+</button>
                     </div>
                   ))}                
 
