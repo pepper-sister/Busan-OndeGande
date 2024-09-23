@@ -22,6 +22,7 @@ function YouTuber() {
           link: course.youtubeUrl,
           days: course.days,
           reviews: course.viewCount,
+          thum: course.youtubeImageUrl,
         }));
         const sortedCourses = fetchedCourses.sort((a, b) => b.reviews - a.reviews);
         setCourses(sortedCourses);
@@ -136,7 +137,7 @@ function YouTuber() {
                     onClick={() => handleCourseClick(index)}
                   >
                     <img
-                      src={`https://img.youtube.com/vi/${course.link.split('v=')[1]}/0.jpg`}
+                      src={`${course.thum}`}
                       alt={`${course.title} thumbnail`}
                       className="video-thumbnail"
                     />
