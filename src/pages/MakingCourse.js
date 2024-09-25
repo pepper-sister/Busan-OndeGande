@@ -9,7 +9,7 @@ function MakingCourse() {
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
   const clipboardBtnRef = useRef(null);
 
-  const [activeButtonIndex, setActiveButtonIndex] = useState(null);
+  //const [activeButtonIndex, setActiveButtonIndex] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [infoWindow, setInfoWindow] = useState(null);
@@ -123,6 +123,11 @@ function MakingCourse() {
   };
 
   const handlePlaceClick = (place, index) => {
+    if (selectedMarker === index) {
+      setSelectedMarker(null);
+    } else {
+      setSelectedMarker(index);
+    }
     const markerIndex = places.findIndex(p => p.place_name === place.place_name);
     if (markerIndex >= 0) {
       const marker = markers[markerIndex];
