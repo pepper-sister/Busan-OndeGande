@@ -114,6 +114,18 @@
   color: #888;
 }
 
+.course-title {
+  font-size: 1.4em;
+  margin-bottom: 0.2em;
+}
+
+.youtuber-name {
+  font-size: 1em;
+  color: gray;
+  text-align: right;
+  margin-bottom: 1em;
+}
+
 .day-section {
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -189,6 +201,14 @@
   .CourseCheck-section {
     padding: 5px;
     width: 55%;
+  }
+
+  .course-title {
+    font-size: 1em;
+  }
+  
+  .youtuber-name {
+    font-size: 0.7em;
   }
 
   .day-section h4 {

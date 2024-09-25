@@ -154,6 +154,8 @@ function YouTuber() {
             {selectedCourse ? (
               <>
                 <ReactPlayer url={selectedCourse.link} width="100%" controls playing />
+                <h2 className="course-title">{selectedCourse.title}</h2>
+                <h3 className="youtuber-name">{selectedCourse.youtuber}</h3>
                 {selectedCourse.days.map((day, dayIndex) => (
                   <div key={dayIndex} className="day-section">
                     <h4>{day.day}</h4>
