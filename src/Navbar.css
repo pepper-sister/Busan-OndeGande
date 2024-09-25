@@ -30,6 +30,8 @@
   font-size: 18px;
   font-weight: 500;
   padding: 8px 12px;
+  display: flex;
+  align-items: center;
 }
 
 .navbar-menu li a:hover {
