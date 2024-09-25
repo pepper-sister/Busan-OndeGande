@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 85%;
-  margin: 90px auto 40px;
+  margin: 120px auto 40px;
 }
 
 .MCup-section {
@@ -44,7 +44,7 @@
   font-size: 16px;
   border-radius: 8px;
   border: 1px solid #ddd;
-  margin: 0px 8px 0px 15px;
+  margin: 10px 8px 20px 15px;
 }
 
 .search-button {
@@ -73,7 +73,7 @@
   padding: 0;
   display: flex;
   align-items: center;
-  flex-grow: 1;
+  width: 100%;
   margin: 5px;
 }
 
@@ -85,18 +85,30 @@
   margin: 0px 0px 0px 12px;
   cursor: pointer;
   transition: background-color 0.3s;
-  max-width: 19vw;
+  flex: 1;
 }
 
 .place-item2 li:hover {
   background-color: rgba(215, 223, 241, 0.395)
 }
 
+.place-name2 {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.place-address2 {
+  color: gray;
+  margin-top: 5px;
+  font-size: 16px;
+}
+
 .add-button {
   width: 30px;
   height: 30px;
   cursor: pointer;
-  margin-right: 10px;
+  align-items: right;
+  margin-right: 20px;
   color: #fff;
   background-color: #4373D0;
   border: none;
@@ -195,13 +207,24 @@
 
 .course-item {
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
   margin-bottom: 10px;
   padding: 5px;
   background-color: white;
   border-radius: 5px;
+}
+
+.course-name {
   font-size: 20px;
+  font-weight: bold;
+}
+
+.course-address {
+  font-size: 18px;
+  color: gray;
+  margin-top: 10px;
+  margin-bottom: -20px;
 }
 
 .delete-place-button {
@@ -217,7 +240,7 @@
 @media (max-width: 768px) {
   .MC-section {
     width: 90%;
-    margin: 50px auto 40px;
+    margin: 70px auto 40px;
   }
 
   .map-container {
@@ -255,6 +278,14 @@
     font-size: 10px;
   }
 
+  .place-name2 {
+    font-size: 12px;
+  }
+  
+  .place-address2 {
+    font-size: 9px;
+  }
+
   .add-button {
     width: 20px;
     height: 20px;
@@ -276,8 +307,19 @@
     width: 32vw;
     min-height: 40vw;
   }
+
+  .day-header h3 {
+    margin-top: 5px;
+    font-size: medium;
+  }
+
+  .course-name {
+    font-size: 14px;
+  }
   
-  .course-item {
-    font-size: 18px;
+  .course-address {
+    font-size: 11px;
+    margin-top: 5px;
+    margin-bottom: -20px;
   }
 }

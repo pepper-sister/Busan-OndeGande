@@ -179,7 +179,8 @@ function DoingNow() {
                     key={index}
                     onClick={() => handleSelectLocation(result.y, result.x, result.place_name)}
                   >
-                    {result.place_name || result.address_name} ({result.address_name || '주소 없음'})
+                    <span className="place-name3">{result.place_name || '장소 이름 없음'}</span>
+                    <span className="address-name3">({result.address_name || '주소 없음'})</span>
                   </li>                  
                   ))}
                 </ul>

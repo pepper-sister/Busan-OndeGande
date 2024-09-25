@@ -1,7 +1,7 @@
 .surrounding {
   display: flex;
   justify-content: space-between;
-  margin-top: 8px;
+  margin-top: 40px;
 }
 
 .locationsetting-section {
@@ -12,7 +12,7 @@
 }
 
 .location-button {
-  background-color: #e6e6e6;
+  background-color: #f3f3f3;
   color: black;
   border: none;
   border-radius: 5px;
@@ -72,6 +72,8 @@
 }
 
 .results-list li {
+  display: flex;
+  flex-direction: column;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -83,6 +85,18 @@
 
 .results-list li:hover {
   background-color: rgba(215, 223, 241, 0.395)
+}
+
+.place-name3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.address-name3 {
+  text-align: right;
+  font-size: 16px;
+  color: #666;
 }
 
 .surrounding-section {
@@ -174,8 +188,6 @@
 
 .places p {
   text-align: center;
-  font-size: 20px;
-  color: gray;
 }
 
 .place {
@@ -208,13 +220,13 @@
 }
 
 .place-name {
-  font-size: 18px;
-  color: #000000;
-  margin-bottom: 5px;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 0px;
 }
 
 .place-address {
-  font-size: 14px;
+  font-size: 16px;
   color: #666;
   margin-bottom: 10px;
 }
@@ -235,7 +247,7 @@
 @media (max-width: 768px) {
   .surrounding {
     flex-direction: column;
-    margin-top: 2px;
+    margin-top: 15px;
   }
 
   .locationsetting-section {
@@ -260,6 +272,15 @@
     margin: 5px 20px;
   }
 
+  .place-name3 {
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+  
+  .address-name3 {
+    font-size: 14px;
+  }
+
   .surrounding-section {
     width: 80%;
     min-height: 400px;
@@ -272,10 +293,6 @@
     margin: 0 5px 0 5px;
   }
 
-  .places p {
-    font-size: 18px;
-  }
-
   .place {
     width: 120px;
     min-width: 100px;
@@ -286,14 +303,12 @@
   .place img {
     max-height: 100px;
   }
-  
+
   .place-name {
     font-size: 15px;
-    margin-bottom: 5px;
   }
   
   .place-address {
-    font-size: 10px;
-    margin-bottom: 10px;
+    font-size: 12px;
   }
 }

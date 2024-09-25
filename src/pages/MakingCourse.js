@@ -16,7 +16,7 @@ function MakingCourse() {
 
   const addDay = () => {
     if (days.length >= 10) {
-      alert("일자는 최대 10개까지 추가할 수 있습니다.");
+      alert("Day는 최대 10일까지 추가할 수 있습니다.");
       return;
     }
     const newDayIndex = days.length + 1;
@@ -182,7 +182,7 @@ function MakingCourse() {
 
   const addCourse = (place) => {
     if (days.length === 0) {
-      alert("일자를 먼저 추가하세요.");
+      alert("Day를 추가해주세요.");
       return;
     }
 
@@ -193,7 +193,7 @@ function MakingCourse() {
       lng: place.x,
 
 
-      road_address_name: place.road_address_name || '도로명 주소 없음',
+      road_address_name: place.road_address_name || '주소 없음',
       region2: place.region_2depth_name,
       region3: place.region_3depth_name,
       region3h: place.region_3depth_h_name,
@@ -272,8 +272,7 @@ function MakingCourse() {
     return days.map(day => 
       `${day.title}\n${day.courses.map(course => (
         `${course.order}. ${course.name}\n` +
-        `도로명 주소: ${course.road_address_name || '도로명 주소 없음'}\n` +
-        `${course.region3 ? `행정동: ${course.region3}` : ''}`
+        `주소: ${course.road_address_name || '주소 없음'}\n`
       )).join('\n')}`
     ).join('\n\n');
   };
@@ -324,19 +323,14 @@ function MakingCourse() {
                   {places.map((place, index) => (
                     <div className="MCpla-section" key={index}>
                       <ul className="place-item2" 
-                      onClick={() => handlePlaceClick(place)}
-                      style={{ backgroundColor: activeButtonIndex === index ? 'gray' : 'white' }} >
+                      onClick={() => handlePlaceClick(place)} //style={{ backgroundColor: activeButtonIndex === index ? 'gray' : 'white' }}
+                      >
                         <li>
-                          <div className="place-name" style={{ fontWeight: 'bold', fontSize: '18px' }}>
+                          <div className="place-name2">
                             {place.place_name}
                           </div>
-                          {place.region_3depth_name && (
-                            <div className="place-region" style={{ fontSize: '13px' }}>
-                              행정동: {place.region_3depth_name}
-                            </div>
-                          )}
-                          <div className="place-address" style={{ fontSize: '13px' }}>
-                            {place.road_address_name || '도로명 주소 없음'}
+                          <div className="place-address2">
+                            {place.road_address_name || '주소 없음'}
                           </div>
                         </li>
                       </ul>
@@ -384,9 +378,8 @@ function MakingCourse() {
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                               >
-                                {course.order}. {course.name}<br />
-                                {course.road_address_name || '도로명 주소 없음'}<br />
-                                {course.region3 && `행정동: ${course.region3}`}
+                                <span className="course-name">{course.order}. {course.name}<br /></span>
+                                <span className="course-address">{course.road_address_name || '주소 없음'}</span><br />
     
                                 <button className="delete-place-button" onClick={() => deleteCourse(dayIndex, courseIndex)}>-</button>
                               </div>
