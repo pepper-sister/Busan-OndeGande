@@ -38,16 +38,12 @@ function YouTuMap({ places, mapId }) {
       marker.setMap(map);
 
       kakao.maps.event.addListener(marker, 'mouseover', () => {
-        if (activeMarker !== marker) {
-          infowindow.setContent(`<div style="padding:5px;">${place.name}</div>`);
-          infowindow.open(map, marker);
-        }
+        infowindow.setContent(`<div style="padding:5px;">${place.name}</div>`);
+        infowindow.open(map, marker);
       });
 
       kakao.maps.event.addListener(marker, 'mouseout', () => {
-        if (activeMarker !== marker) {
-          infowindow.close();
-        }
+        infowindow.close();
       });
 
       kakao.maps.event.addListener(marker, 'click', () => {
