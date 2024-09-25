@@ -9,3 +9,11 @@
   margin: 5px 0;
   font-size: 14px;
 }
+
+.icon-links {
+  margin-top: 10px;
+}
+
+.icon-links span {
+  margin-right: 5px;
+}
