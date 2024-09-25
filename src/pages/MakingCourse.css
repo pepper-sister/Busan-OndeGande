@@ -24,6 +24,7 @@
   background-color: #f7f7f7;
   width: 35%;
   height: 80vh;
+  overflow-y: auto;
 }
 
 .MCsearch-container {
@@ -224,7 +225,7 @@
   }
   
   .MCplace-section {
-    height: 60vh;
+    height: 60vh;    
   }
 
   .MCsearch-container {
