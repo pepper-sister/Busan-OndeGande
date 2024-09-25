@@ -1,7 +1,7 @@
 .GTup-section {
   display: flex;
   flex-direction: row;
-  margin: 70px auto 30px;
+  margin: 100px auto 70px auto;
   width: 80%;
 }
 
@@ -27,7 +27,7 @@
 }
 
 .GTbutton-group {
-  background-color: #f5f5f5;
+  background-color: white;
   border-radius: 20px;
   display: flex;
   flex-wrap: wrap;
@@ -35,7 +35,7 @@
 }
 
 .selection-button {
-  background-color: #f0f0f0;
+  background-color: #f1f1f1;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 8px 12px;
@@ -95,7 +95,7 @@
 }
 
 .results-container {
-  background-color: #f5f5f5;
+  background-color: white;
   width: 75%;
   margin: 0 auto 40px;
   min-height: 300px;
@@ -211,7 +211,7 @@
 
 @media (max-width: 768px) {
   .GTup-section {
-    margin-top: 40px auto;
+    margin: 70px auto;
     flex-direction: column;
   }
 
@@ -233,9 +233,10 @@
   }
 
   .submit-button {
-    width: 28%;
+    width: 25%;
     font-size: 12px;
-    margin: 8px auto -20px;
+    margin: 12px auto -40px auto;
+    padding: 6px 3px;
   }
   
   .no-results-message {
@@ -252,6 +253,7 @@
     padding: 5px;
     padding-bottom: 30px;
     width: 38%;
+    margin: 0 auto 10px;
   }
 
   .result-title {
