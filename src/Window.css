@@ -90,6 +90,10 @@
   .button-group {
     margin: 60px auto 30px;
   }
+
+  .info-button {
+    font-size: 10px;
+  }
 }
 
 @media (max-width: 500px) {
