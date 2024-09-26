@@ -9,7 +9,6 @@ function MakingCourse() {
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
   const clipboardBtnRef = useRef(null);
 
-  //const [activeButtonIndex, setActiveButtonIndex] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [infoWindow, setInfoWindow] = useState(null);
@@ -30,7 +29,7 @@ function MakingCourse() {
       const container = document.getElementById('map');
       const options = {
         center: new window.kakao.maps.LatLng(35.1796, 129.0756),
-        level: 3,
+        level: 5,
       };
       const mapInstance = new window.kakao.maps.Map(container, options);
       setMap(mapInstance);
@@ -41,42 +40,6 @@ function MakingCourse() {
       console.error('카카오 맵 API를 로드할 수 없습니다.');
     }
   }, []);
-
-  /* 마커 변함
-  const changeMarkerAndCenter = (marker, place, index) => {
-    if (!map) return;
-
-    const width = 35;
-    const height = width * (1064 / 735);
-
-    const redIcon = new window.kakao.maps.MarkerImage(
-      'https://raw.githubusercontent.com/Ha-seunga/MYpublic/main/imgDATA/HandmadeIMG2_re.png',
-      new window.kakao.maps.Size(width, height),
-      { offset: new window.kakao.maps.Point(27, 69) }
-    );
-
-    const originalMarker = selectedMarker;
-
-    if (originalMarker) {
-    originalMarker.setImage(originalMarker.originalImage);
-    originalMarker.setZIndex(1);
-    }
-
-    marker.setImage(redIcon);
-    marker.setZIndex(10);
-    setActiveButtonIndex(index);
-    marker.setMap(map);
-
-    const newCenter = new window.kakao.maps.LatLng(place.y, place.x);
-    map.setCenter(newCenter);
-
-    const content = `<div style="padding:5px;">${place.place_name}</div>`;
-    infoWindow.setContent(content);
-    infoWindow.setPosition(marker.getPosition());
-    infoWindow.open(map, marker);
-
-    setSelectedMarker(marker);
-  };*/
   
   const changeMarkerAndCenter = (marker, place, index) => {
     if (!map) return;
@@ -301,8 +264,6 @@ function MakingCourse() {
           },
         }
       ]
-      
-      //buttonTitle: '웹사이트로 이동하기', // 버튼 타이틀 설정
     });
   };
 
@@ -336,7 +297,7 @@ function MakingCourse() {
                   {places.map((place, index) => (
                     <div className="MCpla-section" key={index}>
                       <ul className="place-item2" 
-                      onClick={() => handlePlaceClick(place)} //style={{ backgroundColor: activeButtonIndex === index ? 'gray' : 'white' }}
+                      onClick={() => handlePlaceClick(place)}
                       >
                         <li>
                           <div className="place-name2">
