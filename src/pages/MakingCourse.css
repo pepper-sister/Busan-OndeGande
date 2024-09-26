@@ -11,7 +11,7 @@
 }
 
 .MCmap-section {
-  width: 65%;
+  width: 100%;
 }
 
 .map-container {
@@ -257,10 +257,6 @@
 
   .MCup-section {
     flex-direction: column;
-  }
-
-  .MCmap-section {
-    width: 100%;
   }
 
   .map-container {
