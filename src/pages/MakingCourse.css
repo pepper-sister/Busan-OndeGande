@@ -259,9 +259,7 @@
     flex-direction: column;
   }
 
-  .map-container {
-    border-radius: 25px 25px 0px 0px;
-  }
+  
   
   .MCplace-section {
     height: 80vw;
