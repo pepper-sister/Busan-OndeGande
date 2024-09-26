@@ -32,6 +32,8 @@ function DoingNow() {
           const { latitude, longitude } = position.coords;
           setSelectedLocation({ lat: latitude, lng: longitude });
         
+          setSearchResults([]);
+
           if (window.kakao && window.kakao.maps) {
             const geocoder = new window.kakao.maps.services.Geocoder();
             geocoder.coord2Address(longitude, latitude, (result, status) => {
@@ -58,7 +60,7 @@ function DoingNow() {
 
   useEffect(() => {
     const fetchPlaces = async (lat, lng) => {
-      const url = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${SERVICE_KEY}&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json&listYN=Y&arrange=A&mapX=${lng}&mapY=${lat}&radius=${distance}&contentTypeId=${getContentTypeId(category)}`;
+      const url = `https://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${SERVICE_KEY}&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=Busan'sOndegande&_type=json&listYN=Y&arrange=A&mapX=${lng}&mapY=${lat}&radius=${distance}&contentTypeId=${getContentTypeId(category)}`;
 
       try {
         const response = await axios.get(url);

@@ -11,7 +11,7 @@ function GoThis() {
     '전체',         
     '레저',
     '맛',
-    '무장애',
+    '휠체어',
     '문화',
     '반려동물',
     '역사',
@@ -22,7 +22,7 @@ function GoThis() {
   const themeToSEQ = {
     '레저': ['282','431','468','490','861','980'],
     '맛': ['464','1145','1182','1326','1369','1400','1407','1774','1873'],
-    '무장애': ['310','469'],
+    '휠체어': ['310','469'],
     '문화': [
     '350', '353', '374', '378', '381', '382', '394', '485', '491', '514', 
     '780', '847', '853', '858', '1015', '1140', '1154', '1174', '1178', 
@@ -57,8 +57,9 @@ function GoThis() {
   const [error, setError] = useState(null);
   const [popupImage, setPopupImage] = useState(null);
   const [randomCourse, setRandomCourse] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const SERVICE_KEY = process.env.REACT_APP_S_SERVICE_KEY;
+  const SERVICE_KEY = process.env.REACT_APP_SERVICE_KEY;
 
   const handleRegionToggle = (region) => {
     if (region === '전체') {
@@ -82,14 +83,16 @@ function GoThis() {
 
   const fetchResults = async () => {
     if (selectedRegions.length === 0) {
-      alert('지역을 선택하세요.');
+      alert('지역을 선택해주세요.');
       return;
     }
 
     if (selectedThemes.length === 0) {
-      alert('테마를 선택하세요.');
+      alert('테마를 선택해주세요.');
       return;
     }
+
+    setLoading(true);
 
     const urls = [
       `https://apis.data.go.kr/6260000/RecommendedService/getRecommendedKr?serviceKey=${SERVICE_KEY}&pageNo=1&numOfRows=106`,
@@ -130,6 +133,7 @@ function GoThis() {
     setResults(filteredResults);
     setRandomCourse(null);
     setError(filteredResults.length === 0 ? '선택한 조건에 맞는 결과가 없습니다.' : null);
+    setLoading(false);
   };
 
   const handleSubmit = () => {
@@ -138,11 +142,21 @@ function GoThis() {
   };
 
   const handleRandomCourse = () => {
+    if (selectedRegions.length === 0) {
+      alert('지역을 선택해주세요.');
+      return;
+    }
+  
+    if (selectedThemes.length === 0) {
+      alert('테마를 선택해주세요.');
+      return;
+    }
+
     if (results.length > 0) {
       const randomIndex = Math.floor(Math.random() * results.length);
       setRandomCourse(results[randomIndex]);
     } else {
-      alert('먼저 코스를 확인해주세요.');
+      alert('먼저 모든 코스를 확인해주세요.');
     }
   };
 
@@ -206,8 +220,13 @@ function GoThis() {
         <section className="mapthemecourse-section">
         <div className="results-container">
         {error && <p className="error-message">{error}</p>}
-        {results.length === 0 && !error && <p className="no-results-message">원하는 지역 및 테마를 선택하세요.</p>}
-        {(results.length > 0 || randomCourse) && (
+        {loading && (
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+          </div>
+        )}
+        {!loading && results.length === 0 && !error && <p className="no-results-message">원하는 지역 및 테마를 선택하세요.</p>}
+        {!loading && (results.length > 0 || randomCourse) && (
           (randomCourse ? [randomCourse] : results).map((result, index) => (
             <div key={index} className="result-item">
               <div className="result-content">

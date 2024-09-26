@@ -104,6 +104,7 @@
   background-color: #f7f7f7;
   max-height: 1150px;
   overflow-y: auto;
+  border-radius: 30px;
 }
 
 .CourseCheck-section p {
@@ -201,6 +202,7 @@
   .CourseCheck-section {
     padding: 5px;
     width: 55%;
+    border-radius: 25px;
   }
 
   .course-title {

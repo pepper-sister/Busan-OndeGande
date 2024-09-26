@@ -141,12 +141,12 @@ function MakingCourse() {
     const clipboard = new ClipboardJS(clipboardBtnRef.current);
 
     clipboard.on('success', function (e) {
-      alert('텍스트가 클립보드에 복사되었습니다.');
+      alert('코스가 클립보드에 복사되었습니다.');
       e.clearSelection();
     });
 
     clipboard.on('error', function (e) {
-      alert('클립보드 복사에 실패했습니다.');
+      alert('장소를 추가해주세요.');
     });
 
     return () => {
@@ -167,7 +167,6 @@ function MakingCourse() {
       console.error('Kakao 객체를 찾을 수 없습니다.');
     }
   }, []);
-  
 
   const searchPlaces = () => {
     if (!window.kakao || !window.kakao.maps) return;
@@ -196,8 +195,6 @@ function MakingCourse() {
       name: place.place_name,
       lat: place.y,
       lng: place.x,
-
-
       road_address_name: place.road_address_name || '주소 없음',
       region2: place.region_2depth_name,
       region3: place.region_3depth_name,

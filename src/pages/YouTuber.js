@@ -10,6 +10,13 @@ function YouTuber() {
   const [sortOrder, setSortOrder] = useState('ASC');
   const randomButtonRef = useRef(null);
 
+  const scrollpage = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }
+
   useEffect(() => {
     fetch('https://www.ondegande.site/api/travel-courses/youtubers')
       .then((response) => response.json())
@@ -47,6 +54,7 @@ function YouTuber() {
 
 
   const handleCourseClick = (index) => {
+    scrollpage();
     const selected = courses[index];
     fetch(`https://www.ondegande.site/api/travel-courses/${selected.id}`)
       .then((response) => response.json())
