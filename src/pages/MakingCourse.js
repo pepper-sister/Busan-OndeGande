@@ -282,7 +282,7 @@ function MakingCourse() {
     ).join('\n\n');
   };
 
-  const getShareLink = () => {
+   const getShareLink = () => {
     if (!window.Kakao) {
       console.error('Kakao 객체를 찾을 수 없습니다.');
       return;
@@ -291,6 +291,10 @@ function MakingCourse() {
     window.Kakao.Share.sendDefault({
       objectType: 'text',
       text: generateShareText(),
+      link: {
+        mobileWebUrl: 'https://www.ondegande.site',
+        webUrl: 'https://www.ondegande.site',
+      },
       buttons: [
         {
           title: '웹사이트 바로가기',
