@@ -291,11 +291,17 @@ function MakingCourse() {
     window.Kakao.Share.sendDefault({
       objectType: 'text',
       text: generateShareText(),
-      link: {
-        mobileWebUrl: 'https://www.ondegande.site',
-        webUrl: 'https://www.ondegande.site',
-      },
-      buttonTitle: '웹사이트로 이동하기', // 버튼 타이틀 설정
+      buttons: [
+        {
+          title: '웹사이트 바로가기',
+          link: {
+            mobileWebUrl: 'https://www.ondegande.site',
+            webUrl: 'https://www.ondegande.site',
+          },
+        }
+      ]
+      
+      //buttonTitle: '웹사이트로 이동하기', // 버튼 타이틀 설정
     });
   };
 
