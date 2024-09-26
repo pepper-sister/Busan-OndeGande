@@ -33,6 +33,8 @@ function MakingCourse() {
         level: 5,
       };
       const mapInstance = new window.kakao.maps.Map(container, options);
+      mapInstance.relayout();
+      
       setMap(mapInstance);
 
       mapInstance.relayout();
