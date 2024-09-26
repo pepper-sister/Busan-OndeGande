@@ -9,6 +9,7 @@ function DoingNow() {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [places, setPlaces] = useState([]);
+  const [showNoPlacesMessage, setShowNoPlacesMessage] = useState(false);
 
   const SERVICE_KEY = process.env.REACT_APP_SERVICE_KEY;
 
@@ -31,8 +32,8 @@ function DoingNow() {
         (position) => {
           const { latitude, longitude } = position.coords;
           setSelectedLocation({ lat: latitude, lng: longitude });
-        
           setSearchResults([]);
+          setShowNoPlacesMessage(false);
 
           if (window.kakao && window.kakao.maps) {
             const geocoder = new window.kakao.maps.services.Geocoder();
@@ -75,6 +76,7 @@ function DoingNow() {
         });
         
         setPlaces(filteredItems);
+        setShowNoPlacesMessage(filteredItems.length === 0);
       } catch (error) {
         console.error('API 호출 중 오류 발생:', error);
       }
@@ -117,6 +119,7 @@ function DoingNow() {
           setSearchResults(result.slice(0, 5));
           const { y, x } = result[0];
           setSelectedLocation({ lat: y, lng: x });
+          setShowNoPlacesMessage(false);
         } else {
           setSearchResults([]);
         }
@@ -250,7 +253,22 @@ function DoingNow() {
                   </div>
                 ))
               ) : (
-                <p>위치를 입력해주세요.</p>
+                <div className='DN-mes'>
+                  <div className='search-prompt'>
+                    <p>{location.trim() === '' ? '장소를 검색해주세요.' : null}</p>
+                  </div>
+                  
+                  <div className='er'>
+                  <p>
+                    {selectedLocation && location.trim() !== '' && showNoPlacesMessage && (
+                      category === 'sightseeing' ? '주변 관광지가 없습니다.' :
+                      category === 'food' ? '주변 맛집이 없습니다.' :
+                      category === 'accommodation' ? '주변 숙소가 없습니다.' :
+                      null
+                    )}
+                  </p>
+                </div>
+              </div>
               )}
             </div>
           </section>
