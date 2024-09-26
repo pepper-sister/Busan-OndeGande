@@ -279,7 +279,7 @@ function MakingCourse() {
     ).join('\n\n');
   };
 
-  const getShareLink = () => {
+   const getShareLink = () => {
     if (!window.Kakao) {
       console.error('Kakao 객체를 찾을 수 없습니다.');
       return;
@@ -292,6 +292,17 @@ function MakingCourse() {
         mobileWebUrl: 'https://www.ondegande.site',
         webUrl: 'https://www.ondegande.site',
       },
+      buttons: [
+        {
+          title: '웹사이트 바로가기',
+          link: {
+            mobileWebUrl: 'https://www.ondegande.site',
+            webUrl: 'https://www.ondegande.site',
+          },
+        }
+      ]
+      
+      //buttonTitle: '웹사이트로 이동하기', // 버튼 타이틀 설정
     });
   };
 
