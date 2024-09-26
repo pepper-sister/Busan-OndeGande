@@ -250,8 +250,7 @@
   font-size: 16px;
   color: #666;
   margin-bottom: 10px;
-  align-self: center;
-  margin-top: auto;
+  flex-shrink: 0;
 }
 
 .info-button2 {
