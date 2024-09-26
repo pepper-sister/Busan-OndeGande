@@ -29,7 +29,7 @@ function MakingCourse() {
       const container = document.getElementById('map');
       const options = {
         center: new window.kakao.maps.LatLng(35.1796, 129.0756),
-        level: 2,
+        level: 5,
       };
       const mapInstance = new window.kakao.maps.Map(container, options);
       setMap(mapInstance);
