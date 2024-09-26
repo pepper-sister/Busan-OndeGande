@@ -26,7 +26,6 @@ function MakingCourse() {
 
   useEffect(() => {
     if (window.kakao && window.kakao.maps) {
-      window.kakao.maps.disableHD();
       
       const container = document.getElementById('map');
       const options = {
@@ -35,6 +34,8 @@ function MakingCourse() {
       };
       const mapInstance = new window.kakao.maps.Map(container, options);
       setMap(mapInstance);
+
+      mapInstance.relayout();
 
       const iw = new window.kakao.maps.InfoWindow({ zIndex: 1 });
       setInfoWindow(iw);
