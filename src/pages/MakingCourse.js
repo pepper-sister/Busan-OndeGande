@@ -295,6 +295,7 @@ function MakingCourse() {
         mobileWebUrl: 'https://www.ondegande.site',
         webUrl: 'https://www.ondegande.site',
       },
+      buttonTitle: '웹사이트로 이동하기', // 버튼 타이틀 설정
     });
   };
 
