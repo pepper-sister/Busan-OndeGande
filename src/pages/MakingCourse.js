@@ -29,13 +29,25 @@ function MakingCourse() {
       const container = document.getElementById('map');
       const options = {
         center: new window.kakao.maps.LatLng(35.1796, 129.0756),
-        level: 3,
+        level: 5,
       };
       const mapInstance = new window.kakao.maps.Map(container, options);
       setMap(mapInstance);
 
       const iw = new window.kakao.maps.InfoWindow({ zIndex: 1 });
       setInfoWindow(iw);
+
+      const handleResize = () => {
+        if (mapInstance) {
+          mapInstance.relayout();
+        }
+      };
+
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
     } else {
       console.error('카카오 맵 API를 로드할 수 없습니다.');
     }
