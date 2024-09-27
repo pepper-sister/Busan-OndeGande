@@ -242,7 +242,7 @@
   margin-bottom: 0px;
   align-self: center;
   margin-top: auto;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   flex-shrink: 0;
 }
 
@@ -334,6 +334,7 @@
 
   .place-name {
     font-size: 15px;
+    margin-bottom: 0px;
   }
   
   .place-address {
