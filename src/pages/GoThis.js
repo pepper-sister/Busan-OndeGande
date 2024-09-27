@@ -160,8 +160,8 @@ function GoThis() {
     }
   };
 
-  const handleImagePopup = (imgUrl, textContent) => {
-    setPopupImage({ imgUrl, textContent });
+  const handleImagePopup = (imgUrl, textContent, mainTitle, subTitle) => {
+    setPopupImage({ imgUrl, textContent, mainTitle, subTitle });
   };
 
   const handleClosePopup = () => {
@@ -248,7 +248,7 @@ function GoThis() {
                   )}
                   <button 
                     className="course-button" 
-                    onClick={() => handleImagePopup(result.mainImgNormal, result.itemCntnts)}
+                    onClick={() => handleImagePopup(result.mainImgNormal, result.itemCntnts, result.mainTitle, result.subTitle)}
                   >
                     자세히
                   </button>
@@ -262,9 +262,16 @@ function GoThis() {
       {popupImage && (
         <div className="popup-overlay" onClick={handleClosePopup}>
           <div className="popup-content" onClick={e => e.stopPropagation()}>
+          <button className="popup-close-button" onClick={handleClosePopup}>&times;</button>
             {popupImage.imgUrl && (
               <div className="popup-image-container">
                 <img src={popupImage.imgUrl} alt="상세 이미지" className="popup-image" />
+              </div>
+            )}
+            {popupImage.textContent && (
+              <div className="popup-title">
+                <h2 className="popup-main-title">{cleanTitle(popupImage.mainTitle)}</h2>
+                <h4 className="popup-sub-title">{popupImage.subTitle}</h4>
               </div>
             )}
             {popupImage.textContent && (
