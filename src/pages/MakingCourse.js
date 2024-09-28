@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef  } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './MakingCourse.css';
+import MakingCourseMap from './MakingCourseMap'; // 'MakingCourseMap' 컴포넌트 불러오기 
+
 
 function MakingCourse() {
   const [map, setMap] = useState(null);
@@ -12,6 +14,9 @@ function MakingCourse() {
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [infoWindow, setInfoWindow] = useState(null);
+
+  const [selectedDay, setSelectedDay] = useState(null); // 선택된 날짜 상태 09.26 추가
+  
 
   const addDay = () => {
     if (days.length >= 10) {
@@ -267,6 +272,15 @@ function MakingCourse() {
       ]
     });
   };
+  
+  // 추가0926: 특정 Day에 해당하는 코스 리스트를 클릭하면 'MakingCourseMap'을 호출하여 해당 Day의 코스를 시각화
+  const handleDayClick = (dayIndex) => {
+        if (selectedDay === dayIndex) {
+            setSelectedDay(null); // 이미 선택된 Day를 다시 클릭하면 선택 해제
+        } else {
+            setSelectedDay(dayIndex); // Day 클릭 시 해당 Day로 설정
+        }
+    };
 
   return (
     <div>
@@ -336,10 +350,15 @@ function MakingCourse() {
                         ref={provided.innerRef}
                         {...provided.droppableProps}
                       >
-                        <div className="day-header">
-                          <h3>{day.title}</h3>
-                          <button className="delete-day-button" onClick={() => deleteDay(dayIndex)}>ㅡ</button>
+                        <div className="day-header" onClick={() => handleDayClick(dayIndex)}> 
+                           <h3>{day.title}</h3>
+                           <button className="delete-day-button" onClick={() => deleteDay(dayIndex)}>ㅡ</button>
                         </div>
+                        {selectedDay === dayIndex && ( 
+                           <div className="new-map-container"> {/* new-map-container 추가 */}
+                            <MakingCourseMap courses={day.courses} mapId={`map-${dayIndex}`} /> {/* 추가0926 */}
+                            </div>
+                        )}
                         {day.courses.map((course, courseIndex) => (
                           <Draggable
                             key={course.order}
