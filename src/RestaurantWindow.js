@@ -54,10 +54,9 @@ function RestaurantWindow() {
           .filter((item) => item.firstimage)
           .map((item) => (
             <div key={item.contentid} className="restaurant-item">
-              <img
+              <img className="list-item-img"
                 src={item.firstimage}
                 alt={item.title}
-                style={{ width: '200px', height: '150px', objectFit: 'cover' }}
               />
               <div className="restaurant-info">
                 <h2>

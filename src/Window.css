@@ -15,6 +15,10 @@
   flex: 1;
 }
 
+.place-info p {
+  margin-right: 10px;
+}
+
 .restaurant-list {
   display: flex;
   flex-direction: column;
@@ -30,6 +34,10 @@
 
 .restaurant-info {
   flex: 1;
+}
+
+.restaurant-info p {
+  margin-right: 10px;
 }
 
 .sleep-list {
@@ -49,6 +57,10 @@
   flex: 1;
 }
 
+.sleep-info p {
+  margin-right: 10px;
+}
+
 .button-group {
   display: flex;
   flex-wrap: wrap;
@@ -60,7 +72,7 @@
 
 .button-group button {
   margin-right: 10px;
-  padding: 10px 20px;
+  padding: 8px 16px;
   border: none;
   background-color: #f0f0f0;
   cursor: pointer;
@@ -70,6 +82,12 @@
 .button-group button.active {
   background-color: #4373D0;
   color: white;
+}
+
+.list-item-img {
+  width: 200px;
+  height: 150px;
+  object-fit: cover;
 }
 
 .info-button {
@@ -88,17 +106,56 @@
 
 @media (max-width: 768px) {
   .button-group {
-    margin: 60px auto 30px;
+    margin: 60px auto 20px;
+  }
+
+  .button-group button {
+    padding: 7px 12px;
+  }
+
+  .list-item-img {
+    width: 150px;
+    height: 100px;
+  }
+
+  .place-list {
+    gap: 10px;
+  }
+
+  .place-item {
+    gap: 10px;
+  }
+
+  .restaurant-list {
+    gap: 10px;
+  }
+
+  .restaurant-item {
+    gap: 10px;
+  }
+
+  .sleep-list {
+    gap: 10px;
+  }
+
+  .sleep-item {
+    gap: 10px;
   }
 
   .info-button {
     font-size: 10px;
+    padding: 5px 7px;
   }
 }
 
 @media (max-width: 500px) {
+  .list-item-img {
+    width: 120px;
+    height: 90px;
+  }
+
   .place-info h2 {
-    font-size: 5vw;
+    font-size: 4vw;
   }
   
   .place-info p {
@@ -106,7 +163,7 @@
   }
 
   .restaurant-info h2 {
-    font-size: 5vw;
+    font-size: 4vw;
   }
   
   .restaurant-info p {
@@ -114,10 +171,15 @@
   }
 
   .sleep-info h2 {
-    font-size: 5vw;
+    font-size: 4vw;
   }
   
   .sleep-info p {
     font-size: 3vw;
+  }
+
+  .info-button {
+    font-size: 2vw;
+    padding: 4px 5px;
   }
 }
