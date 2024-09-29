@@ -49,6 +49,9 @@ function MakingCourse() {
       };
       const mapInstance = new window.kakao.maps.Map(container, options);
       setMap(mapInstance);
+      mapInstance.relayout();
+      mapInstance.setLevel(5); 
+      mapInstance.relayout();
 
       const iw = new window.kakao.maps.InfoWindow({ zIndex: 1 });
       setInfoWindow(iw);
