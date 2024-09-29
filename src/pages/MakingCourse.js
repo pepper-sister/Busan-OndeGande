@@ -16,6 +16,8 @@ function MakingCourse() {
   const [infoWindow, setInfoWindow] = useState(null);
 
   const [selectedDay, setSelectedDay] = useState(null); // 선택된 날짜 상태 09.26 추가
+  const [isMapVisible, setIsMapVisible] = useState([]); // 추가: 각 Day의 맵 보임 여부 상태
+
   
 
   const addDay = () => {
@@ -27,6 +29,8 @@ function MakingCourse() {
     const updatedDays = [...days, { title: `Day ${newDayIndex}`, courses: [] }];
     setDays(updatedDays);
     setSelectedDayIndex(updatedDays.length - 1);
+
+    setIsMapVisible((prev) => [...prev, false]); // 맵 상태 초기화
   };
 
   useEffect(() => {
@@ -170,6 +174,14 @@ function MakingCourse() {
       region3h: place.region_3depth_h_name,
       order: updatedDays[selectedDayIndex].courses.length + 1
     });
+
+    // 코스 추가하면 바로 시각화 되도록 업데이트 코드 추가
+    const day = updatedDays[selectedDayIndex];    
+    day.courses = day.courses.map((course, index) => ({
+      ...course,
+      order: index + 1
+    }));
+    
     setDays(updatedDays);
   };
 
@@ -275,6 +287,12 @@ function MakingCourse() {
   
   // 추가0926: 특정 Day에 해당하는 코스 리스트를 클릭하면 'MakingCourseMap'을 호출하여 해당 Day의 코스를 시각화
   const handleDayClick = (dayIndex) => {
+    
+    //09.28 추가
+    const updatedVisibility = [...isMapVisible];
+    updatedVisibility[dayIndex] = !updatedVisibility[dayIndex];
+    setIsMapVisible(updatedVisibility);
+    
         if (selectedDay === dayIndex) {
             setSelectedDay(null); // 이미 선택된 Day를 다시 클릭하면 선택 해제
         } else {
@@ -350,14 +368,18 @@ function MakingCourse() {
                         ref={provided.innerRef}
                         {...provided.droppableProps}
                       >
-                        <div className="day-header" onClick={() => handleDayClick(dayIndex)}> 
-                           <h3>{day.title}</h3>
-                           <button className="delete-day-button" onClick={() => deleteDay(dayIndex)}>ㅡ</button>
+                        <div className="day-header">
+                          <h3>{day.title}</h3>
+                          <button className="new-map-button" onClick={() => handleDayClick(dayIndex)}>
+                            {isMapVisible[dayIndex] ? '맵 닫기' : '맵 확인하기'}
+                          </button>
+                          <button className="delete-day-button" onClick={() => deleteDay(dayIndex)}>ㅡ</button>
                         </div>
-                        {selectedDay === dayIndex && ( 
-                           <div className="new-map-container"> {/* new-map-container 추가 */}
-                            <MakingCourseMap courses={day.courses} mapId={`map-${dayIndex}`} /> {/* 추가0926 */}
-                            </div>
+                        {isMapVisible[dayIndex] && (
+                          <div className="new-map-container">
+                            {/* 코스 맵 컴포넌트 렌더링 */}
+                            <MakingCourseMap courses={day.courses} mapId={`map-${dayIndex}`} />
+                          </div>
                         )}
                         {day.courses.map((course, courseIndex) => (
                           <Draggable
