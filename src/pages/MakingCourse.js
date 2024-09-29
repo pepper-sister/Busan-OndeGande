@@ -15,8 +15,9 @@ function MakingCourse() {
   const [infoWindow, setInfoWindow] = useState(null);
 
   const [isMapVisible, setIsMapVisible] = useState(false);
-
   const dayContainerRef = useRef([]);
+
+  const [showTip, setShowTip] = useState(false);
 
   const toggleAllMapsVisibility = () => {
     setIsMapVisible(prev => !prev);
@@ -336,6 +337,10 @@ function MakingCourse() {
     });
   };
 
+  const handleClick = () => {
+    setShowTip(!showTip);
+  };
+
   return (
     <div>
       <main>
@@ -396,7 +401,14 @@ function MakingCourse() {
             </button>
           </section>
 
-          <p>Tip! 드래그로 장소 순서 변경 가능</p>
+          <div style={{ textAlign: 'right', position: 'relative' }}>
+            {showTip && (
+                <div className="tip-window">
+                    <p>드래그로 장소 순서 변경 가능</p>
+                </div>
+            )}
+            <button className="tip-button" onClick={handleClick}>Tip!</button>
+        </div>
 
           <section className="MCday-section">
             <DragDropContext onDragEnd={onDragEnd}>

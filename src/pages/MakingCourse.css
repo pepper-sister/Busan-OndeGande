@@ -130,7 +130,7 @@
   display: flex;
   flex-direction: row;
   gap: 13px;
-  padding: 20px;
+  padding: 20px 20px 0px;
 }
 
 .MCbutton-group button {
@@ -182,11 +182,40 @@
   background-color: #d1d0d0;
 }
 
-.MC-section p {
-  text-align: right;
+.tip-button {
+  background-color: #4373D0;
+  border-radius: 50%;
+  padding: 6px;
+  color: white;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 20px;
+  margin-top: 10px;
+}
+
+.tip-window {
+  position: absolute;
+  right: 70px;
+  top: 11px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px #4373D0;
+  padding: 0px;
+  z-index: 1000;
+  width: auto;
+  padding: 0px;
+  height: auto;
+  text-align: center;
+  color: black;
+}
+
+.tip-window p {
   font-size: 16px;
-  margin: -5px 20px 5px;
-  color: gray;
+  font-weight: bold;
+  margin: 4px;
 }
 
 .MCday-section {
@@ -358,9 +387,20 @@
     padding: 4px 7px;
   }
 
-  .MC-section p {
-    font-size: 12px;
-    margin: 5px 5px 0px;
+  .tip-button {
+    padding: 6px;
+    font-size: 2.3vw;
+    margin-right: 5px;
+    margin-top: 5px;
+  }
+  
+  .tip-window {
+    right: 8vw;
+    top: 5px;
+  }
+  
+  .tip-window p {
+    font-size: 2.2vw;
   }
 
   .MCday-section {
@@ -399,5 +439,21 @@
   .MCbutton-group button {
     font-size: 3vw;
     padding: 4px 4px;
+  }
+
+  .tip-button {
+    padding: 6px;
+    font-size: 3.1vw;
+    margin-right: 1px;
+    margin-top: 5px;
+  }
+  
+  .tip-window {
+    right: 11vw;
+    top: 5px;
+  }
+  
+  .tip-window p {
+    font-size: 3vw;
   }
 }
