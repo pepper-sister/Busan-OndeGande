@@ -1,77 +1,67 @@
 .place-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
+  margin: 0px 10px;
 }
 
 .place-item {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
 }
 
 .place-info {
   flex: 1;
 }
 
-.place-info p {
-  margin-right: 10px;
-}
-
 .restaurant-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
+  margin: 0px 10px;
 }
 
 .restaurant-item {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
 }
 
 .restaurant-info {
   flex: 1;
 }
 
-.restaurant-info p {
-  margin-right: 10px;
-}
-
 .sleep-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
+  margin: 0px 10px;
 }
 
 .sleep-item {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
 }
 
 .sleep-info {
   flex: 1;
 }
 
-.sleep-info p {
-  margin-right: 10px;
-}
-
 .button-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 10px;
   justify-content: center;
-  margin: 90px auto 40px;
+  margin: 90px 10px 40px;
   position: relative;
 }
 
 .button-group button {
-  margin-right: 10px;
   padding: 8px 16px;
   border: none;
   background-color: #f0f0f0;
@@ -107,7 +97,7 @@
 
 @media (max-width: 768px) {
   .button-group {
-    margin: 60px auto 20px;
+    margin: 60px 5px 20px;
   }
 
   .button-group button {
@@ -120,7 +110,8 @@
   }
 
   .place-list {
-    gap: 10px;
+    gap: 5px;
+    margin: 0px 10px;
   }
 
   .place-item {
@@ -128,7 +119,8 @@
   }
 
   .restaurant-list {
-    gap: 10px;
+    gap: 5px;
+    margin: 0px 10px;
   }
 
   .restaurant-item {
@@ -136,11 +128,36 @@
   }
 
   .sleep-list {
-    gap: 10px;
+    gap: 5px;
+    margin: 0px 10px;
   }
 
   .sleep-item {
     gap: 10px;
+  }
+
+  .place-info h2 {
+    font-size: 3vw;
+  }
+  
+  .place-info p {
+    font-size: 2.5vw;
+  }
+
+  .restaurant-info h2 {
+    font-size: 3vw;
+  }
+  
+  .restaurant-info p {
+    font-size: 2.5vw;
+  }
+
+  .sleep-info h2 {
+    font-size: 3vw;
+  }
+  
+  .sleep-info p {
+    font-size: 2.5vw;
   }
 
   .info-button {
@@ -151,8 +168,8 @@
 
 @media (max-width: 500px) {
   .list-item-img {
-    width: 120px;
-    height: 90px;
+    width: 110px;
+    height: 80px;
   }
 
   .place-info h2 {
