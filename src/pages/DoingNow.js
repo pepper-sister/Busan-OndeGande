@@ -47,14 +47,14 @@ function DoingNow() {
         },
         
         (error) => {
-          console.error('위치 정보를 가져오는 중 오류 발생:', error);
+          console.error('위치를 가져오는 중 오류 발생:', error);
           if (error.code === error.PERMISSION_DENIED) {
-            alert('위치 정보를 허용하지 않았습니다.');
+            alert('위치 불러오기를 허용하지 않았습니다.');
           }
         }
       );
     } else {
-      console.error('현재 위치 정보를 지원하지 않는 브라우저입니다.');
+      console.error('현재 위치를 지원하지 않는 브라우저입니다.');
     }
   };
   
