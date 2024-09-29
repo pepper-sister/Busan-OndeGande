@@ -18,6 +18,9 @@ function MakingCourse() {
   const [selectedDay, setSelectedDay] = useState(null); // 선택된 날짜 상태 09.26 추가
   const [isMapVisible, setIsMapVisible] = useState([]); // 추가: 각 Day의 맵 보임 여부 상태
 
+  //new code 09.29
+  const dayContainerRef = useRef([]); // day-container에 대한 참조 배열 생성
+
   
 
   const addDay = () => {
@@ -31,6 +34,14 @@ function MakingCourse() {
     setSelectedDayIndex(updatedDays.length - 1);
 
     setIsMapVisible((prev) => [...prev, false]); // 맵 상태 초기화
+
+    // 새로운 Day 추가 후 자동 스크롤
+     setTimeout(() => {
+      const newDayContainer = dayContainerRef.current[newDayIndex - 1]; // 새로 추가된 Day의 참조 가져오기
+      if (newDayContainer) {
+        newDayContainer.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 0);
   };
 
   useEffect(() => {
@@ -64,6 +75,17 @@ function MakingCourse() {
   
     setSelectedMarker(marker);
   };  
+  
+  //자동스크롤과 드래그앤 드롭 결합하기
+  const combineRefs = (...refs) => (element) => {
+    refs.forEach((ref) => {
+      if (typeof ref === 'function') {
+        ref(element);
+      } else if (ref) {
+        ref.current = element;
+      }
+    });
+  };
 
   const displayMarkers = (places) => {
     if (!map) return;
@@ -364,10 +386,13 @@ function MakingCourse() {
                   <Droppable key={dayIndex} droppableId={`${dayIndex}`}>
                     {(provided) => (
                       <div
-                        className="day-container"
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                      >
+                      className="day-container"
+                      ref={combineRefs(
+                        provided.innerRef, // 드래그 앤 드롭을 위한 ref
+                        (el) => (dayContainerRef.current[dayIndex] = el) // 자동 스크롤을 위한 ref
+                      )}
+                      {...provided.droppableProps}
+                    >
                         <div className="day-header">
                           <h3>{day.title}</h3>
                           <button className="new-map-button" onClick={() => handleDayClick(dayIndex)}>
