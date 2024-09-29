@@ -14,10 +14,13 @@ function MakingCourse() {
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [infoWindow, setInfoWindow] = useState(null);
 
-  const [selectedDay, setSelectedDay] = useState(null);
-  const [isMapVisible, setIsMapVisible] = useState([]);
+  const [isMapVisible, setIsMapVisible] = useState(false);
 
   const dayContainerRef = useRef([]);
+
+  const toggleAllMapsVisibility = () => {
+    setIsMapVisible(prev => !prev);
+  };
 
   const addDay = () => {
     if (days.length >= 10) {
@@ -28,8 +31,6 @@ function MakingCourse() {
     const updatedDays = [...days, { title: `Day ${newDayIndex}`, courses: [] }];
     setDays(updatedDays);
     setSelectedDayIndex(updatedDays.length - 1);
-
-    setIsMapVisible((prev) => [...prev, false]);
 
      setTimeout(() => {
       const newDayContainer = dayContainerRef.current[newDayIndex - 1];
@@ -115,15 +116,6 @@ function MakingCourse() {
         ref.current = element;
       }
     });
-  };
-
-  const handleMapButtonClick = (dayIndex) => {
-    if (dayContainerRef.current[dayIndex]) {
-      dayContainerRef.current[dayIndex].scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    }
   };
 
   const displayMarkers = (places) => {
@@ -344,19 +336,6 @@ function MakingCourse() {
     });
   };
 
-  const handleDayClick = (dayIndex) => {
-    const updatedVisibility = [...isMapVisible];
-    updatedVisibility[dayIndex] = !updatedVisibility[dayIndex];
-    setIsMapVisible(updatedVisibility);
-    
-        if (selectedDay === dayIndex) {
-            setSelectedDay(null);
-        } else {
-            setSelectedDay(dayIndex);
-        }
-    handleMapButtonClick(dayIndex);
-  };
-
   return (
     <div>
       <main>
@@ -411,7 +390,10 @@ function MakingCourse() {
           <section className="MCbutton-group">
             <button className="day-button" onClick={addDay}>Day +</button>
             <button className="clipboard-button" ref={clipboardBtnRef} data-clipboard-text={generateShareText()}>클립보드에 복사</button>
-            <button className="kakao-button" onClick={getShareLink}>카카오톡으로 공유</button>
+            <button className="kakao-button" onClick={getShareLink}>카카오톡 공유하기</button>
+            <button className="toggle-map-button" onClick={toggleAllMapsVisibility}>
+              {isMapVisible ? "동선 숨기기" : "동선 확인"}
+            </button>
           </section>
 
           <section className="MCday-section">
@@ -430,22 +412,19 @@ function MakingCourse() {
                       >
                         <div className="day-header">
                           <h3>{day.title}</h3>
-                          <button className="new-map-button" onClick={() => handleDayClick(dayIndex)}>
-                            {isMapVisible[dayIndex] ? '맵 닫기' : '맵 확인하기'}
-                          </button>
                           <button className="delete-day-button" onClick={() => deleteDay(dayIndex)}>ㅡ</button>
                         </div>
-                        {isMapVisible[dayIndex] && (
-                          <div className="new-map-container">
-                            <MakingCourseMap courses={day.courses} mapId={`map-${dayIndex}`} />
-                          </div>
-                        )}
+                        {isMapVisible && (
+                            <div className="new-map-container" ref={el => dayContainerRef.current[dayIndex] = el}>
+                              <MakingCourseMap courses={day.courses} mapId={`map-${dayIndex}`} />
+                            </div>
+                          )}
                         {day.courses.map((course, courseIndex) => (
                           <Draggable
                             key={course.order}
                             draggableId={`${dayIndex}-${course.order}-${course.name}`}
                             index={courseIndex}
-                          >                        
+                          >
                             {(provided) => (
                               <div
                                 className="course-item"

@@ -139,6 +139,7 @@
   font-size: 16px;
   font-weight: 500;
   padding: 5px 10px;
+  font-weight: bold;
 }
 
 .day-button {
@@ -171,8 +172,21 @@
   background-color: #c1b13c;
 }
 
+.toggle-map-button {
+  background-color: #f0f0f0;
+  color: black;
+  margin-left: auto; 
+}
+
+.toggle-map-button:hover {
+  background-color: #d1d0d0;
+}
+
 .MCday-section {
   background-color: white;
+  display: flex;
+  align-items: center;
+  flex-direction: center;
   padding: 10px;
   flex: 1;
 }
@@ -185,17 +199,11 @@
   width: 100%;
 }
 
-/* 새로운 map-container 스타일 추가 */
 .new-map-container {
   width: 100%;
-
-    /*height: auto;  height를 자동으로 설정 */
-   /*height: 35%; 원하는 높이로 조정 */
-
-  margin: 20px 0; /* 지도 간격 조정 */
+  margin: 0px auto 10px;
   position: relative; 
-  z-index: 2; /* 지도가 다른 요소들과 겹치지 않도록 */
-  border: 2px solid rgb(73, 58, 134); /* 시각화된 맵을 구분하기 위한 빨간 테두리 */
+  z-index: 2;
 }
 
 .day-container {
@@ -205,9 +213,7 @@
   width: 22vw;
   min-height: 20vw;
   box-shadow: 0 0px 5px rgba(0, 0, 0, 0.2);
-
-  position: relative; /* position relative로 자식 요소들을 배치 */
-
+  position: relative;
 }
 
 .day-header {
@@ -231,9 +237,9 @@
 }
 
 .course-item {
-  max-height: 150px; /* 원하는 높이에 맞춰 스크롤할 수 있는 최대 높이 설정 */
-  overflow-y: auto; /* 스크롤 활성화 */
-  margin-top: 10px; /* new-map-container와의 간격 조정 */
+  max-height: 150px;
+  overflow-y: auto;
+  margin-top: 10px;
   padding: 5px;
   background-color: white;
   border-radius: 5px;
@@ -241,7 +247,6 @@
 }
 
 .course-name {
-  font-size: 20px;
   font-weight: bold;
 }
 
@@ -342,14 +347,19 @@
   }
 
   .MCbutton-group button {
-    font-size: clamp(5px, 3.4vw, 12px);
+    font-size: 2.2vw;
     padding: 4px 7px;
+  }
+
+  .MCday-section {
+    padding: 2px;
+    margin-top: 10px;
   }
   
   .day-container {
-    width: 32vw;
-    min-height: 40vw;
-    margin: 5px auto;
+    width: 35vw;
+    min-height: 30vw;
+    margin: 5px 5px;
   }
 
   .day-header h3 {
@@ -365,5 +375,17 @@
     font-size: 11px;
     margin-top: 5px;
     margin-bottom: -20px;
+  }
+}
+
+@media (max-width: 445px) {
+  .MCbutton-group {
+    gap: 5px;
+    padding: 1px;
+  }
+
+  .MCbutton-group button {
+    font-size: 3vw;
+    padding: 4px 4px;
   }
 }
