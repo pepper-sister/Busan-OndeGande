@@ -87,6 +87,16 @@ function MakingCourse() {
     });
   };
 
+  // "맵 확인하기" 버튼을 클릭했을 때 자동 스크롤 함수 09.29
+  const handleMapButtonClick = (dayIndex) => {
+    if (dayContainerRef.current[dayIndex]) {
+      dayContainerRef.current[dayIndex].scrollIntoView({
+        behavior: 'smooth', // 부드러운 스크롤
+        block: 'start',
+      });
+    }
+  };
+
   const displayMarkers = (places) => {
     if (!map) return;
 
@@ -320,7 +330,9 @@ function MakingCourse() {
         } else {
             setSelectedDay(dayIndex); // Day 클릭 시 해당 Day로 설정
         }
-    };
+    // 스크롤 기능 추가 09.29
+    handleMapButtonClick(dayIndex);
+  };
 
   return (
     <div>
