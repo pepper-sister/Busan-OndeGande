@@ -32,7 +32,7 @@ function MakingCourse() {
     setIsMapVisible((prev) => [...prev, false]);
 
      setTimeout(() => {
-      const newDayContainer = dayContainerRef.current[newDayIndex - 1]; // 새로 추가된 Day의 참조 가져오기
+      const newDayContainer = dayContainerRef.current[newDayIndex - 1];
       if (newDayContainer) {
         newDayContainer.scrollIntoView({ behavior: 'smooth' });
       }
@@ -205,7 +205,6 @@ function MakingCourse() {
       ...course,
       order: index + 1
     }));
-
     setDays(updatedDays);
   };
 

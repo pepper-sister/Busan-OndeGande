@@ -185,6 +185,19 @@
   width: 100%;
 }
 
+/* 새로운 map-container 스타일 추가 */
+.new-map-container {
+  width: 100%;
+
+    /*height: auto;  height를 자동으로 설정 */
+   /*height: 35%; 원하는 높이로 조정 */
+
+  margin: 20px 0; /* 지도 간격 조정 */
+  position: relative; 
+  z-index: 2; /* 지도가 다른 요소들과 겹치지 않도록 */
+  border: 2px solid rgb(73, 58, 134); /* 시각화된 맵을 구분하기 위한 빨간 테두리 */
+}
+
 .day-container {
   background-color: #f3f3f3;
   padding: 8px;
@@ -192,6 +205,9 @@
   width: 22vw;
   min-height: 20vw;
   box-shadow: 0 0px 5px rgba(0, 0, 0, 0.2);
+
+  position: relative; /* position relative로 자식 요소들을 배치 */
+
 }
 
 .day-header {
@@ -215,13 +231,13 @@
 }
 
 .course-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  margin-bottom: 10px;
+  max-height: 150px; /* 원하는 높이에 맞춰 스크롤할 수 있는 최대 높이 설정 */
+  overflow-y: auto; /* 스크롤 활성화 */
+  margin-top: 10px; /* new-map-container와의 간격 조정 */
   padding: 5px;
   background-color: white;
   border-radius: 5px;
+  font-size: 20px;
 }
 
 .course-name {
