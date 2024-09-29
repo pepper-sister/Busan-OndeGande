@@ -396,6 +396,8 @@ function MakingCourse() {
             </button>
           </section>
 
+          <p>Tip! 드래그로 장소 순서 변경 가능</p>
+
           <section className="MCday-section">
             <DragDropContext onDragEnd={onDragEnd}>
               <div className="day-wrapper">

@@ -182,6 +182,13 @@
   background-color: #d1d0d0;
 }
 
+.MC-section p {
+  text-align: right;
+  font-size: 16px;
+  margin: -5px 20px 5px;
+  color: gray;
+}
+
 .MCday-section {
   background-color: white;
   display: flex;
@@ -349,6 +356,11 @@
   .MCbutton-group button {
     font-size: 2.2vw;
     padding: 4px 7px;
+  }
+
+  .MC-section p {
+    font-size: 12px;
+    margin: 5px 5px 0px;
   }
 
   .MCday-section {
