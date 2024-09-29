@@ -48,6 +48,9 @@ function DoingNow() {
         
         (error) => {
           console.error('위치 정보를 가져오는 중 오류 발생:', error);
+          if (error.code === error.PERMISSION_DENIED) {
+            alert('위치 정보를 허용하지 않았습니다.');
+          }
         }
       );
     } else {
