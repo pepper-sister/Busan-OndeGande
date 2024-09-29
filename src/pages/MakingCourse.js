@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef  } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './MakingCourse.css';
+import MakingCourseMap from './MakingCourseMap';
 
 function MakingCourse() {
   const [map, setMap] = useState(null);
@@ -13,6 +14,11 @@ function MakingCourse() {
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [infoWindow, setInfoWindow] = useState(null);
 
+  const [selectedDay, setSelectedDay] = useState(null);
+  const [isMapVisible, setIsMapVisible] = useState([]);
+
+  const dayContainerRef = useRef([]);
+
   const addDay = () => {
     if (days.length >= 10) {
       alert("Day는 최대 10일까지 추가할 수 있습니다.");
@@ -22,6 +28,15 @@ function MakingCourse() {
     const updatedDays = [...days, { title: `Day ${newDayIndex}`, courses: [] }];
     setDays(updatedDays);
     setSelectedDayIndex(updatedDays.length - 1);
+
+    setIsMapVisible((prev) => [...prev, false]);
+
+     setTimeout(() => {
+      const newDayContainer = dayContainerRef.current[newDayIndex - 1]; // 새로 추가된 Day의 참조 가져오기
+      if (newDayContainer) {
+        newDayContainer.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 0);
   };
 
   useEffect(() => {
@@ -54,7 +69,26 @@ function MakingCourse() {
     infoWindow.open(map, marker);
   
     setSelectedMarker(marker);
-  };  
+  };
+
+  const combineRefs = (...refs) => (element) => {
+    refs.forEach((ref) => {
+      if (typeof ref === 'function') {
+        ref(element);
+      } else if (ref) {
+        ref.current = element;
+      }
+    });
+  };
+
+  const handleMapButtonClick = (dayIndex) => {
+    if (dayContainerRef.current[dayIndex]) {
+      dayContainerRef.current[dayIndex].scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  };
 
   const displayMarkers = (places) => {
     if (!map) return;
@@ -165,6 +199,13 @@ function MakingCourse() {
       region3h: place.region_3depth_h_name,
       order: updatedDays[selectedDayIndex].courses.length + 1
     });
+
+    const day = updatedDays[selectedDayIndex];    
+    day.courses = day.courses.map((course, index) => ({
+      ...course,
+      order: index + 1
+    }));
+
     setDays(updatedDays);
   };
 
@@ -268,6 +309,19 @@ function MakingCourse() {
     });
   };
 
+  const handleDayClick = (dayIndex) => {
+    const updatedVisibility = [...isMapVisible];
+    updatedVisibility[dayIndex] = !updatedVisibility[dayIndex];
+    setIsMapVisible(updatedVisibility);
+    
+        if (selectedDay === dayIndex) {
+            setSelectedDay(null);
+        } else {
+            setSelectedDay(dayIndex);
+        }
+    handleMapButtonClick(dayIndex);
+  };
+
   return (
     <div>
       <main>
@@ -333,13 +387,24 @@ function MakingCourse() {
                     {(provided) => (
                       <div
                         className="day-container"
-                        ref={provided.innerRef}
+                        ref={combineRefs(
+                          provided.innerRef,
+                          (el) => (dayContainerRef.current[dayIndex] = el)
+                        )}
                         {...provided.droppableProps}
                       >
                         <div className="day-header">
                           <h3>{day.title}</h3>
+                          <button className="new-map-button" onClick={() => handleDayClick(dayIndex)}>
+                            {isMapVisible[dayIndex] ? '맵 닫기' : '맵 확인하기'}
+                          </button>
                           <button className="delete-day-button" onClick={() => deleteDay(dayIndex)}>ㅡ</button>
                         </div>
+                        {isMapVisible[dayIndex] && (
+                          <div className="new-map-container">
+                            <MakingCourseMap courses={day.courses} mapId={`map-${dayIndex}`} />
+                          </div>
+                        )}
                         {day.courses.map((course, courseIndex) => (
                           <Draggable
                             key={course.order}
