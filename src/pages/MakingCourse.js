@@ -39,9 +39,33 @@ function MakingCourse() {
     }, 0);
   };
 
+  const debounce = (func, wait) => {
+    let timeout;
+    return () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        func();
+      }, wait);
+    };
+  };
+  
   useEffect(() => {
-    if (window.kakao && window.kakao.maps) {
-      
+    const loadKakaoMap = () => {
+      if (!window.kakao || !window.kakao.maps) {
+        const script = document.createElement('script');
+        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_JAVASCRIPT_KEY}&autoload=false`;
+        script.onload = () => {
+          window.kakao.maps.load(() => {
+            initMap();
+          });
+        };
+        document.head.appendChild(script);
+      } else {
+        initMap();
+      }
+    };
+  
+    const initMap = () => {
       const container = document.getElementById('map');
       const options = {
         center: new window.kakao.maps.LatLng(35.1796, 129.0756),
@@ -49,24 +73,25 @@ function MakingCourse() {
       };
       const mapInstance = new window.kakao.maps.Map(container, options);
       setMap(mapInstance);
-
+  
       const iw = new window.kakao.maps.InfoWindow({ zIndex: 1 });
       setInfoWindow(iw);
-
-      const handleResize = () => {
+  
+      const handleResize = debounce(() => {
         mapInstance.relayout();
         mapInstance.setCenter(new window.kakao.maps.LatLng(35.1796, 129.0756));
-      };
+      }, 200); // 200ms 딜레이로 디바운싱 처리
   
       window.addEventListener('resize', handleResize);
   
       return () => {
         window.removeEventListener('resize', handleResize);
       };
-    } else {
-      console.error('카카오 맵 API를 로드할 수 없습니다.');
-    }
+    };
+  
+    loadKakaoMap();
   }, []);
+  
   
   const changeMarkerAndCenter = (marker, place, index) => {
     if (!map) return;
