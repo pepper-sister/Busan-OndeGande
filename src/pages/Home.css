@@ -19,9 +19,10 @@
 }
 
 .suggest-item {
+  max-width: 250px;
   flex: 1;
   padding: 10px;
-  margin: 0 2.5vw;
+  margin: 0 1vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -150,15 +151,25 @@
   
 @media (max-width: 768px) {
   .mainimg-section {
-    margin: 50px auto -10px;
+    width: 80%;
+    margin: 60px auto -10px;
   }
 
   .suggestion-section {
-    margin-top: 20px;
+    margin-top: 30px;
+    width: 80%;
+  }
+
+  .suggest-item {
+    margin: 0 2vw;
   }
 
   .suggest-item h2 {
-    font-size: 6.5px;
+    font-size: 2.5vw;
+  }
+  
+  .festival-container {
+    width: 95%;
   }
 
   .festival-section h1 {
