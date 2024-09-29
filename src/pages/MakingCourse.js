@@ -80,7 +80,7 @@ function MakingCourse() {
       const handleResize = debounce(() => {
         mapInstance.relayout();
         mapInstance.setCenter(new window.kakao.maps.LatLng(35.1796, 129.0756));
-      }, 200); // 200ms 딜레이로 디바운싱 처리
+      }, 200);
   
       window.addEventListener('resize', handleResize);
   
