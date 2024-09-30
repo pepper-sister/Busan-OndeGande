@@ -23,9 +23,10 @@ function MakingCourse() {
   const toggleAllMapsVisibility = () => {
     if (days.length === 0) {
       alert("Day를 추가해주세요.");
+      setIsMapVisible(false);
       return;
     }
-    
+
     setIsMapVisible(prev => !prev);
   };
 
