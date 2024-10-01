@@ -4,17 +4,21 @@ import './Window.css';
 function RestaurantWindow() {
   const [theme, setTheme] = useState('A05020100');
   const [restaurants, setRestaurants] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const SERVICE_KEY = process.env.REACT_APP_SERVICE_KEY;
 
   useEffect(() => {
     const fetchData = async (cat3) => {
+      setLoading(true);
       try {
         const response = await fetch(`https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${SERVICE_KEY}&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=Busan'sOndegande&_type=json&listYN=Y&arrange=A&contentTypeId=39&areaCode=6&cat1=A05&cat2=A0502&cat3=${cat3}`);
         const data = await response.json();
         setRestaurants(data.response.body.items.item);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -50,7 +54,12 @@ function RestaurantWindow() {
       </div>
 
       <div className="restaurant-list">
-        {restaurants
+        {loading && (
+          <div className="loading-container2">
+            <div className="loading-spinner2"></div>
+          </div>
+        )}
+        {!loading && restaurants
           .filter((item) => item.firstimage)
           .map((item) => (
             <div key={item.contentid} className="restaurant-item">

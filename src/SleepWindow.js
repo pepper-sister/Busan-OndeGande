@@ -3,14 +3,22 @@ import React, { useState, useEffect } from 'react';
 function SleepWindow() {
   const [theme, setTheme] = useState('B02010100');
   const [sleep, setSleep] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const SERVICE_KEY = process.env.REACT_APP_SERVICE_KEY;
 
   useEffect(() => {
     const fetchData = async (cat3) => {
-      const response = await fetch(`https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${SERVICE_KEY}&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=Busan'sOndegande&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=6&cat1=B02&cat2=B0201&cat3=${cat3}`);
-      const data = await response.json();
-      setSleep(data.response.body.items.item);
+      setLoading(true);
+      try {
+        const response = await fetch(`https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${SERVICE_KEY}&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=Busan'sOndegande&_type=json&listYN=Y&arrange=A&contentTypeId=32&areaCode=6&cat1=B02&cat2=B0201&cat3=${cat3}`);
+        const data = await response.json();
+        setSleep(data.response.body.items.item);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData(theme);
@@ -45,7 +53,12 @@ function SleepWindow() {
       </div>
 
       <div className="sleep-list">
-        {sleep
+        {loading && (
+          <div className="loading-container2">
+            <div className="loading-spinner2"></div>
+          </div>
+        )}
+        {!loading && sleep
           .filter((item) => item.firstimage)
           .map((item) => (
             <div key={item.contentid} className="sleep-item">

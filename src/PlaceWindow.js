@@ -4,20 +4,28 @@ import './Window.css';
 function PlaceWindow() {
   const [theme, setTheme] = useState('A0101');
   const [place, setPlace] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const SERVICE_KEY = process.env.REACT_APP_SERVICE_KEY;
 
   useEffect(() => {
     const fetchData = async (cat2) => {
-      const cat1 = cat2 === 'A0101' ? 'A01' : 'A02';
+      setLoading(true);
+      try {
+        const cat1 = cat2 === 'A0101' ? 'A01' : 'A02';
   
-      const response = await fetch(
-        `https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${SERVICE_KEY}&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=Busan'sOndegande&_type=json&listYN=Y&arrange=A&contentTypeId=12&areaCode=6&cat1=${cat1}&cat2=${cat2}`
-      );
-      const data = await response.json();
-      setPlace(data.response.body.items.item);
+        const response = await fetch(
+          `https://apis.data.go.kr/B551011/KorService1/areaBasedList1?serviceKey=${SERVICE_KEY}&numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=Busan'sOndegande&_type=json&listYN=Y&arrange=A&contentTypeId=12&areaCode=6&cat1=${cat1}&cat2=${cat2}`
+        );
+        const data = await response.json();
+        setPlace(data.response.body.items.item);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
     };
-  
+
     fetchData(theme);
   }, [SERVICE_KEY, theme]);
 
@@ -47,7 +55,12 @@ function PlaceWindow() {
       </div>
 
       <div className="place-list">
-        {place
+        {loading && (
+          <div className="loading-container2">
+            <div className="loading-spinner2"></div>
+          </div>
+        )}
+        {!loading && place
           .filter((item) => item.firstimage)
           .map((item) => (
             <div key={item.contentid} className="place-item">
