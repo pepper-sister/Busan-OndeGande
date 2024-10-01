@@ -12,6 +12,7 @@
   color: #333;
   text-align: center;
   width: 60%;
+  max-width: 1300px;
   margin: 0 auto;
   margin-top: 0px;
   display: flex;
