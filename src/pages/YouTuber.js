@@ -1,27 +1,35 @@
-import React, { useState, useEffect, useRef  } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactPlayer from 'react-player';
 import YouTuMap from './YouTuMap';
 import './YouTuber.css';
 
-function YouTuber() {
+const YouTuber = () => {
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [setIsWindowOpen] = useState(false);
   const [sortOrder, setSortOrder] = useState('ASC');
   const randomButtonRef = useRef(null);
 
-  const scrollpage = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
+  const loadKakaoMap = () => {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_JAVASCRIPT_KEY}&libraries=services&autoload=false`;
+      script.onload = () => {
+        if (window.kakao && window.kakao.maps) {
+          resolve();
+        } else {
+          reject(new Error('Kakao Maps API 로드 실패'));
+        }
+      };
+      script.onerror = () => reject(new Error('Kakao Maps API 스크립트 로드 오류'));
+      document.head.appendChild(script);
     });
-  }
+  };
 
-  useEffect(() => {
+  const fetchData = () => {
     fetch('https://www.ondegande.site/api/travel-courses/youtubers')
       .then((response) => response.json())
       .then((data) => {
-        console.log("Fetched data:", data);
         const fetchedCourses = data.body.data.map((course) => ({
           id: course.id,
           youtuber: course.creatorName,
@@ -37,24 +45,38 @@ function YouTuber() {
       .catch((error) => {
         console.error('Error fetching courses:', error);
       });
-    }, []);
+  };
 
-    const handleSortChange = () => {
-      const sortedCourses = [...courses].sort((a, b) => {
-        if (sortOrder === 'ASC') {
-          return a.reviews - b.reviews;
-        } else {
-          return b.reviews - a.reviews;
-        }
-      });
-      setSortOrder((prevOrder) => (prevOrder === 'ASC' ? 'DESC' : 'ASC'));
-      setCourses(sortedCourses);
+  useEffect(() => {
+    const initializeMap = () => {
+      console.log('Kakao Map initialized');
+      fetchData();
     };
 
+    loadKakaoMap()
+      .then(() => {
+        window.kakao.maps.load(() => {
+          initializeMap();
+        });
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  }, []);
 
+  const handleSortChange = () => {
+    const sortedCourses = [...courses].sort((a, b) => {
+      if (sortOrder === 'ASC') {
+        return a.reviews - b.reviews;
+      } else {
+        return b.reviews - a.reviews;
+      }
+    });
+    setSortOrder((prevOrder) => (prevOrder === 'ASC' ? 'DESC' : 'ASC'));
+    setCourses(sortedCourses);
+  };
 
   const handleCourseClick = (index) => {
-    scrollpage();
     const selected = courses[index];
     fetch(`https://www.ondegande.site/api/travel-courses/${selected.id}`)
       .then((response) => response.json())

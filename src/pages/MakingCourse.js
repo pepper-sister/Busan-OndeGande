@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef  } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './MakingCourse.css';
 import MakingCourseMap from './MakingCourseMap';
@@ -40,7 +40,7 @@ function MakingCourse() {
     setDays(updatedDays);
     setSelectedDayIndex(updatedDays.length - 1);
 
-     setTimeout(() => {
+    setTimeout(() => {
       const newDayContainer = dayContainerRef.current[newDayIndex - 1];
       if (newDayContainer) {
         newDayContainer.scrollIntoView({ behavior: 'smooth' });
@@ -57,62 +57,70 @@ function MakingCourse() {
       }, wait);
     };
   };
-  
+
   useEffect(() => {
     const loadKakaoMap = () => {
-      if (!window.kakao || !window.kakao.maps) {
+      return new Promise((resolve, reject) => {
         const script = document.createElement('script');
-        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_JAVASCRIPT_KEY}&autoload=false`;
+        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_JAVASCRIPT_KEY}&libraries=services&autoload=false`;
         script.onload = () => {
-          window.kakao.maps.load(() => {
-            initMap();
-          });
+          if (window.kakao && window.kakao.maps) {
+            resolve();
+          } else {
+            reject(new Error('Kakao Maps API 로드 실패'));
+          }
         };
+        script.onerror = () => reject(new Error('Kakao Maps API 스크립트 로드 오류'));
         document.head.appendChild(script);
-      } else {
-        initMap();
-      }
+      });
     };
-  
-    const initMap = () => {
+
+    const initializeMap = () => {
       const container = document.getElementById('map');
       const options = {
         center: new window.kakao.maps.LatLng(35.1796, 129.0756),
         level: 5,
       };
+
       const mapInstance = new window.kakao.maps.Map(container, options);
       setMap(mapInstance);
-  
+
       const iw = new window.kakao.maps.InfoWindow({ zIndex: 1 });
       setInfoWindow(iw);
-  
+
       const handleResize = debounce(() => {
         mapInstance.relayout();
         mapInstance.setCenter(new window.kakao.maps.LatLng(35.1796, 129.0756));
       }, 200);
-  
       window.addEventListener('resize', handleResize);
-  
+
       return () => {
         window.removeEventListener('resize', handleResize);
       };
     };
-  
-    loadKakaoMap();
+
+    loadKakaoMap()
+      .then(() => {
+        window.kakao.maps.load(() => {
+          initializeMap();
+        });
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
   }, []);
-  
-  
+
   const changeMarkerAndCenter = (marker, place, index) => {
     if (!map) return;
-  
+
     const newCenter = new window.kakao.maps.LatLng(place.y, place.x);
     map.setCenter(newCenter);
-  
+
     const content = `<div style="padding:5px;">${place.place_name}</div>`;
     infoWindow.setContent(content);
     infoWindow.setPosition(marker.getPosition());
     infoWindow.open(map, marker);
-  
+
     setSelectedMarker(marker);
   };
 
@@ -144,7 +152,7 @@ function MakingCourse() {
 
       marker.setMap(map);
       newMarkers.push(marker);
-      
+
       window.kakao.maps.event.addListener(marker, 'click', () => {
         changeMarkerAndCenter(marker, place, index);
       });
@@ -168,7 +176,6 @@ function MakingCourse() {
       changeMarkerAndCenter(marker, place, index);
     }
   };
-
 
   useEffect(() => {
     const ClipboardJS = require('clipboard');
@@ -203,7 +210,8 @@ function MakingCourse() {
   }, []);
 
   const searchPlaces = () => {
-    if (!window.kakao || !window.kakao.maps) return;
+    if (!map) return;
+    if (!window.kakao || !window.kakao.maps || !window.kakao.maps.services) return;
 
     const ps = new window.kakao.maps.services.Places();
     const keyword = document.getElementById('keyword').value;
@@ -236,7 +244,7 @@ function MakingCourse() {
       order: updatedDays[selectedDayIndex].courses.length + 1
     });
 
-    const day = updatedDays[selectedDayIndex];    
+    const day = updatedDays[selectedDayIndex];
     day.courses = day.courses.map((course, index) => ({
       ...course,
       order: index + 1
@@ -271,31 +279,31 @@ function MakingCourse() {
 
   const onDragEnd = (result) => {
     const { source, destination } = result;
-  
+
     if (!destination) return;
-  
+
     const updatedDays = [...days];
     const sourceDayIndex = Number(source.droppableId);
     const destinationDayIndex = Number(destination.droppableId);
-  
+
     if (sourceDayIndex === destinationDayIndex) {
       const day = updatedDays[sourceDayIndex];
       const [movedCourse] = day.courses.splice(source.index, 1);
       day.courses.splice(destination.index, 0, movedCourse);
-      
+
       day.courses = day.courses.map((course, index) => ({
         ...course,
         order: index + 1
       }));
-  
+
       setDays(updatedDays);
     } else {
       const sourceDay = updatedDays[sourceDayIndex];
       const destinationDay = updatedDays[destinationDayIndex];
-  
+
       const [movedCourse] = sourceDay.courses.splice(source.index, 1);
       destinationDay.courses.splice(destination.index, 0, movedCourse);
-      
+
       sourceDay.courses = sourceDay.courses.map((course, index) => ({
         ...course,
         order: index + 1
@@ -304,14 +312,14 @@ function MakingCourse() {
         ...course,
         order: index + 1
       }));
-  
+
       setDays(updatedDays);
     }
     updateDayTitles(updatedDays);
   };
 
   const generateShareText = () => {
-    return days.map(day => 
+    return days.map(day =>
       `${day.title}\n${day.courses.map(course => (
         `${course.order}. ${course.name}\n` +
         `주소: ${course.road_address_name || '주소 없음'}\n`
@@ -319,12 +327,12 @@ function MakingCourse() {
     ).join('\n\n');
   };
 
-   const getShareLink = () => {
+  const getShareLink = () => {
     if (!window.Kakao) {
       console.error('Kakao 객체를 찾을 수 없습니다.');
       return;
     }
-  
+
     window.Kakao.Share.sendDefault({
       objectType: 'text',
       text: generateShareText(),
@@ -382,30 +390,30 @@ function MakingCourse() {
                   }}
                 />
                 <button className="search-button" onClick={searchPlaces}>
-                검색
+                  검색
                 </button>
-                
-                  {places.map((place, index) => (
-                    <div className="MCpla-section" key={index}>
-                      <ul className="place-item2" 
+
+                {places.map((place, index) => (
+                  <div className="MCpla-section" key={index}>
+                    <ul className="place-item2"
                       onClick={() => handlePlaceClick(place)}
-                      >
-                        <li>
-                          <div className="place-name2">
-                            {place.place_name}
-                          </div>
-                          <div className="place-address2">
-                            {place.road_address_name || '주소 없음'}
-                          </div>
-                        </li>
-                      </ul>
-                      <button className="add-button" 
+                    >
+                      <li>
+                        <div className="place-name2">
+                          {place.place_name}
+                        </div>
+                        <div className="place-address2">
+                          {place.road_address_name || '주소 없음'}
+                        </div>
+                      </li>
+                    </ul>
+                    <button className="add-button"
                       onClick={() => addCourse(place)}>+</button>
-                    </div>
-                  ))}                
+                  </div>
+                ))}
 
               </div>
-              
+
             </section>
           </section>
 
@@ -420,14 +428,14 @@ function MakingCourse() {
 
           <div style={{ textAlign: 'right', position: 'relative' }}>
             {showTip && (
-                <div className="tip-window">
-                    <p>드래그로 장소 순서 변경 가능</p>
-                </div>
+              <div className="tip-window">
+                <p>드래그로 장소 순서 변경 가능</p>
+              </div>
             )}
             <button className="tip-button"
-            onClick={handleClick}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+              onClick={handleClick}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             >Tip!</button>
           </div>
 
@@ -450,10 +458,10 @@ function MakingCourse() {
                           <button className="delete-day-button" onClick={() => deleteDay(dayIndex)}>ㅡ</button>
                         </div>
                         {isMapVisible && (
-                            <div className="new-map-container" ref={el => dayContainerRef.current[dayIndex] = el}>
-                              <MakingCourseMap courses={day.courses} mapId={`map-${dayIndex}`} />
-                            </div>
-                          )}
+                          <div className="new-map-container" ref={el => dayContainerRef.current[dayIndex] = el}>
+                            <MakingCourseMap courses={day.courses} mapId={`map-${dayIndex}`} />
+                          </div>
+                        )}
                         {day.courses.map((course, courseIndex) => (
                           <Draggable
                             key={course.order}
@@ -469,7 +477,7 @@ function MakingCourse() {
                               >
                                 <span className="course-name">{course.order}. {course.name}<br /></span>
                                 <span className="course-address">{course.road_address_name || '주소 없음'}</span><br />
-    
+
                                 <button className="delete-place-button" onClick={() => deleteCourse(dayIndex, courseIndex)}>-</button>
                               </div>
                             )}
