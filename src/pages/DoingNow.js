@@ -26,6 +26,38 @@ function DoingNow() {
     }
   }
 
+  const loadKakaoMap = () => {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_JAVASCRIPT_KEY}&libraries=services&autoload=false`;
+      script.onload = () => {
+        if (window.kakao && window.kakao.maps) {
+          resolve();
+        } else {
+          reject(new Error('Kakao Maps API 로드 실패'));
+        }
+      };
+      script.onerror = () => reject(new Error('Kakao Maps API 스크립트 로드 오류'));
+      document.head.appendChild(script);
+    });
+  };
+
+  useEffect(() => {
+    const initializeMap = () => {
+      console.log('Kakao Map initialized');
+    };
+
+    loadKakaoMap()
+      .then(() => {
+        window.kakao.maps.load(() => {
+          initializeMap();
+        });
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  }, []);
+
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
