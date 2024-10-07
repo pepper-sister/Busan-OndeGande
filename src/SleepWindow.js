@@ -71,7 +71,7 @@ function SleepWindow() {
                   {item.title}
                   <button
                     className="info-button"
-                    onClick={() => handleSleepClick(item.title)}
+                    onClick={() => handleSleepClick(item.title.replace(/\[.*?\]|\(.*?\)/g, '').replace(/\s+/g, ''))}
                     style={{ marginLeft: '10px' }}
                   >
                     더보기
