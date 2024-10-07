@@ -1,7 +1,12 @@
+
+<div align="center">
+
 ![Busan's OndeGande Logo](./logo.png)
 ===
 
-**부산's 온데간데**는 사용자에게 특별한 부산 여행 경험을 제공하기 위해 만들어진 **웹 애플리케이션**입니다. 이 프로젝트는 **한국관광공사**에서 주최한 **2024 관광데이터 활용 공모전**을 통해 제작되었습니다. 한국관광공사 및 부산광역시의 Tour API, KaKao Map API 등 여러 외부 API를 활용하여 부산의 다양한 여행 코스, 관광지, 맛집, 숙소 등을 추천함으로써 ‘온데간데’라는 부산 사투리처럼, 부산의 다양한 명소를 **여기저기 어디든** 자유롭게 탐험할 수 있는 서비스를 제공합니다.
+</div>
+
+> **부산's 온데간데**는 사용자에게 특별한 부산 여행 경험을 제공하기 위해 만들어진 **웹 애플리케이션**입니다. 이 프로젝트는 **한국관광공사**에서 주최한 **2024 관광데이터 활용 공모전**을 통해 제작되었습니다. 한국관광공사 및 부산광역시의 Tour API, KaKao Map API 등 여러 외부 API를 활용하여 부산의 다양한 여행 코스, 관광지, 맛집, 숙소 등을 추천함으로써 ‘온데간데’라는 부산 사투리처럼, 부산의 다양한 명소를 **여기저기 어디든** 자유롭게 탐험할 수 있는 서비스를 제공합니다.
 
 ## 사이트
 https://www.ondegande.site/
@@ -26,10 +31,4 @@ https://www.ondegande.site/
   - [한국관광공사_국문 관광정보 서비스_GW](https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15101578)
   - [부산광역시_부산축제정보 서비스](https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15063500)
   - [부산광역시_부산테마여행정보 서비스](https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15063506)
-  - [KaKao Map API](https://apis.map.kakao.com/web/)  
-
-## 설치 방법
-
-   이 저장소를 클론합니다.
-   ```bash
-   git clone https://github.com/ondegande/webFE.git
+  - [KaKao Map API](https://apis.map.kakao.com/web/)
