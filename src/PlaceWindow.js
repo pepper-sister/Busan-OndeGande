@@ -73,7 +73,7 @@ function PlaceWindow() {
                   {item.title}
                   <button
                     className="info-button"
-                    onClick={() => handlePlaceClick(item.title)}
+                    onClick={() => handlePlaceClick(item.title.replace(/\[.*?\]|\(.*?\)/g, '').replace(/\s+/g, ''))}
                     style={{ marginLeft: '10px' }}
                   >
                     더보기
