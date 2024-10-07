@@ -72,7 +72,7 @@ function RestaurantWindow() {
                   {item.title}
                   <button
                     className="info-button"
-                    onClick={() => handleRestaurantClick(item.title)}
+                    onClick={() => handleRestaurantClick(item.title.replace(/\[.*?\]|\(.*?\)/g, '').replace(/\s+/g, ''))}
                     style={{ marginLeft: '10px' }}
                   >
                     더보기
