@@ -280,9 +280,9 @@ function DoingNow() {
                       <p className="place-address">{place.addr1}</p>
                       <button
                         className="info-button2"
-                        onClick={() => handlePlaceClick(place.title)}
+                        onClick={() => handlePlaceClick(place.addr1)}
                       >
-                        더보기
+                        길찾기
                       </button>
                     </div>
                   </div>
