@@ -59,7 +59,7 @@ function Home() {
 
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: ongoingFestivals.length > 1,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
