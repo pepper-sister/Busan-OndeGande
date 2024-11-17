@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - hotfix/architecture-ci-cd
 
 jobs:
   build-and-deploy:
