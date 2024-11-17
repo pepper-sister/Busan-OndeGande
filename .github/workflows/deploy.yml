@@ -45,9 +45,6 @@ jobs:
     - name: Build React app
       run: npm run build
 
-    - name: Zip build folder and appspec
-      run: zip -r react-app.zip build appspec.yml scripts/
-
     - name: Copy Build files to the production website with the AWS CLI
       run: |
         aws s3 sync --delete ${{env.DIST}} s3://${{env.BUCKET}}
