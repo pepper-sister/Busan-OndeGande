@@ -26,6 +26,16 @@ function DoingNow() {
     }
   }
 
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
   const loadKakaoMap = () => {
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
@@ -127,7 +137,8 @@ function DoingNow() {
   };
 
   const handleDistanceChange = (event) => {
-    setDistance(event.target.value);
+    const newDistance = event.target.value;
+    debounce(() => setDistance(newDistance), 500)();
   };
 
   const handleCategoryClick = (category) => {
