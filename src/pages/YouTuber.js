@@ -30,7 +30,7 @@ const YouTuber = () => {
     fetch('https://www.ondegande.site/api/travel-courses/youtubers')
       .then((response) => response.json())
       .then((data) => {
-        const fetchedCourses = data.body.data.map((course) => ({
+        const fetchedCourses = data.body.data.travelCourses.map((course) => ({
           id: course.id,
           youtuber: course.creatorName,
           title: course.courseName,
