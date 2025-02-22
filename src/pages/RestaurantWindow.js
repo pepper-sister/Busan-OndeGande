@@ -6,7 +6,7 @@ function RestaurantWindow() {
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const SERVICE_KEY = process.env.REACT_APP_SERVICE_KEY;
+  const SERVICE_KEY = window.env.REACT_APP_SERVICE_KEY;
 
   useEffect(() => {
     const fetchData = async (cat3) => {

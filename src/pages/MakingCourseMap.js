@@ -9,7 +9,7 @@ function MakingCourseMap({ courses, mapId }) {
     const { kakao } = window;
 
     const script1 = document.createElement('script');
-    script1.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_JAVASCRIPT_KEY}&autoload=false&libraries=services`;
+    script1.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${window.env.REACT_APP_KAKAO_JAVASCRIPT_KEY}&autoload=false&libraries=services`;
     script1.async = true;
 
     script1.onload = () => {
