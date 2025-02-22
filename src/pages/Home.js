@@ -4,7 +4,7 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import moment from 'moment';
-import './Home.css';
+import '../styles/Home.css';
 
 const API_URL = 'https://apis.data.go.kr/6260000/FestivalService/getFestivalKr';
 const API_KEY = process.env.REACT_APP_SERVICE_KEY;

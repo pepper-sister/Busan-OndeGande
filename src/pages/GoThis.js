@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './GoThis.css';
+import '../styles/GoThis.css';
 
 function GoThis() {
   const regions = [

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './DoingNow.css';
+import '../styles/DoingNow.css';
 
 function DoingNow() {
   const [distance, setDistance] = useState(1500);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactPlayer from 'react-player';
 import YouTuMap from './YouTuMap';
-import './YouTuber.css';
+import '../styles/YouTuber.css';
 
 const YouTuber = () => {
   const [courses, setCourses] = useState([]);

@@ -9,13 +9,14 @@
     "axios": "^1.7.5",
     "clipboard": "^2.0.11",
     "dotenv": "^16.4.5",
+    "gh-pages": "^6.3.0",
     "moment": "^2.30.1",
     "react": "^18.3.1",
     "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^18.3.1",
     "react-player": "^2.16.0",
     "react-router-dom": "^6.26.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "react-slick": "^0.30.2",
     "slick-carousel": "^1.8.1",
     "web-vitals": "^2.1.4"
@@ -24,7 +25,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "homepage": "https://pepper-sister.github.io/Busan-OndeGande/"
   },
   "eslintConfig": {
     "extends": [

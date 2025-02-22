@@ -1,5 +1,5 @@
 .mainimg-section {
-  background-image: url('../tour.png');
+  background-image: url('../assets/tour.png');
   background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;
@@ -54,15 +54,15 @@
 }
 
 .icon.restaurant {
-  background-image: url('../cook.png');
+  background-image: url('../assets/cook.png');
 }
 
 .icon.tourist {
-  background-image: url('../trip.png');
+  background-image: url('../assets/trip.png');
 }
 
 .icon.accommodation {
-  background-image: url('../hotel.png');
+  background-image: url('../assets/hotel.png');
 }
 
 .festival-section {

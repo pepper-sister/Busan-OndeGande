@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Window.css';
+import '../styles/Window.css';
 
 function RestaurantWindow() {
   const [theme, setTheme] = useState('A05020100');

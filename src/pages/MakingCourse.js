@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import './MakingCourse.css';
+import '../styles/MakingCourse.css';
 import MakingCourseMap from './MakingCourseMap';
 
 function MakingCourse() {

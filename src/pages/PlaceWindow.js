@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Window.css';
+import '../styles/Window.css';
 
 function PlaceWindow() {
   const [theme, setTheme] = useState('A0101');
