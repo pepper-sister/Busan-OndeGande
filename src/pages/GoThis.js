@@ -62,78 +62,59 @@ function GoThis() {
   const SERVICE_KEY = process.env.REACT_APP_SERVICE_KEY;
 
   const handleRegionToggle = (region) => {
-    if (region === '전체') {
-      setSelectedRegions(selectedRegions.length === regions.length - 1 ? [] : regions.slice(1));
-    } else {
-      setSelectedRegions(prev =>
-        prev.includes(region) ? prev.filter(r => r !== region) : [...prev, region]
-      );
-    }
+    setSelectedRegions(region === '전체' ? (selectedRegions.length ? [] : regions.slice(1)) 
+      : selectedRegions.includes(region) ? selectedRegions.filter(r => r !== region) 
+      : [...selectedRegions, region]);
   };
 
   const handleThemeToggle = (theme) => {
-    if (theme === '전체') {
-      setSelectedThemes(selectedThemes.length === themes.length - 1 ? [] : themes.slice(1));
-    } else {
-      setSelectedThemes(prev =>
-        prev.includes(theme) ? prev.filter(t => t !== theme) : [...prev, theme]
-      );
-    }
+    setSelectedThemes(theme === '전체' ? (selectedThemes.length ? [] : themes.slice(1)) 
+      : selectedThemes.includes(theme) ? selectedThemes.filter(t => t !== theme) 
+      : [...selectedThemes, theme]);
   };
 
   const fetchResults = async () => {
-    if (selectedRegions.length === 0) {
-      alert('지역을 선택해주세요.');
-      return;
-    }
-
-    if (selectedThemes.length === 0) {
-      alert('테마를 선택해주세요.');
+    if (!selectedRegions.length || !selectedThemes.length) {
+      setError('지역과 테마를 선택하세요.');
+      setResults([]);
       return;
     }
 
     setLoading(true);
+    setResults([]);
 
-    const urls = [
-      `https://apis.data.go.kr/6260000/RecommendedService/getRecommendedKr?serviceKey=${SERVICE_KEY}&pageNo=1&numOfRows=106`,
-      `https://apis.data.go.kr/6260000/RecommendedService/getRecommendedKr?serviceKey=${SERVICE_KEY}&pageNo=2&numOfRows=106`
-    ];
-
-    const fetchData = async (url) => {
-      const response = await fetch(url);
-      const xmlText = await response.text();
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(xmlText, "application/xml");
-      return Array.from(xmlDoc.getElementsByTagName("item"));
-    };
-
-    const page1Items = await fetchData(urls[0]);
-    const page2Items = await fetchData(urls[1]);
-
-    const allItems = [...page1Items, ...page2Items];
-
-    const resultsArray = allItems.map(item => {
-      const ucSeq = item.getElementsByTagName("UC_SEQ")[0]?.textContent || '';
-      const mainTitle = item.getElementsByTagName("MAIN_TITLE")[0]?.textContent || '';
-      const gugunNm = item.getElementsByTagName("GUGUN_NM")[0]?.textContent || '';
-      const trfcInfo = item.getElementsByTagName("TRFC_INFO")[0]?.textContent || '';
-      const hldyInfo = item.getElementsByTagName("HLDY_INFO")[0]?.textContent || '';
-      const mainImgNormal = item.getElementsByTagName("MAIN_IMG_NORMAL")[0]?.textContent || '';
-      const itemCntnts = item.getElementsByTagName("ITEMCNTNTS")[0]?.textContent || '';
-      const subTitle = item.getElementsByTagName("TITLE")[0]?.textContent || '';
-  
-      return { ucSeq, mainTitle, gugunNm, trfcInfo, hldyInfo, mainImgNormal, itemCntnts, subTitle };
-    });
-
-    const filteredResults = resultsArray.filter(result =>
-      selectedThemes.some(theme => themeToSEQ[theme].includes(result.ucSeq)) &&
-      selectedRegions.includes(result.gugunNm)
+    const urls = [1, 2].map(page => 
+      `https://apis.data.go.kr/6260000/RecommendedService/getRecommendedKr?serviceKey=${SERVICE_KEY}&pageNo=${page}&numOfRows=106`
     );
 
-    setResults(filteredResults);
-    setRandomCourse(null);
-    setError(filteredResults.length === 0 ? '선택한 조건에 맞는 결과가 없습니다.' : null);
-    setLoading(false);
+    try {
+      const responses = await Promise.all(urls.map(url => fetch(url).then(res => res.text())));
+      const parser = new DOMParser();
+      const allItems = responses.flatMap(xml => 
+        Array.from(parser.parseFromString(xml, "application/xml").getElementsByTagName("item"))
+      );
+
+      const parsedResults = allItems.map(item => ({
+        ucSeq: item.getElementsByTagName("UC_SEQ")[0]?.textContent || '',
+        mainTitle: item.getElementsByTagName("MAIN_TITLE")[0]?.textContent || '',
+        gugunNm: item.getElementsByTagName("GUGUN_NM")[0]?.textContent || '',
+        mainImgNormal: item.getElementsByTagName("MAIN_IMG_NORMAL")[0]?.textContent || '',
+        itemCntnts: item.getElementsByTagName("ITEMCNTNTS")[0]?.textContent || '',
+      }));
+
+      const filteredResults = parsedResults.filter(result =>
+        selectedThemes.some(theme => themeToSEQ[theme]?.includes(result.ucSeq)) &&
+        selectedRegions.includes(result.gugunNm)
+      );
+
+      setResults(filteredResults);
+      setRandomCourse(null);
+      setError(filteredResults.length ? null : '선택한 조건에 맞는 결과가 없습니다.');
+    } catch {
+      setError('데이터를 불러오는 중 오류가 발생했습니다.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmit = () => {
@@ -142,22 +123,11 @@ function GoThis() {
   };
 
   const handleRandomCourse = () => {
-    if (selectedRegions.length === 0) {
-      alert('지역을 선택해주세요.');
+    if (!results.length) {
+      setError('먼저 코스를 조회하세요.');
       return;
     }
-  
-    if (selectedThemes.length === 0) {
-      alert('테마를 선택해주세요.');
-      return;
-    }
-
-    if (results.length > 0) {
-      const randomIndex = Math.floor(Math.random() * results.length);
-      setRandomCourse(results[randomIndex]);
-    } else {
-      alert('먼저 모든 코스를 확인해주세요.');
-    }
+    setRandomCourse(results[Math.floor(Math.random() * results.length)]);
   };
 
   const handleImagePopup = (imgUrl, textContent, mainTitle, subTitle) => {
