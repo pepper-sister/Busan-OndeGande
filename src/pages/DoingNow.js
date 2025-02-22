@@ -11,7 +11,7 @@ function DoingNow() {
   const [places, setPlaces] = useState([]);
   const [showNoPlacesMessage, setShowNoPlacesMessage] = useState(false);
 
-  const SERVICE_KEY = window.env.REACT_APP_SERVICE_KEY;
+  const SERVICE_KEY = process.env.REACT_APP_SERVICE_KEY;
 
   const getContentTypeId = (category) => {
     switch (category) {
@@ -39,7 +39,7 @@ function DoingNow() {
   const loadKakaoMap = () => {
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
-      script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${window.env.REACT_APP_KAKAO_JAVASCRIPT_KEY}&libraries=services&autoload=false`;
+      script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_JAVASCRIPT_KEY}&libraries=services&autoload=false`;
       script.onload = () => {
         if (window.kakao && window.kakao.maps) {
           resolve();

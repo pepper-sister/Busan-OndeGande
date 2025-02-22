@@ -10,7 +10,7 @@ const loadKakaoSdk = () => {
   script.crossOrigin = 'anonymous';
   script.onload = () => {
     if (window.Kakao) {
-      window.Kakao.init(window.env.REACT_APP_KAKAO_JAVASCRIPT_KEY);
+      window.Kakao.init(process.env.REACT_APP_KAKAO_JAVASCRIPT_KEY);
     } else {
       console.error('Kakao SDK가 로드되지 않았습니다.');
     }
