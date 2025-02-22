@@ -6,14 +6,15 @@ import '../styles/Navbar.css';
 function Navbar() {
   const location = useLocation();
 
-  const isRestaurantPage = location.pathname === '/restaurantwindow';
-  const isPlacePage = location.pathname === '/placewindow';
-  const isSleepPage = location.pathname === '/sleepwindow';
+  const hiddenPages = ['/restaurants', '/place', '/sleep'];
+  const isHiddenPage = hiddenPages.includes(location.pathname);
+
+  const isPopup = window.opener !== null;
 
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        {isRestaurantPage || isPlacePage || isSleepPage ? (
+      {isHiddenPage || isPopup ? (
           <img src={logo} alt="logo" />
         ) : (
           <Link to="/">
@@ -21,7 +22,8 @@ function Navbar() {
           </Link>
         )}
       </div>
-      {!isRestaurantPage && !isPlacePage && !isSleepPage && (
+
+      {!isHiddenPage && !isPopup && (
         <ul className="navbar-menu">
           <li className={location.pathname === '/makingcourse' ? 'active' : ''}>
             <Link to="/makingcourse">코스 짜보이소</Link>
