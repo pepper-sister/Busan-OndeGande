@@ -6,25 +6,30 @@ import '../styles/YouTuber.css';
 const YouTuber = () => {
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const [setIsWindowOpen] = useState(false);
   const [sortOrder, setSortOrder] = useState('ASC');
   const randomButtonRef = useRef(null);
 
-  const loadKakaoMap = () => {
-    return new Promise((resolve, reject) => {
+  const loadKakaoMap = () =>
+    new Promise((resolve, reject) => {
+      if (window.kakao && window.kakao.maps) return resolve();
       const script = document.createElement('script');
       script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_JAVASCRIPT_KEY}&libraries=services&autoload=false`;
-      script.onload = () => {
-        if (window.kakao && window.kakao.maps) {
-          resolve();
-        } else {
-          reject(new Error('Kakao Maps API 로드 실패'));
-        }
-      };
+      script.onload = () => (window.kakao?.maps ? resolve() : reject(new Error('Kakao Maps API 로드 실패')));
       script.onerror = () => reject(new Error('Kakao Maps API 스크립트 로드 오류'));
       document.head.appendChild(script);
     });
-  };
+
+  const formatCourseDays = (details) =>
+    details.reduce((acc, detail) => {
+      const dayIndex = detail.day - 1;
+      if (!acc[dayIndex]) acc[dayIndex] = { day: `Day ${detail.day}`, places: [] };
+      acc[dayIndex].places.push({
+        name: detail.placeResponse.placeName,
+        latitude: detail.placeResponse.latitude,
+        longitude: detail.placeResponse.longitude,
+      });
+      return acc;
+    }, []);
 
   const fetchData = () => {
     fetch('https://www.ondegande.site/api/travel-courses/youtubers')
@@ -48,93 +53,50 @@ const YouTuber = () => {
   };
 
   useEffect(() => {
-    const initializeMap = () => {
-      console.log('Kakao Map initialized');
-      fetchData();
-    };
-
     loadKakaoMap()
-      .then(() => {
-        window.kakao.maps.load(() => {
-          initializeMap();
-        });
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+      .then(() => window.kakao.maps.load(fetchData))
+      .catch((error) => alert(error.message));
   }, []);
 
   const handleSortChange = () => {
-    const sortedCourses = [...courses].sort((a, b) => {
-      if (sortOrder === 'ASC') {
-        return a.reviews - b.reviews;
-      } else {
-        return b.reviews - a.reviews;
-      }
-    });
+    setCourses((prevCourses) =>
+      [...prevCourses].sort((a, b) => (sortOrder === 'ASC' ? a.reviews - b.reviews : b.reviews - a.reviews))
+    );
     setSortOrder((prevOrder) => (prevOrder === 'ASC' ? 'DESC' : 'ASC'));
-    setCourses(sortedCourses);
   };
 
-  const handleCourseClick = (index) => {
-    const selected = courses[index];
-    fetch(`https://www.ondegande.site/api/travel-courses/${selected.id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        const courseDetail = data.body.data;
-        const updatedCourse = {
-          ...selected,
-          link: courseDetail.youtubeUrl,
-          days: courseDetail.travelCourseDetailResponse.reduce((acc, detail) => {
-            const dayIndex = detail.day - 1;
-            if (!acc[dayIndex]) {
-              acc[dayIndex] = { day: `Day ${detail.day}`, places: [] };
-            }
-            acc[dayIndex].places.push({
-              name: detail.placeResponse.placeName,
-              latitude: detail.placeResponse.latitude,
-              longitude: detail.placeResponse.longitude,
-            });
-            return acc;
-          }, []),
-        };
-        setSelectedCourse(updatedCourse);
-        setIsWindowOpen(true);
-      })
-      .catch((error) => {
-        console.error('Error fetching course details:', error);
+  const handleCourseClick = async (id) => {
+    try {
+      const response = await fetch(`https://www.ondegande.site/api/travel-courses/${id}`);
+      const data = await response.json();
+      const courseDetail = data.body.data;
+      setSelectedCourse({
+        id: courseDetail.id,
+        youtuber: courseDetail.creatorName,
+        title: courseDetail.courseName,
+        link: courseDetail.youtubeUrl,
+        days: formatCourseDays(courseDetail.travelCourseDetailResponse),
       });
+    } catch (error) {
+      console.error('Error fetching course details:', error);
+    }
   };
 
-  const handleRandomRecommend = () => {
-    fetch('https://www.ondegande.site/api/travel-courses/youtubers/random')
-      .then((response) => response.json())
-      .then((data) => {
-        const course = data.body.data;
-        const updatedCourse = {
-          id: course.id,
-          youtuber: course.creatorName,
-          title: course.courseName,
-          link: course.youtubeUrl,
-          days: course.travelCourseDetailResponse.reduce((acc, detail) => {
-            const dayIndex = detail.day - 1;
-            if (!acc[dayIndex]) {
-              acc[dayIndex] = { day: `Day ${detail.day}`, places: [] };
-            }
-            acc[dayIndex].places.push({
-              name: detail.placeResponse.placeName,
-              latitude: detail.placeResponse.latitude,
-              longitude: detail.placeResponse.longitude,
-            });
-            return acc;
-          }, []),
-        };
-        setSelectedCourse(updatedCourse);
-        setIsWindowOpen(true);
-      })
-      .catch((error) => {
-        console.error('Error fetching random course:', error);
+  const handleRandomRecommend = async () => {
+    try {
+      const response = await fetch('https://www.ondegande.site/api/travel-courses/youtubers/random');
+      const data = await response.json();
+      const course = data.body.data;
+      setSelectedCourse({
+        id: course.id,
+        youtuber: course.creatorName,
+        title: course.courseName,
+        link: course.youtubeUrl,
+        days: formatCourseDays(course.travelCourseDetailResponse),
       });
+    } catch (error) {
+      console.error('Error fetching random course:', error);
+    }
   };
 
   useEffect(() => {
