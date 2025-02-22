@@ -7,7 +7,7 @@ import moment from 'moment';
 import '../styles/Home.css';
 
 const API_URL = 'https://apis.data.go.kr/6260000/FestivalService/getFestivalKr';
-const API_KEY = window.env.REACT_APP_SERVICE_KEY;
+const API_KEY = process.env.REACT_APP_SERVICE_KEY;
 
 const ucSeqByMonth = {
   1: [],

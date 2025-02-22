@@ -62,7 +62,7 @@ function MakingCourse() {
     const loadKakaoMap = () => {
       return new Promise((resolve, reject) => {
         const script = document.createElement('script');
-        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${window.env.REACT_APP_KAKAO_JAVASCRIPT_KEY}&libraries=services&autoload=false`;
+        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_JAVASCRIPT_KEY}&libraries=services&autoload=false`;
         script.onload = () => {
           if (window.kakao && window.kakao.maps) {
             resolve();
@@ -199,7 +199,7 @@ function MakingCourse() {
     if (window.Kakao) {
       if (!window.Kakao.isInitialized()) {
         try {
-          window.Kakao.init(window.env.REACT_APP_KAKAO_JAVASCRIPT_KEY);
+          window.Kakao.init(process.env.REACT_APP_KAKAO_JAVASCRIPT_KEY);
         } catch (error) {
           console.error('Kakao SDK 초기화 오류:', error);
         }

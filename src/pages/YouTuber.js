@@ -13,7 +13,7 @@ const YouTuber = () => {
   const loadKakaoMap = () => {
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
-      script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${window.env.REACT_APP_KAKAO_JAVASCRIPT_KEY}&libraries=services&autoload=false`;
+      script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_JAVASCRIPT_KEY}&libraries=services&autoload=false`;
       script.onload = () => {
         if (window.kakao && window.kakao.maps) {
           resolve();
