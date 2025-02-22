@@ -12,7 +12,7 @@ import SleepWindow from '../pages/SleepWindow';
 
 const Router = () => {
   return (
-    <BrowserRouter basename="/Busan-OndeGande">
+    <BrowserRouter>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
