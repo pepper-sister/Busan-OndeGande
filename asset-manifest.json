@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Busan-OndeGande/static/css/main.5b9cbf05.css",
-    "main.js": "/Busan-OndeGande/static/js/main.469b36ac.js",
+    "main.js": "/Busan-OndeGande/static/js/main.15296091.js",
     "reactPlayerYouTube.js": "/Busan-OndeGande/static/js/reactPlayerYouTube.e927a88c.chunk.js",
     "reactPlayerSoundCloud.js": "/Busan-OndeGande/static/js/reactPlayerSoundCloud.de23015f.chunk.js",
     "reactPlayerVimeo.js": "/Busan-OndeGande/static/js/reactPlayerVimeo.4e524312.chunk.js",
@@ -27,7 +27,7 @@
     "static/media/slick.woff": "/Busan-OndeGande/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/Busan-OndeGande/index.html",
     "main.5b9cbf05.css.map": "/Busan-OndeGande/static/css/main.5b9cbf05.css.map",
-    "main.469b36ac.js.map": "/Busan-OndeGande/static/js/main.469b36ac.js.map",
+    "main.15296091.js.map": "/Busan-OndeGande/static/js/main.15296091.js.map",
     "reactPlayerYouTube.e927a88c.chunk.js.map": "/Busan-OndeGande/static/js/reactPlayerYouTube.e927a88c.chunk.js.map",
     "reactPlayerSoundCloud.de23015f.chunk.js.map": "/Busan-OndeGande/static/js/reactPlayerSoundCloud.de23015f.chunk.js.map",
     "reactPlayerVimeo.4e524312.chunk.js.map": "/Busan-OndeGande/static/js/reactPlayerVimeo.4e524312.chunk.js.map",
@@ -45,6 +45,6 @@
   },
   "entrypoints": [
     "static/css/main.5b9cbf05.css",
-    "static/js/main.469b36ac.js"
+    "static/js/main.15296091.js"
   ]
 }
