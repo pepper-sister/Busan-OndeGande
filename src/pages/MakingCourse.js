@@ -26,7 +26,6 @@ function MakingCourse() {
       setIsMapVisible(false);
       return;
     }
-
     setIsMapVisible(prev => !prev);
   };
 
@@ -35,41 +34,22 @@ function MakingCourse() {
       alert("Day는 최대 10일까지 추가할 수 있습니다.");
       return;
     }
-    const newDayIndex = days.length + 1;
-    const updatedDays = [...days, { title: `Day ${newDayIndex}`, courses: [] }];
-    setDays(updatedDays);
-    setSelectedDayIndex(updatedDays.length - 1);
 
-    setTimeout(() => {
-      const newDayContainer = dayContainerRef.current[newDayIndex - 1];
-      if (newDayContainer) {
-        newDayContainer.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 0);
-  };
+    const newDays = [...days, { title: `Day ${days.length + 1}`, courses: [] }];
+    setDays(newDays);
+    setSelectedDayIndex(newDays.length - 1);
 
-  const debounce = (func, wait) => {
-    let timeout;
-    return () => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        func();
-      }, wait);
-    };
+    dayContainerRef.current[days.length]?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => {
     const loadKakaoMap = () => {
       return new Promise((resolve, reject) => {
+        if (window.kakao?.maps) return resolve();
+  
         const script = document.createElement('script');
         script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_JAVASCRIPT_KEY}&libraries=services&autoload=false`;
-        script.onload = () => {
-          if (window.kakao && window.kakao.maps) {
-            resolve();
-          } else {
-            reject(new Error('Kakao Maps API 로드 실패'));
-          }
-        };
+        script.onload = () => window.kakao?.maps ? resolve() : reject(new Error('Kakao Maps API 로드 실패'));
         script.onerror = () => reject(new Error('Kakao Maps API 스크립트 로드 오류'));
         document.head.appendChild(script);
       });
@@ -77,37 +57,24 @@ function MakingCourse() {
 
     const initializeMap = () => {
       const container = document.getElementById('map');
-      const options = {
+      const mapInstance = new window.kakao.maps.Map(container, {
         center: new window.kakao.maps.LatLng(35.1796, 129.0756),
-        level: 5,
-      };
-
-      const mapInstance = new window.kakao.maps.Map(container, options);
+        level: 5
+      });
+  
       setMap(mapInstance);
-
-      const iw = new window.kakao.maps.InfoWindow({ zIndex: 1 });
-      setInfoWindow(iw);
-
-      const handleResize = debounce(() => {
+      setInfoWindow(new window.kakao.maps.InfoWindow({ zIndex: 1 }));
+  
+      const handleResize = () => {
         mapInstance.relayout();
         mapInstance.setCenter(new window.kakao.maps.LatLng(35.1796, 129.0756));
-      }, 200);
-      window.addEventListener('resize', handleResize);
-
-      return () => {
-        window.removeEventListener('resize', handleResize);
       };
+  
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
     };
-
-    loadKakaoMap()
-      .then(() => {
-        window.kakao.maps.load(() => {
-          initializeMap();
-        });
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+  
+    loadKakaoMap().then(() => window.kakao.maps.load(initializeMap)).catch(alert);
   }, []);
 
   const changeMarkerAndCenter = (marker, place, index) => {
@@ -137,31 +104,17 @@ function MakingCourse() {
   const displayMarkers = (places) => {
     if (!map) return;
 
-    markers.forEach(marker => {
-      marker.setMap(null);
-    });
+    markers.forEach(marker => marker.setMap(null));
 
-    const bounds = new window.kakao.maps.LatLngBounds();
-    const newMarkers = [];
-
-    places.forEach((place, index) => {
-      const markerPosition = new window.kakao.maps.LatLng(place.y, place.x);
-      const marker = new window.kakao.maps.Marker({
-        position: markerPosition,
-      });
-
+    const newMarkers = places.map((place) => {
+      const marker = new window.kakao.maps.Marker({ position: new window.kakao.maps.LatLng(place.y, place.x) });
       marker.setMap(map);
-      newMarkers.push(marker);
-
-      window.kakao.maps.event.addListener(marker, 'click', () => {
-        changeMarkerAndCenter(marker, place, index);
-      });
-
-      bounds.extend(markerPosition);
+      window.kakao.maps.event.addListener(marker, 'click', () => changeMarkerAndCenter(marker, place));
+      return marker;
     });
-
+  
     setMarkers(newMarkers);
-    map.setBounds(bounds);
+    map.setBounds(new window.kakao.maps.LatLngBounds().extend(...newMarkers.map(marker => marker.getPosition())));
   };
 
   const handlePlaceClick = (place, index) => {
@@ -195,31 +148,16 @@ function MakingCourse() {
     };
   }, []);
 
-  useEffect(() => {
-    if (window.Kakao) {
-      if (!window.Kakao.isInitialized()) {
-        try {
-          window.Kakao.init(process.env.REACT_APP_KAKAO_JAVASCRIPT_KEY);
-        } catch (error) {
-          console.error('Kakao SDK 초기화 오류:', error);
-        }
-      }
-    } else {
-      console.error('Kakao 객체를 찾을 수 없습니다.');
-    }
-  }, []);
-
   const searchPlaces = () => {
-    if (!map) return;
-    if (!window.kakao || !window.kakao.maps || !window.kakao.maps.services) return;
-
+    if (!map || !window.kakao?.maps?.services) return;
     const ps = new window.kakao.maps.services.Places();
     const keyword = document.getElementById('keyword').value;
-
+  
     ps.keywordSearch(keyword, (data, status) => {
       if (status === window.kakao.maps.services.Status.OK) {
-        setPlaces(data.slice(0, 10));
-        displayMarkers(data.slice(0, 10));
+        const result = data.slice(0, 10);
+        setPlaces(result);
+        displayMarkers(result);
       } else {
         alert('검색 결과가 없습니다.');
       }
@@ -261,12 +199,10 @@ function MakingCourse() {
   };
 
   const deleteDay = (dayIndex) => {
-    const updatedDays = [...days].filter((_, index) => index !== dayIndex);
-    setDays(updatedDays);
-    if (selectedDayIndex >= updatedDays.length) {
-      setSelectedDayIndex(updatedDays.length - 1);
-    }
-    updateDayTitles(updatedDays);
+  const updatedDays = days.filter((_, index) => index !== dayIndex)
+                          .map((day, index) => ({ ...day, title: `Day ${index + 1}` }));
+  setDays(updatedDays);
+  setSelectedDayIndex(updatedDays.length - 1);
   };
 
   const updateDayTitles = (daysArray) => {
@@ -337,15 +273,15 @@ function MakingCourse() {
       objectType: 'text',
       text: generateShareText(),
       link: {
-        mobileWebUrl: 'https://www.ondegande.site',
-        webUrl: 'https://www.ondegande.site',
+        mobileWebUrl: 'https://busan-ondegande.netlify.app/',
+        webUrl: 'https://busan-ondegande.netlify.app/',
       },
       buttons: [
         {
           title: '웹사이트 바로가기',
           link: {
-            mobileWebUrl: 'https://www.ondegande.site',
-            webUrl: 'https://www.ondegande.site',
+            mobileWebUrl: 'https://busan-ondegande.netlify.app/',
+            webUrl: 'https://busan-ondegande.netlify.app/',
           },
         }
       ]
