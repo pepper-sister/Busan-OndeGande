@@ -16,14 +16,13 @@ const Router = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="doingnow" element={<DoingNow />} />
-        <Route path="makingcourse" element={<MakingCourse />} />
-        <Route path="gothis" element={<GoThis />} />
-        <Route path="youtuber" element={<YouTuber />} />
-        <Route path="makingcourse" element={<MakingCourse />} />
-        <Route path="restaurantwindow" element={<RestaurantWindow />} />
-        <Route path="placewindow" element={<PlaceWindow />} />
-        <Route path="sleepwindow" element={<SleepWindow />} />
+        <Route path="/doingnow" element={<DoingNow />} />
+        <Route path="/makingcourse" element={<MakingCourse />} />
+        <Route path="/gothis" element={<GoThis />} />
+        <Route path="/youtuber" element={<YouTuber />} />
+        <Route path="/restaurantwindow" element={<RestaurantWindow />} />
+        <Route path="/placewindow" element={<PlaceWindow />} />
+        <Route path="/sleepwindow" element={<SleepWindow />} />
       </Routes>
     </BrowserRouter>
   );
